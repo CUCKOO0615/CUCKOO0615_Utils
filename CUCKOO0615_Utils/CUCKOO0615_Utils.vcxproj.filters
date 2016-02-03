@@ -146,7 +146,6 @@
     <ClInclude Include="MacroUtils.h">
       <Filter>Collections</Filter>
     </ClInclude>
-    <ClInclude Include="PipeMsgUtils.h" />
     <ClInclude Include="CkRunnable.hpp">
       <Filter>__HppUtils__</Filter>
     </ClInclude>

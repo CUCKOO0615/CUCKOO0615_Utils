@@ -85,7 +85,6 @@
     <ClInclude Include="CKDbgConsole.h" />
     <ClInclude Include="CkRingBuffer.hpp" />
     <ClInclude Include="CkRunnable.hpp" />
-    <ClInclude Include="PipeMsgUtils.h" />
     <ClInclude Include="SyncLock.hpp" />
     <ClInclude Include="ctest.h" />
     <ClInclude Include="FileUtils.h" />
