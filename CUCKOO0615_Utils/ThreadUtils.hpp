@@ -17,12 +17,6 @@ typedef unsigned int(_stdcall *TU_LPTHREADENTRY)(void*);
 
 class ThreadUtils
 {
-	enum THREADUTILS_RET
-	{
-		TURV_OK,
-		TURV_BEGIN_THREAD_FAILED
-	};
-
 	//////////////////////////////////////////////////////////////////////////
 public:
     /*
@@ -34,9 +28,9 @@ public:
     /*
     ** 启动线程
     ** @param pThreadEntry: 指向线程入口函数的指针
-    ** @return: 操作成功返回TURV_OK, 操作失败返回TURV_BEGIN_THREAD_FAILED
+    ** @return: 操作成功返回true, 操作失败返回false
 	*/
-	THREADUTILS_RET Run(TU_LPTHREADENTRY pThreadEntry);
+	bool Run(TU_LPTHREADENTRY pThreadEntry);
 
 	/*
 	** 获取线程退出码
@@ -73,10 +67,10 @@ inline void ThreadUtils::SetThreadParams(void* pParams)
 	m_pArgList = pParams;
 }
 
-inline ThreadUtils::THREADUTILS_RET ThreadUtils::Run(TU_LPTHREADENTRY pThreadEntry)
+inline bool ThreadUtils::Run(TU_LPTHREADENTRY pThreadEntry)
 {
 	m_hThreadHandle = (HANDLE)::_beginthreadex(NULL, 0, pThreadEntry, m_pArgList, 0, &m_uThreadID);
-	return (m_hThreadHandle&&m_uThreadID) ? TURV_OK : TURV_BEGIN_THREAD_FAILED;
+	return (m_hThreadHandle&&m_uThreadID);
 }
 
 inline DWORD ThreadUtils::GetExitCode() const

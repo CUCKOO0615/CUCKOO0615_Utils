@@ -1,11 +1,10 @@
+
+
 #pragma once
-class SystemUtils
+
+
+namespace SystemUtils
 {
-public:
-	SystemUtils();
-	~SystemUtils();
-
-
 	/*
 	** 获取本机IP地址
 	** @Param szBuff[16]: 存储本机IP地址的缓冲区

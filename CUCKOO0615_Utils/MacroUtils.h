@@ -20,12 +20,12 @@
 #define _str_line_(x) _s_l_(x)
 #define __STR_LINE__ _str_line_(__LINE__)
 //////////////////////////////////////////////////////////////////////////
-/*
 
-#ifdef EXPORT_STDC 
-#define CK_API extern "C" __declspec(dllexport) 
-#else 
-#define CK_API extern "C" __declspec(dllimport) 
+/*
+#ifdef EXPORT_STDC
+#define CK_API extern "C" __declspec(dllexport)
+#else
+#define CK_API extern "C" __declspec(dllimport)
 #endif
 
 #ifdef EXPORT_CPP 

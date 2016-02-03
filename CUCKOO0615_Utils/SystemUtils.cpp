@@ -5,15 +5,6 @@
 #include <windows.h>
 #pragma  comment(lib,"WS2_32.lib")
 
-SystemUtils::SystemUtils()
-{
-}
-
-
-SystemUtils::~SystemUtils()
-{
-}
-
 bool SystemUtils::GetLocalIP(char szBuff[16])
 {
 	WSAData wsaData;

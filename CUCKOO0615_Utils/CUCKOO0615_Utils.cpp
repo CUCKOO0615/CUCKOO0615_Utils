@@ -59,9 +59,6 @@ int main()
 
 	system("pause");
 
-//  ThreadUtils threadUtils;
-//  threadUtils.Run(&ThreadCallBack);
-
     /*
     lua_State * L = luaL_newstate();
     luaL_openlibs(L);
