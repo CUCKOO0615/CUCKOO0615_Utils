@@ -122,21 +122,6 @@
     <ClInclude Include="SystemUtils.h">
       <Filter>SystemUtils</Filter>
     </ClInclude>
-    <ClInclude Include="DigitUtils.hpp">
-      <Filter>__HppUtils__</Filter>
-    </ClInclude>
-    <ClInclude Include="LogUtils.hpp">
-      <Filter>__HppUtils__</Filter>
-    </ClInclude>
-    <ClInclude Include="SyncLock.hpp">
-      <Filter>__HppUtils__</Filter>
-    </ClInclude>
-    <ClInclude Include="ThreadUtils.hpp">
-      <Filter>__HppUtils__</Filter>
-    </ClInclude>
-    <ClInclude Include="CkRingBuffer.hpp">
-      <Filter>__HppUtils__</Filter>
-    </ClInclude>
     <ClInclude Include="ctest.h">
       <Filter>__StdcTest__</Filter>
     </ClInclude>
@@ -146,7 +131,22 @@
     <ClInclude Include="MacroUtils.h">
       <Filter>Collections</Filter>
     </ClInclude>
-    <ClInclude Include="CkRunnable.hpp">
+    <ClInclude Include="Hpp\CkRingBuffer.hpp">
+      <Filter>__HppUtils__</Filter>
+    </ClInclude>
+    <ClInclude Include="Hpp\CkRunnable.hpp">
+      <Filter>__HppUtils__</Filter>
+    </ClInclude>
+    <ClInclude Include="Hpp\DigitUtils.hpp">
+      <Filter>__HppUtils__</Filter>
+    </ClInclude>
+    <ClInclude Include="Hpp\LogUtils.hpp">
+      <Filter>__HppUtils__</Filter>
+    </ClInclude>
+    <ClInclude Include="Hpp\SyncLock.hpp">
+      <Filter>__HppUtils__</Filter>
+    </ClInclude>
+    <ClInclude Include="Hpp\ThreadUtils.hpp">
       <Filter>__HppUtils__</Filter>
     </ClInclude>
   </ItemGroup>
