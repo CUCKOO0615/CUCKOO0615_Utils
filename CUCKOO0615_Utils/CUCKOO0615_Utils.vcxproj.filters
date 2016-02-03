@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="CUCKOO0615_Utils.cpp" />
+    <ClCompile Include="TinyXml\tinyxml.cpp">
+      <Filter>TinyXmlEx\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="TinyXml\tinyxmlerror.cpp">
+      <Filter>TinyXmlEx\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="TinyXml\tinystr.cpp">
+      <Filter>TinyXmlEx\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="TinyXmlEx.cpp">
+      <Filter>TinyXmlEx</Filter>
+    </ClCompile>
+    <ClCompile Include="TinyXml\tinyxmlparser.cpp">
+      <Filter>TinyXmlEx\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="PathUtils.cpp">
+      <Filter>PathUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Sqlite3Ex.cpp">
+      <Filter>Sqlite3Ex</Filter>
+    </ClCompile>
+    <ClCompile Include="Sqlite3\sqlite3.c">
+      <Filter>Sqlite3Ex\Sqlite3</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketUtils.cpp">
+      <Filter>SocketUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="FileUtils.cpp">
+      <Filter>FileUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="StringUtils.cpp">
+      <Filter>StringUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="GifUtils.cpp">
+      <Filter>GifUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeUtils.cpp">
+      <Filter>TimeUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessUtils.cpp">
+      <Filter>ProcessUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="ProfileUtils.cpp">
+      <Filter>ProfileUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="WinAPI_Utils.cpp">
+      <Filter>WinApiUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="md5.cpp">
+      <Filter>Collections\MD5</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemUtils.cpp">
+      <Filter>SystemUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="ctest.c">
+      <Filter>__StdcTest__</Filter>
+    </ClCompile>
+    <ClCompile Include="CKDbgConsole.cpp">
+      <Filter>CkDbgConsole</Filter>
+    </ClCompile>
+    <ClCompile Include="CkPipeMsgUtils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="TinyXml\tinyxml.h">
+      <Filter>TinyXmlEx\TinyXml</Filter>
+    </ClInclude>
+    <ClInclude Include="TinyXml\tinystr.h">
+      <Filter>TinyXmlEx\TinyXml</Filter>
+    </ClInclude>
+    <ClInclude Include="TinyXmlEx.h">
+      <Filter>TinyXmlEx</Filter>
+    </ClInclude>
+    <ClInclude Include="PathUtils.h">
+      <Filter>PathUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="Sqlite3Ex.h">
+      <Filter>Sqlite3Ex</Filter>
+    </ClInclude>
+    <ClInclude Include="Sqlite3\sqlite3ext.h">
+      <Filter>Sqlite3Ex\Sqlite3</Filter>
+    </ClInclude>
+    <ClInclude Include="Sqlite3\sqlite3.h">
+      <Filter>Sqlite3Ex\Sqlite3</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketUtils.h">
+      <Filter>SocketUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="FileUtils.h">
+      <Filter>FileUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="StringUtils.h">
+      <Filter>StringUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="GifUtils.h">
+      <Filter>GifUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="GifStructs.h">
+      <Filter>GifUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeUtils.h">
+      <Filter>TimeUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessUtils.h">
+      <Filter>ProcessUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="ProfileUtils.h">
+      <Filter>ProfileUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="WinAPI_Utils.h">
+      <Filter>WinApiUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="md5.h">
+      <Filter>Collections\MD5</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemUtils.h">
+      <Filter>SystemUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="DigitUtils.hpp">
+      <Filter>__HppUtils__</Filter>
+    </ClInclude>
+    <ClInclude Include="LogUtils.hpp">
+      <Filter>__HppUtils__</Filter>
+    </ClInclude>
+    <ClInclude Include="SyncLock.hpp">
+      <Filter>__HppUtils__</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadUtils.hpp">
+      <Filter>__HppUtils__</Filter>
+    </ClInclude>
+    <ClInclude Include="CkRingBuffer.hpp">
+      <Filter>__HppUtils__</Filter>
+    </ClInclude>
+    <ClInclude Include="ctest.h">
+      <Filter>__StdcTest__</Filter>
+    </ClInclude>
+    <ClInclude Include="CKDbgConsole.h">
+      <Filter>CkDbgConsole</Filter>
+    </ClInclude>
+    <ClInclude Include="MacroUtils.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="PipeMsgUtils.h" />
+    <ClInclude Include="CkRunnable.hpp">
+      <Filter>__HppUtils__</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="TinyXmlEx">
+      <UniqueIdentifier>{10f3f802-01e5-47f3-ae0f-2d6b3610554a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TinyXmlEx\TinyXml">
+      <UniqueIdentifier>{6cf5a98e-3f26-49fa-82fa-9efdebf1a4b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PathUtils">
+      <UniqueIdentifier>{c5697cff-7022-43a8-89eb-cbe0fafc6548}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sqlite3Ex">
+      <UniqueIdentifier>{23d2d42e-a72d-45f4-827e-d367481bdb73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sqlite3Ex\Sqlite3">
+      <UniqueIdentifier>{32fcb3ea-c9cd-4e09-b205-59914391751d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SocketUtils">
+      <UniqueIdentifier>{788fdd2b-1441-46a5-999b-d9ca8c2551a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileUtils">
+      <UniqueIdentifier>{109e6004-7720-4ee6-ae03-f571f83c455c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StringUtils">
+      <UniqueIdentifier>{aa5ca527-2297-4808-9039-223baa15f7df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GifUtils">
+      <UniqueIdentifier>{622a9f06-8247-48f6-a27f-76ed97d3d7a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TimeUtils">
+      <UniqueIdentifier>{92fb0b1a-511d-4cd4-9600-dc650793a214}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ProcessUtils">
+      <UniqueIdentifier>{66e115f2-2099-4904-9c3f-756afd9dc386}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ProfileUtils">
+      <UniqueIdentifier>{d6af05d7-0b76-4872-ab45-9c33768fefc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WinApiUtils">
+      <UniqueIdentifier>{7b95ec43-e0e7-4fce-b842-ecb4f0dd30b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SystemUtils">
+      <UniqueIdentifier>{099ab53c-31ad-47c2-825b-be9da913ceae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collections">
+      <UniqueIdentifier>{1d04edb0-bd29-4bee-b6e5-e32c99200fb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collections\MD5">
+      <UniqueIdentifier>{94cd407d-0033-42fa-bb48-d8b8c1c19693}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CkDbgConsole">
+      <UniqueIdentifier>{0ced9bf4-797d-4d99-86d2-b7ec07b7c976}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="__HppUtils__">
+      <UniqueIdentifier>{fdccd415-c927-4a05-97fb-ff6ffccc4eb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="__StdcTest__">
+      <UniqueIdentifier>{242764e2-388d-4a7f-a8fe-188fa5172969}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
