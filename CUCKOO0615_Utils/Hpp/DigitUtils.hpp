@@ -25,9 +25,4 @@ namespace DigitUtils
 			return 10;
 		}
 	}
-
-
-
-
-
 }

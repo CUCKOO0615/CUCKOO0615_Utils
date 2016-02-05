@@ -9,6 +9,7 @@
 
 class CkRunnable
 {
+	//////////////////////////////////////////////////////////////////////////
 public:
 	//用于被子类继承
 	//的线程入口函数
@@ -23,12 +24,23 @@ public:
 	//获取线程ID
 	UINT   GetThreadId() const;
 
-	//获取线程退出码
+	/*
+	** 获取线程退出码
+	** @Ret: 
+	** ** 线程已退出,返回相应退出码;
+	** ** 线程运行中,返回常数STILL_ACTIVE;
+	** ** 操作失败返回0xffffff;
+	*/
 	DWORD  GetThreadExitCode() const;
-
+	
+	//////////////////////////////////////////////////////////////////////////
 public:
 	CkRunnable() :m_hThreadHandle(0), m_uThreadID(0){}
-	virtual ~CkRunnable(){}
+	virtual ~CkRunnable()
+	{
+		if (m_hThreadHandle)
+			::CloseHandle(m_hThreadHandle);
+	}
 
 private:
 	UINT m_uThreadID;
