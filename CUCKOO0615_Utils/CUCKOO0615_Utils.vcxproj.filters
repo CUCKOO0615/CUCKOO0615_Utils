@@ -149,6 +149,9 @@
     <ClInclude Include="Hpp\ThreadUtils.hpp">
       <Filter>&lt;HppUtils&gt;</Filter>
     </ClInclude>
+    <ClInclude Include="Hpp\PtrUtils.hpp">
+      <Filter>&lt;HppUtils&gt;</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TinyXmlEx">

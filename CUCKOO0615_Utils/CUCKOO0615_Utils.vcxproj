@@ -91,6 +91,7 @@
     <ClInclude Include="Hpp\CkRunnable.hpp" />
     <ClInclude Include="Hpp\DigitUtils.hpp" />
     <ClInclude Include="Hpp\LogUtils.hpp" />
+    <ClInclude Include="Hpp\PtrUtils.hpp" />
     <ClInclude Include="Hpp\SyncLock.hpp" />
     <ClInclude Include="Hpp\ThreadUtils.hpp" />
     <ClInclude Include="MacroUtils.h" />

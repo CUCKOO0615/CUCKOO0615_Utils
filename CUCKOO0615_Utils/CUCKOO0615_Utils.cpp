@@ -6,6 +6,7 @@
 //#include "WinAPI_Utils.h"
 //#include "CkRingBuffer.hpp"
 //#include "LogUtils.hpp"
+#include "Hpp/PtrUtils.hpp"
 
 //
 //std
@@ -17,6 +18,7 @@
 #include <cvt/wstring>
 #include <codecvt>
 #include <algorithm>
+#include <bitset>
 //
 //win
 #include <shlwapi.h>
