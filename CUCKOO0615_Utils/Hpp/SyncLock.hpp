@@ -11,7 +11,14 @@
 #define  _WIN32_WINNT 0x0500
 #endif
 
-//手动锁
+/*
+** 手动锁
+** 例:
+** SyncLock sl;
+** sl.Lock();
+** ..do sth..
+** sl.Unlock();
+*/
 class SyncLock
 {
 public:
@@ -26,7 +33,15 @@ private:
 	CRITICAL_SECTION m_cs;
 };
 
-// 自动锁
+/*
+** 自动锁
+** 例:
+** SyncLock sl;
+** SyncLockGuard slg(&sl);
+** ..do sth..
+** 可手动调用slg.ManualUnlock()
+** 或出作用域时自动解锁
+*/
 class SyncLockGuard
 {
 public:
