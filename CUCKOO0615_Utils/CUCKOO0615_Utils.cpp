@@ -8,22 +8,6 @@
 //#include "LogUtils.hpp"
 #include "Hpp/PtrUtils.hpp"
 
-//
-//std
-#include <iostream>
-#include <fstream>
-#include <list>
-#include <vector>
-#include <time.h>
-#include <cvt/wstring>
-#include <codecvt>
-#include <algorithm>
-#include <bitset>
-//
-//win
-#include <shlwapi.h>
-//
-
 // LUA TEST
 // #pragma comment(lib, "./LuaJIT-2.0.3/src/lua51.lib")
 extern "C"
@@ -33,6 +17,9 @@ extern "C"
 	// #include "LuaJIT-2.0.3/src/lualib.h"
 #include "ctest.h"
 };
+
+//////////////////////////////////////////////////////////////////////////
+#include "CUCKOO0615_Utils.h"
 
 void SetConsoleUtf8()
 {

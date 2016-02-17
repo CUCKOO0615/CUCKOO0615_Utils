@@ -152,6 +152,7 @@
     <ClInclude Include="Hpp\PtrUtils.hpp">
       <Filter>&lt;HppUtils&gt;</Filter>
     </ClInclude>
+    <ClInclude Include="CUCKOO0615_Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TinyXmlEx">

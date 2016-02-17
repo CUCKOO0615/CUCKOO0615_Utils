@@ -84,6 +84,7 @@
   <ItemGroup>
     <ClInclude Include="CKDbgConsole.h" />
     <ClInclude Include="ctest.h" />
+    <ClInclude Include="CUCKOO0615_Utils.h" />
     <ClInclude Include="FileUtils.h" />
     <ClInclude Include="GifStructs.h" />
     <ClInclude Include="GifUtils.h" />
