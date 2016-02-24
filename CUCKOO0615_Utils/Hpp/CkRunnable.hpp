@@ -11,9 +11,20 @@ class CkRunnable
 {
 	//////////////////////////////////////////////////////////////////////////
 public:
-	//用于被子类继承
-	//的线程入口函数
-	virtual UINT Running() = 0;
+	/*
+	** 用于被子类继承的线程入口函数,不建议由用户自行调用
+	** @Param pThreadArgs: 要传入线程的附加参数,参见SetThreadArgs函数
+	** @Ret: 线程退出码,可由GetThreadExitCode()函数获取
+	*/
+	virtual UINT Running(void* pThreadArgs) = 0;
+
+	/*
+	** 设置线程入口函数Running(void* pThreadArgs)的实参
+	** @Param pThreadArgs: 
+	** ** 指向要做为Running函数的实参的对象
+	** ** 使用局部对象时需谨慎
+	*/
+	void SetThreadArgs(void* pThreadArgs);
 
 	//启动线程
 	bool  Start();
@@ -25,7 +36,7 @@ public:
 	UINT   GetThreadId() const;
 
 	/*
-	** 获取线程退出码
+	** 获取线程退出码,即Running函数的返回值
 	** @Ret: 
 	** ** 线程已退出,返回相应退出码;
 	** ** 线程运行中,返回常数STILL_ACTIVE;
@@ -35,7 +46,11 @@ public:
 	
 	//////////////////////////////////////////////////////////////////////////
 public:
-	CkRunnable() :m_hThreadHandle(0), m_uThreadID(0){}
+	CkRunnable() :m_hThreadHandle(0), m_uThreadID(0)
+	{
+		m_arrThreadArgs[0] = (void*)this;
+		m_arrThreadArgs[1] = NULL;
+	}
 	virtual ~CkRunnable()
 	{
 		if (m_hThreadHandle)
@@ -45,18 +60,26 @@ public:
 private:
 	UINT m_uThreadID;
 	HANDLE m_hThreadHandle;
+	void* m_arrThreadArgs[2];
 
 	static UINT __stdcall ThreadEntry(void* pArgList)
 	{
-		return ((CkRunnable*)pArgList)->Running();
+		void** pArgs = (void**)pArgList;
+		return ((CkRunnable*)(pArgs[0]))->Running(pArgs[1]);
 	}
 };
 
 //////////////////////////////////////////////////////////////////////////
 //inline
+
+inline void CkRunnable::SetThreadArgs(void* pThreadArgs)
+{
+	m_arrThreadArgs[1] = pThreadArgs;
+}
+
 inline bool CkRunnable::Start()
 {
-	m_hThreadHandle = (HANDLE)::_beginthreadex(NULL, 0, CkRunnable::ThreadEntry, (void*)this, 0, &m_uThreadID);
+	m_hThreadHandle = (HANDLE)::_beginthreadex(NULL, 0, CkRunnable::ThreadEntry, (void*)m_arrThreadArgs, 0, &m_uThreadID);
 	return (m_hThreadHandle&&m_uThreadID);
 }
 
