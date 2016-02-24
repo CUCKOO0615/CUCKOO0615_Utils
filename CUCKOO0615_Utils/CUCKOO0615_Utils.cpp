@@ -7,6 +7,7 @@
 //#include "CkRingBuffer.hpp"
 //#include "LogUtils.hpp"
 #include "Hpp/PtrUtils.hpp"
+#include "Hpp/CkRunnable.hpp"
 
 // LUA TEST
 // #pragma comment(lib, "./LuaJIT-2.0.3/src/lua51.lib")
