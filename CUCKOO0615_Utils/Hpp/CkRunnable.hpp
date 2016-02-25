@@ -70,7 +70,7 @@ private:
 };
 
 //////////////////////////////////////////////////////////////////////////
-//inline
+//inline Implements
 
 inline void CkRunnable::SetThreadArgs(void* pThreadArgs)
 {
