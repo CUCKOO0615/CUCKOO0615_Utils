@@ -15,9 +15,15 @@
 
 #ifndef CK_LOG_UTILS
 #define CK_LOG_UTILS
-#define WRITE_LOG_INFO(a)  (LogUtils::GetInstance().Recording(a, LL_INFO))
-#define WRITE_LOG_WARN(a)  (LogUtils::GetInstance().Recording(a, LL_WARN))
-#define WRITE_LOG_ERROR(a) (LogUtils::GetInstance().Recording(a, LL_ERROR))
+#if _MSC_VER<1600
+#define WRITE_LOG_INFO(a)  (LogUtils::GetInstance().Recording(LL_INFO, a))
+#define WRITE_LOG_WARN(a)  (LogUtils::GetInstance().Recording(LL_WARN, a))
+#define WRITE_LOG_ERROR(a) (LogUtils::GetInstance().Recording(LL_ERROR, a))
+#else
+#define WRITE_LOG_INFO(a,...)  (LogUtils::GetInstance().Recording(LL_INFO, a, __VA_ARGS__))
+#define WRITE_LOG_WARN(a,...)  (LogUtils::GetInstance().Recording(LL_WARN, a, __VA_ARGS__))
+#define WRITE_LOG_ERROR(a,...) (LogUtils::GetInstance().Recording(LL_ERROR, a, __VA_ARGS__))
+#endif
 #define WRITE_LOG_LINE(a)  (LogUtils::GetInstance().SperateLine(a))
 #endif
 
@@ -199,9 +205,9 @@ public:
 
     /*
     ** 将指定的字符串写入日志
-    ** @param szRec: 输出的日志
+    ** @param szRec: 输出的日志,支持格式化输出
     */
-    void Recording(const char* szRec, LOG_LEVEL emLL = LL_INFO)
+    void Recording(LOG_LEVEL emLL, const char* szRec, ...)
     {
 		if (!m_isInited) InitLogUtils();
         if (!m_isInited) return;
@@ -211,9 +217,15 @@ public:
         m_pLogFile = ::fopen(m_szLogPath, "a+");
         if (m_pLogFile)
         {
-			const char* szCurTime = CurrentTimeToString();
-			const char* szLevel = LogLevelToString(emLL);
-			::fprintf(m_pLogFile, " [%s %s]: %s\n", szCurTime, szLevel, szRec);
+			const char* arrLogLevel[] = { "INFO", "WARN", "ERROR" };
+			::fprintf(m_pLogFile, " [%s %s]: ", CurrentTimeToString(), arrLogLevel[emLL]);
+
+			va_list argsList;
+			va_start(argsList, szRec);
+			::vfprintf(m_pLogFile, szRec, argsList);
+			va_end(argsList);
+
+			::fprintf(m_pLogFile, "\n");
 			SafeCloseLogFile();
         }
 		::LeaveCriticalSection(&m_csSync);
