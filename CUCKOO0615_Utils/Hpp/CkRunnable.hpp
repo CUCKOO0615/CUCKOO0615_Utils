@@ -3,7 +3,7 @@
 //◇日期：2016/02/03
 //◇说明：山寨JAVA的Runnable接口
 //*************************************************
-
+#pragma once
 #include <windows.h>
 #include <process.h>
 
