@@ -60,9 +60,6 @@
     <ClCompile Include="ctest.c">
       <Filter>&lt;StdcTest&gt;</Filter>
     </ClCompile>
-    <ClCompile Include="CKDbgConsole.cpp">
-      <Filter>CkDbgConsole</Filter>
-    </ClCompile>
     <ClCompile Include="CkPipeMsgUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -124,9 +121,6 @@
     </ClInclude>
     <ClInclude Include="ctest.h">
       <Filter>&lt;StdcTest&gt;</Filter>
-    </ClInclude>
-    <ClInclude Include="CKDbgConsole.h">
-      <Filter>CkDbgConsole</Filter>
     </ClInclude>
     <ClInclude Include="MacroUtils.h">
       <Filter>Collections</Filter>
@@ -202,9 +196,6 @@
     </Filter>
     <Filter Include="Collections\MD5">
       <UniqueIdentifier>{94cd407d-0033-42fa-bb48-d8b8c1c19693}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="CkDbgConsole">
-      <UniqueIdentifier>{0ced9bf4-797d-4d99-86d2-b7ec07b7c976}</UniqueIdentifier>
     </Filter>
     <Filter Include="&lt;HppUtils&gt;">
       <UniqueIdentifier>{fdccd415-c927-4a05-97fb-ff6ffccc4eb1}</UniqueIdentifier>

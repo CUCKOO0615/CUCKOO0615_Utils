@@ -82,7 +82,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CKDbgConsole.h" />
     <ClInclude Include="ctest.h" />
     <ClInclude Include="CUCKOO0615_Utils.h" />
     <ClInclude Include="FileUtils.h" />
@@ -115,9 +114,6 @@
     <ClInclude Include="WinAPI_Utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CKDbgConsole.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="ctest.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
