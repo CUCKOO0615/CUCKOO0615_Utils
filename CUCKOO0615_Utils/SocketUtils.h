@@ -137,6 +137,15 @@ public:
 	*/
 	SOCKET CreateServerSocket_TCP(u_short usPort = 10086);
 
+	/*
+	** 在指定的端口号范围内尝试建立一个TCP服务端连接
+	** @Param usPortMin: 最小端口号
+	** @Param usPortMax: 最大端口号
+	** @Param usPort: 操作成功时返回当前正在监听的端口号
+	** @Ret: 建立成功，返回有效的SOCKET，否则，返回INVALID_SOCKET
+	*/
+	SOCKET CreateServerSocket_TCP_Ex(u_short usPortMin, u_short usPortMax, u_short & usPort);
+
 	bool ListenAt(SOCKET skSrvSock, int nBackLog);
 
 	/*

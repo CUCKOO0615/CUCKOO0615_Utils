@@ -46,9 +46,8 @@ void SetConsoleUtf8()
 
 int main()
 {
-	LogUtils::GetInstance().InitLogUtils();
-	//LogUtils::GetInstance().Recording(LL_INFO, "%s|%d|%x", "乌拉喵", 10086, 10);
-	WRITE_LOG_INFO("%s|%d|%x", "喵", 186, 100);
+
+	
 
 
 

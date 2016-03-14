@@ -120,6 +120,45 @@ SOCKET SocketUtils::CreateServerSocket_TCP(u_short usPort /*= 10086 */)
 	return socketRet;
 }
 
+SOCKET SocketUtils::CreateServerSocket_TCP_Ex(u_short usPortMin, u_short usPortMax, u_short & usPort)
+{
+	if (!m_bIsInited)
+	{
+		SetErrMsg("Socket has not been initialized");
+		return INVALID_SOCKET;
+	}
+
+	SOCKET socketRet = socket(AF_INET, SOCK_STREAM, 0);
+	if (INVALID_SOCKET == socketRet)
+	{
+		SetErrMsg("Create server socket failed, ");
+		int nErrCode = WSAGetLastError();
+		strcat(m_szErrMsg, SocketUtils::QueryErrMsg(nErrCode));
+		return INVALID_SOCKET;
+	}
+
+	u_short i = usPortMin;
+	for (; i <= usPortMax; ++i)
+	{
+		SOCKADDR_IN addrServer;
+		addrServer.sin_addr.S_un.S_addr = htonl(INADDR_ANY);
+		addrServer.sin_family = AF_INET;
+		addrServer.sin_port = htons(i);
+
+		if (SOCKET_ERROR == bind(socketRet, (SOCKADDR*)&addrServer, sizeof(SOCKADDR)))
+			continue;
+		usPort = i;
+		break;
+	}
+	if (i == (usPortMax + 1))
+	{
+		SetErrMsg("Bind server socket failed.");
+		closesocket(socketRet);
+		return INVALID_SOCKET;
+	}
+	return socketRet;
+}
+
 bool SocketUtils::ListenAt(SOCKET skSrvSock, int nBackLog)
 {
 	int nRet = ::listen(skSrvSock, nBackLog);
@@ -176,3 +215,5 @@ bool SocketUtils::RecvFromSocket(SOCKET s, char* pBuffer, int nSpecLength)
 	}
 	return true;
 }
+
+
