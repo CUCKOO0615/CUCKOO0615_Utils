@@ -9,19 +9,8 @@
 #include "SocketUtils.h"
 
 bool SocketUtils::m_bIsInited = false;
-char SocketUtils::m_szInitFailedErrMsg[ERRMSG_LENGTH] = { 0 };
 
-SocketUtils::SocketUtils(void)
-{
-    memset(m_szErrMsg, 0x00, ERRMSG_LENGTH);
-    memset(m_szInitFailedErrMsg, 0x00, ERRMSG_LENGTH);
-}
-
-SocketUtils::~SocketUtils(void)
-{
-}
-
-bool SocketUtils::InitSocketUtils()
+bool SocketUtils::InitSocketUtils(int& nErrCode)
 {
     if (m_bIsInited)
         return true;
@@ -29,111 +18,72 @@ bool SocketUtils::InitSocketUtils()
     WORD wVersionRequested = MAKEWORD(1, 1);
     WSADATA wsaData;
 
-    int nRet = WSAStartup(wVersionRequested, &wsaData);
-    if (0 == nRet)
-    {
-        m_bIsInited = true;
-        memset(m_szInitFailedErrMsg, 0, ERRMSG_LENGTH);
-        return true;
-    }
-    else
-    {
-        strcpy(m_szInitFailedErrMsg, "Socket init failed, ");
-		strcat(m_szInitFailedErrMsg, SocketUtils::QueryErrMsg(nRet));
-        return false;
-    }
-
+	nErrCode = WSAStartup(wVersionRequested, &wsaData);
+	m_bIsInited = (0 == nErrCode);
+	return m_bIsInited;
 }
 
-SOCKET SocketUtils::CreateClientSocket_TCP(const char* szServerAddr, u_short usPort)
+bool SocketUtils::ReleaseSocketUtils()
 {
-    if (!m_bIsInited)
-    {
-        SetErrMsg("Socket has not been initialized");
-        return INVALID_SOCKET;
-    }
+	m_bIsInited = !(0 == WSACleanup()) || (WSANOTINITIALISED == WSACleanup());
+	return !m_bIsInited;
+}
 
-    SOCKET socketRet = socket(AF_INET, SOCK_STREAM, 0);
-
+SOCKET SocketUtils::CreateClientSocket_TCP(int& nErrCode, const char* szServerAddr, u_short usPort)
+{
+    SOCKET socketRet = ::socket(AF_INET, SOCK_STREAM, 0);
     if (INVALID_SOCKET == socketRet)
     {
-        SetErrMsg("Create client socket failed, ");
-		int nErrCode = WSAGetLastError();
-		strcat(m_szErrMsg, SocketUtils::QueryErrMsg(nErrCode));
+		nErrCode = ::WSAGetLastError();
         return INVALID_SOCKET;
     }
 
     SOCKADDR_IN addrClient;
     addrClient.sin_family = AF_INET;
     addrClient.sin_addr.S_un.S_addr = inet_addr(szServerAddr);
-    addrClient.sin_port = htons(usPort);
+    addrClient.sin_port = ::htons(usPort);
 
-    int nRet = connect(socketRet, (SOCKADDR*)&addrClient, sizeof(addrClient));
+    int nRet = ::connect(socketRet, (SOCKADDR*)&addrClient, sizeof(addrClient));
     if (SOCKET_ERROR == nRet)
     {
-        SetErrMsg("Create client socket failed, ");
-		int nErrCode = WSAGetLastError();
-		strcat(m_szErrMsg, SocketUtils::QueryErrMsg(nErrCode));
+		nErrCode = WSAGetLastError();
 		closesocket(socketRet);
         return INVALID_SOCKET;
     }
     return socketRet;
 }
 
-bool SocketUtils::ReleaseSocketUtils()
+SOCKET SocketUtils::CreateServerSocket_TCP(int& nErrCode, u_short usPort /*= 10086 */)
 {
-    m_bIsInited = !(0 == WSACleanup()) || (WSANOTINITIALISED == WSACleanup());
-    return !m_bIsInited;
-}
-
-SOCKET SocketUtils::CreateServerSocket_TCP(u_short usPort /*= 10086 */)
-{
-    if (!m_bIsInited)
-    {
-        SetErrMsg("Socket has not been initialized");
-        return INVALID_SOCKET;
-    }
-
-	SOCKET socketRet = socket(AF_INET, SOCK_STREAM, 0);
+	SOCKET socketRet = ::socket(AF_INET, SOCK_STREAM, 0);
 	if (INVALID_SOCKET == socketRet)
     {
-        SetErrMsg("Create server socket failed, ");
-		int nErrCode = WSAGetLastError();
-		strcat(m_szErrMsg, SocketUtils::QueryErrMsg(nErrCode));
+		nErrCode = ::WSAGetLastError();
         return INVALID_SOCKET;
     }
 
     SOCKADDR_IN addrServer;
     addrServer.sin_addr.S_un.S_addr = htonl(INADDR_ANY);
     addrServer.sin_family = AF_INET;
-    addrServer.sin_port = htons(usPort);
+    addrServer.sin_port = ::htons(usPort);
 
-	int nRet = bind(socketRet, (SOCKADDR*)&addrServer, sizeof(SOCKADDR));
+	int nRet = ::bind(socketRet, (SOCKADDR*)&addrServer, sizeof(SOCKADDR));
     if (SOCKET_ERROR == nRet)
     {
-        SetErrMsg("Bind server socket failed, ");
-		int nErrCode = WSAGetLastError();
-		strcat(m_szErrMsg, SocketUtils::QueryErrMsg(nErrCode));
+		nErrCode = ::WSAGetLastError();
 		closesocket(socketRet);
         return INVALID_SOCKET;
     }
 	return socketRet;
 }
 
-SOCKET SocketUtils::CreateServerSocket_TCP_Ex(u_short usPortMin, u_short usPortMax, u_short & usPort)
+SOCKET SocketUtils::CreateServerSocket_TCP_Ex
+(int& nErrCode, u_short usPortMin, u_short usPortMax, u_short & usPort)
 {
-	if (!m_bIsInited)
-	{
-		SetErrMsg("Socket has not been initialized");
-		return INVALID_SOCKET;
-	}
-
-	SOCKET socketRet = socket(AF_INET, SOCK_STREAM, 0);
+	SOCKET socketRet = ::socket(AF_INET, SOCK_STREAM, 0);
 	if (INVALID_SOCKET == socketRet)
 	{
-		SetErrMsg("Create server socket failed, ");
-		int nErrCode = WSAGetLastError();
-		strcat(m_szErrMsg, SocketUtils::QueryErrMsg(nErrCode));
+		nErrCode = ::WSAGetLastError();
 		return INVALID_SOCKET;
 	}
 
@@ -141,32 +91,30 @@ SOCKET SocketUtils::CreateServerSocket_TCP_Ex(u_short usPortMin, u_short usPortM
 	for (; i <= usPortMax; ++i)
 	{
 		SOCKADDR_IN addrServer;
-		addrServer.sin_addr.S_un.S_addr = htonl(INADDR_ANY);
+		addrServer.sin_addr.S_un.S_addr = ::htonl(INADDR_ANY);
 		addrServer.sin_family = AF_INET;
-		addrServer.sin_port = htons(i);
+		addrServer.sin_port = ::htons(i);
 
-		if (SOCKET_ERROR == bind(socketRet, (SOCKADDR*)&addrServer, sizeof(SOCKADDR)))
+		if (SOCKET_ERROR == ::bind(socketRet, (SOCKADDR*)&addrServer, sizeof(SOCKADDR)))
 			continue;
 		usPort = i;
 		break;
 	}
 	if (i == (usPortMax + 1))
 	{
-		SetErrMsg("Bind server socket failed.");
-		closesocket(socketRet);
+		nErrCode = ::WSAGetLastError();
+		::closesocket(socketRet);
 		return INVALID_SOCKET;
 	}
 	return socketRet;
 }
 
-bool SocketUtils::ListenAt(SOCKET skSrvSock, int nBackLog)
+bool SocketUtils::ListenAt(int& nErrCode, SOCKET skSrvSock, int nBackLog)
 {
 	int nRet = ::listen(skSrvSock, nBackLog);
 	if (0 != nRet)
 	{
-		SetErrMsg("Listen at specified socket failed, ");
-		int nErrCode = WSAGetLastError();
-		strcat(m_szErrMsg, SocketUtils::QueryErrMsg(nErrCode));
+		nErrCode = WSAGetLastError();
 		return false;
 	}
 	return true;
@@ -182,7 +130,7 @@ const char* SocketUtils::QueryErrMsg(size_t nErrCode)
 	return "UNKNOWERROR";
 }
 
-bool SocketUtils::SendToSocket(SOCKET s, char* pBuffer, int nSpecLength)
+bool SocketUtils::SendToSocket(SOCKET s, char* pBuffer, int nSpecLength, int& nErrCode)
 {
 	int nRemainingChars = nSpecLength;
 	while (0 < nRemainingChars)
@@ -190,7 +138,7 @@ bool SocketUtils::SendToSocket(SOCKET s, char* pBuffer, int nSpecLength)
 		int nSendedChars = ::send(s, pBuffer + nSpecLength - nRemainingChars, nRemainingChars, NULL);
 		if (SOCKET_ERROR == nSendedChars)
 		{
-			SetErrMsg("Socket returned SOCKET_ERROR");
+			nErrCode = ::WSAGetLastError();
 			return false;
 		}
 		nRemainingChars -= nSendedChars;
@@ -198,7 +146,7 @@ bool SocketUtils::SendToSocket(SOCKET s, char* pBuffer, int nSpecLength)
 	return true;
 }
 
-bool SocketUtils::RecvFromSocket(SOCKET s, char* pBuffer, int nSpecLength)
+bool SocketUtils::RecvFromSocket(SOCKET s, char* pBuffer, int nSpecLength, int& nErrCode)
 {
 	int nRecvedLen = 0;
 	while (nRecvedLen < nSpecLength)
@@ -206,12 +154,26 @@ bool SocketUtils::RecvFromSocket(SOCKET s, char* pBuffer, int nSpecLength)
 		int nRecv = ::recv(s, pBuffer + nRecvedLen, nSpecLength - nRecvedLen, NULL);
 		if (SOCKET_ERROR == nRecv)
 		{
-			SetErrMsg("Socket returned SOCKET_ERROR");
+			nErrCode = ::WSAGetLastError();
 			return false;
 		}
 		if (0 == nRecv)	           
 			continue;
 		nRecvedLen += nRecv;
+	}
+	return true;
+}
+
+bool SocketUtils::GetAddressBySocket(SOCKET s, SOCKADDR_IN & addr, int& nErrCode)
+{
+	::memset(&addr, 0, sizeof(SOCKADDR_IN));
+	int nAddrLen = sizeof(SOCKADDR_IN);
+
+	//根据套接字获取地址信息
+	if (::getpeername(s, (SOCKADDR*)&addr, &nAddrLen) != 0)
+	{
+		nErrCode = ::WSAGetLastError();
+		return false;
 	}
 	return true;
 }
