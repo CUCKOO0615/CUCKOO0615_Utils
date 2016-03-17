@@ -34,7 +34,7 @@ public:
 
 	/*
 	** 获取线程退出码
-	** 线程未启动或无法获取退出码: 返回0xffffff
+	** 线程未启动或无法获取退出码: 返回0xFFFFFFFF
 	** 线程正在运行: 返回STILL_ACTIVE (259)
 	** 线程已退出: 返回线程函数的返回值, 或由ExitThread或TerminateThread指定的错误码
 	*/
@@ -75,10 +75,10 @@ inline bool ThreadUtils::Run(TU_LPTHREADENTRY pThreadEntry)
 
 inline DWORD ThreadUtils::GetExitCode() const
 {
-	if (!m_hThreadHandle || !m_uThreadID) return 0xffffff;
+	if (!m_hThreadHandle || !m_uThreadID) return 0xFFFFFFFF;
 	DWORD dwExitCode = 0;
 	BOOL bRet = ::GetExitCodeThread(m_hThreadHandle, &dwExitCode);
-	return bRet? dwExitCode : 0xffffff;
+	return bRet? dwExitCode : 0xFFFFFFFF;
 }
 
 inline HANDLE ThreadUtils::GetThreadHandle() const
