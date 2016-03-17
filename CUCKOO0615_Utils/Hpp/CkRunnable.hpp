@@ -3,7 +3,25 @@
 //◇日期：2016/02/03
 //◇说明：山寨JAVA的Runnable接口
 //*************************************************
-#pragma once
+/*	Demo
+class DemoClass: public CkRunnable
+{
+// 重写的父类virtual, 线程入口
+	UINT Running(void* pThreadArgs)
+	{
+		//pThreadArgs: 来自SetThreadArgs
+		//返回值: 由GetThreadExitCode获取
+	}
+
+// 继承的函数
+	//void SetThreadArgs(void* pThreadArgs);
+	//bool  Start();
+	//HANDLE GetThreadHandle() const;
+	//UINT   GetThreadId() const;
+	//DWORD  GetThreadExitCode() const;
+}
+*/
+
 #include <windows.h>
 #include <process.h>
 
@@ -34,13 +52,13 @@ public:
 
 	//获取线程ID
 	UINT   GetThreadId() const;
-
+	
 	/*
 	** 获取线程退出码,即Running函数的返回值
 	** @Ret: 
 	** ** 线程已退出,返回相应退出码;
 	** ** 线程运行中,返回常数STILL_ACTIVE;
-	** ** 操作失败返回0xffffff;
+	** ** 操作失败返回0xFFFFFFFF;
 	*/
 	DWORD  GetThreadExitCode() const;
 	
@@ -95,8 +113,8 @@ inline UINT CkRunnable::GetThreadId() const
 
 inline DWORD CkRunnable::GetThreadExitCode() const
 {
-	if (!m_hThreadHandle || !m_uThreadID) return 0xffffff;
+	if (!m_hThreadHandle || !m_uThreadID) return 0xFFFFFFFF;
 	DWORD dwExitCode = 0;
 	BOOL bRet = ::GetExitCodeThread(m_hThreadHandle, &dwExitCode);
-	return bRet ? dwExitCode : 0xffffff;
+	return bRet ? dwExitCode : 0xFFFFFFFF;
 }
