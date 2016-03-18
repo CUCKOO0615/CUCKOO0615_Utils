@@ -12,6 +12,7 @@
 #include <iostream>
 using namespace std;
 
+
 // LUA TEST
 // #pragma comment(lib, "./LuaJIT-2.0.3/src/lua51.lib")
 extern "C"
@@ -49,6 +50,7 @@ void SetConsoleUtf8()
 
 int main()
 {
+
 
 
 	system("pause");
