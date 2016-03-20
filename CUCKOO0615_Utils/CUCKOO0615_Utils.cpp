@@ -8,6 +8,9 @@
 #include "Hpp/LogUtils.hpp"
 #include "Hpp/PtrUtils.hpp"
 #include "Hpp/CkRunnable.hpp"
+#include "Hpp/DigitUtils.hpp"
+#include "MultiIncludeTest.h"
+#include "TimeUtils.h";
 
 #include <iostream>
 using namespace std;
@@ -51,6 +54,19 @@ void SetConsoleUtf8()
 int main()
 {
 
+	std::wcout.imbue(std::locale("chs"));
+	std::cout << "最大值: " << std::endl;
+
+	unsigned __int64 llNum = ULLONG_MAX;
+	std::wstring wstr;
+	while (true)
+	{
+		DigitUtils::Num2Chinese(llNum, wstr);
+		std::wcout << wstr.c_str() << std::endl;
+		std::cout << "输入: ";
+		std::cin >> llNum;
+		std::cout << ">>> ";
+	}
 
 
 	system("pause");

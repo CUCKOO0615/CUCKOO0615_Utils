@@ -1,10 +1,8 @@
-
 //************************************************
 //◇作者：CUCKOO0615
 //◇日期：2014年8月10日
 //◇说明：时间的相关处理
 //*************************************************
-
 #pragma once
 
 #ifndef CUCKOO0615_UTILS_MACRO
@@ -55,5 +53,7 @@ namespace TimeUtils
     ** @param nBufSize: 字符串缓冲区大小, 至少为 TIME_STR_LENGTH, 否则不执行转换
     */
     void Tm2Str(tm tmTime, char * szBuf, size_t nBufSize = TIME_STR_LENGTH);
+
+/*	void Time_t2Chinese(time_t lTime, wchar_t * pBuffer);*/
 
 }

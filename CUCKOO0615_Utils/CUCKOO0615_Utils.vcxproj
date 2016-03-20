@@ -57,7 +57,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StructMemberAlignment>4Bytes</StructMemberAlignment>
     </ClCompile>
     <Link>
@@ -96,6 +96,7 @@
     <ClInclude Include="Hpp\ThreadUtils.hpp" />
     <ClInclude Include="MacroUtils.h" />
     <ClInclude Include="md5.h" />
+    <ClInclude Include="MultiIncludeTest.h" />
     <ClInclude Include="PathUtils.h" />
     <ClInclude Include="ProcessUtils.h" />
     <ClInclude Include="ProfileUtils.h" />

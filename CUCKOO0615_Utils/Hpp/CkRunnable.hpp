@@ -21,7 +21,7 @@ class DemoClass: public CkRunnable
 	//DWORD  GetThreadExitCode() const;
 }
 */
-
+#pragma once
 #include <windows.h>
 #include <process.h>
 

@@ -48,3 +48,24 @@ void TimeUtils::Tm2Str(tm tmTime, char * szBuf, size_t nBufSize /*= TIME_STR_LEN
     TimeUtils::Time_t2Str(lTime, szBuf, nBufSize);
 }
 
+// static wchar_t arrChineseNums[] =
+// { L'Áã', L'Ò¼', L'·¡', L'Èþ', L'ËÁ', L'Îé', L'Â½', L'Æâ', L'°Æ', L'¾Á' };
+// void TimeUtils::Time_t2Chinese(time_t lTime, wchar_t * pBuffer)
+// {
+// 	pBuffer[4] = L'Äê', pBuffer[7] = L'ÔÂ', pBuffer[10] = L'ÈÕ';
+// 	pBuffer[13] = L'Ê±', pBuffer[16] = L'·Ö', pBuffer[19] = L'Ãë';
+// 
+// 	char szBuf[20] = { 0 };
+// 	strftime(szBuf, 20, "%Y/%m/%d %H:%M:%S", localtime(&lTime));
+// 	for (int i = 0; i != 20; ++i)
+// 	{
+// 		if ('/' == szBuf[i] || 
+// 			' ' == szBuf[i] ||
+// 			':' == szBuf[i]) continue;
+// 		szBuf[i] -= '0';
+// 		pBuffer[i] = arrChineseNums[szBuf[i]];
+// 	}
+// 	pBuffer[20] = 0;
+// 
+// }
+
