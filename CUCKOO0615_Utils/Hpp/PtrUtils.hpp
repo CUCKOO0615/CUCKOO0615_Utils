@@ -13,8 +13,11 @@ namespace CkPtrUtils
 {
 	/*
 	** 离开作用域时,自动释放指针,并将指针赋值为NULL
-	** 例: Type* t = new Type;
-	** CkPtrUtils::PtrScopeGuard<Type> pag(&t, bool);
+	** 例: 
+	** Type* t = new Type;
+	** CkPtrUtils::PtrScopeGuard<Type> pag(&t, false);
+	** Type* t = new Type[N];
+	** CkPtrUtils::PtrScopeGuard<Type> pag(&t, true);
 	** @Param bIsArr: 是否是指向数组的指针,是 true, 否 false
 	*/
 	template<typename T>
