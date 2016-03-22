@@ -53,14 +53,10 @@ void SetConsoleUtf8()
 
 int main()
 {
-	WinAPI_Utils::MappingFileInfo mfi;
-	WinAPI_Utils::CreateMappingFile(L"D:\\1.txt", WinAPI_Utils::MT_ReadOnly, mfi);
-
-	*mfi.pbFile = 'A';
-
-	mfi.Release();
 
 
+
+	//////////////////////////////////////////////////////////////////////////
 	std::wcout.imbue(std::locale("chs"));
 	std::cout << "最大值: " << std::endl;
 
