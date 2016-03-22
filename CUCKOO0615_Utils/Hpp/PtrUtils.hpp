@@ -2,10 +2,6 @@
 //◇作者：CUCKOO0615
 //◇日期：2016/02/16
 //◇说明：指针工具集
-//
-// class PtrAutoGuard
-// class PtrAutoGuard_Arr
-//
 //*************************************************
 #pragma once
 
@@ -16,39 +12,29 @@
 namespace CkPtrUtils
 {
 	/*
-	** 离开作用域时,自动释放指针(非数组),并将指针赋值为NULL
-	** 例:
-	** Type* t = new Type;
-	** CkPtrUtils::PtrAutoGuard<Type> pag(&t);
+	** 离开作用域时,自动释放指针,并将指针赋值为NULL
+	** 例: Type* t = new Type;
+	** CkPtrUtils::PtrScopeGuard<Type> pag(&t, bool);
+	** @Param bIsArr: 是否是指向数组的指针,是 true, 否 false
 	*/
 	template<typename T>
-	class PtrAutoGuard
+	class PtrScopeGuard
 	{
 		T** m_ptr;
+		bool m_bIsArr;
 	public:
-		PtrAutoGuard(T** ptr)
-			:m_ptr(NULL) {
-			m_ptr = ptr;
+		PtrScopeGuard(T** ptr, bool bIsArr)
+			:m_ptr(ptr),
+			m_bIsArr(bIsArr)
+		{
 		};
-		~PtrAutoGuard()  { delete (*m_ptr); (*m_ptr) = NULL; };
-	};
-
-	/*
-	** 离开作用域时,自动释放指针(数组),并将指针赋值为NULL
-	** 例:
-	** Type* t = new Type[SIZE];
-	** CkPtrUtils::PtrAutoGuard_Arr<Type> paga(&t);
-	*/
-	template<typename T>
-	class PtrAutoGuard_Arr
-	{
-		T** m_ptr;
-	public:
-		PtrAutoGuard_Arr(T** ptr)
-			:m_ptr(NULL)    {
-			m_ptr = ptr;
+		~PtrScopeGuard()
+		{
+			if (m_bIsArr)
+				delete[](*m_ptr);
+			else
+				delete (*m_ptr);
+			(*m_ptr) = NULL;
 		};
-		~PtrAutoGuard_Arr() { delete[](*m_ptr); (*m_ptr) = NULL; };
 	};
-
 };
