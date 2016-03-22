@@ -146,6 +146,12 @@
     <ClInclude Include="CUCKOO0615_Utils.h" />
     <ClInclude Include="MacroUtils.h" />
     <ClInclude Include="MultiIncludeTest.h" />
+    <ClInclude Include="zlib128-dll\include\zlib.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="zlib128-dll\include\zconf.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TinyXmlEx">
@@ -202,5 +208,13 @@
     <Filter Include="&lt;StdcTest&gt;">
       <UniqueIdentifier>{242764e2-388d-4a7f-a8fe-188fa5172969}</UniqueIdentifier>
     </Filter>
+    <Filter Include="zlib">
+      <UniqueIdentifier>{d09aa0ad-c09e-4d15-aa7b-d49a5fcda1fa}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="zlib128-dll\lib\zlib.def">
+      <Filter>zlib</Filter>
+    </None>
   </ItemGroup>
 </Project>

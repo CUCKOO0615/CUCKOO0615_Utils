@@ -51,10 +51,29 @@ void SetConsoleUtf8()
 	SetWindowPos(hwnd, HWND_TOP, 100, 80, 1000, 700, 0);
 }
 
+#include ".\\zlib128-dll\\include\\zconf.h"
+#include ".\\zlib128-dll\\include\\zlib.h"
+#pragma comment(lib, ".\\zlib128-dll\\lib\\zdll.lib")
+
 int main()
 {
+	char sz[] = "CUCKOO0615 TEST";
+	int nLen = strlen(sz) + 1;
 
+	int nBuffLen = compressBound(nLen);
+	char* pBuff = new char[nBuffLen];
+	memset(pBuff, 0x00, nBuffLen);
 
+	compress((Bytef*)pBuff, (uLongf*)&nBuffLen, (Bytef*)sz, nLen);
+
+	fstream fs;
+	fs.open("D:/123.txt", ios::out|ios::binary);
+	fs.write(pBuff, nBuffLen);
+	fs.close();
+// 
+// 	char tmpBuff[30] = { 0 };
+// 	int n = 30;
+// 	uncompress((Bytef*)tmpBuff, (uLongf*)&n, (Bytef*)pBuff, nBuffLen);
 
 	//////////////////////////////////////////////////////////////////////////
 	std::wcout.imbue(std::locale("chs"));
