@@ -21,15 +21,15 @@
 class SyncLock
 {
 public:
-	void Lock()                     { ::EnterCriticalSection(&m_cs); }
-	void Unlock()                   { ::LeaveCriticalSection(&m_cs); }
+    void Lock()                     { ::EnterCriticalSection(&m_cs); }
+    void Unlock()                   { ::LeaveCriticalSection(&m_cs); }
 
 public:
-	SyncLock()                      { ::InitializeCriticalSection(&m_cs); }
-	SyncLock(DWORD dwSpinCount)     { ::InitializeCriticalSectionAndSpinCount(&m_cs, dwSpinCount); }
-	~SyncLock()                     { ::DeleteCriticalSection(&m_cs); }
+    SyncLock()                      { ::InitializeCriticalSection(&m_cs); }
+    SyncLock(DWORD dwSpinCount)     { ::InitializeCriticalSectionAndSpinCount(&m_cs, dwSpinCount); }
+    ~SyncLock()                     { ::DeleteCriticalSection(&m_cs); }
 private:
-	CRITICAL_SECTION m_cs;
+    CRITICAL_SECTION m_cs;
 };
 
 /*
@@ -44,15 +44,15 @@ private:
 class SyncLockGuard
 {
 public:
-	SyncLockGuard(SyncLock* pLock) :m_pLock(pLock)   { if (m_pLock) m_pLock->Lock(); }
-	~SyncLockGuard()                                 { if (m_pLock) m_pLock->Unlock(); }
+    SyncLockGuard(SyncLock* pLock) :m_pLock(pLock)   { if (m_pLock) m_pLock->Lock(); }
+    ~SyncLockGuard()                                 { if (m_pLock) m_pLock->Unlock(); }
 
-	void ManualUnlock()
-	{
-		if (m_pLock) m_pLock->Unlock();
-		m_pLock = NULL;
-	}
+    void ManualUnlock()
+    {
+        if (m_pLock) m_pLock->Unlock();
+        m_pLock = NULL;
+    }
 
 private:
-	SyncLock* m_pLock;
+    SyncLock* m_pLock;
 };

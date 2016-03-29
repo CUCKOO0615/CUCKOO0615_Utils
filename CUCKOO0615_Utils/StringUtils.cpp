@@ -310,3 +310,128 @@ bool StringUtils::Hex2Text(const char* inBuff, size_t nInBuffSize, char* outBuff
     return true;
 }
 
+char* GetStrConvErrMsg()
+{
+    switch (::GetLastError())
+    {
+    case ERROR_INSUFFICIENT_BUFFER:
+        return "Buffer too small";
+    case ERROR_INVALID_FLAGS:
+        return "Invalid flags";
+    case ERROR_INVALID_PARAMETER:
+        return "Parameters is incorrect";
+    case ERROR_NO_UNICODE_TRANSLATION:
+        return "No mapping for the Unicode character exists in the target multi-byte code page";
+    default:
+        return "Unknow error";
+    }
+}
+
+char* StringUtils::StrConv_W2A(const wchar_t* wszUnicode, char* pszErrMsg)
+{
+    int nBufLen = WideCharToMultiByte(CP_ACP, 0, wszUnicode, -1, NULL, 0, NULL, NULL);
+    char* pBuffAnsi = new char[nBufLen];
+    if (!pBuffAnsi)
+    {
+        pszErrMsg = "Allocate buffer failed";
+        return NULL;
+    }
+    ::memset(pBuffAnsi, 0, nBufLen);
+
+    if (!WideCharToMultiByte(CP_ACP, 0, wszUnicode, -1, pBuffAnsi, nBufLen, NULL, NULL))
+    {
+        pszErrMsg = GetStrConvErrMsg();
+        delete[] pBuffAnsi;
+        return NULL;
+    }
+    return pBuffAnsi;
+}
+
+wchar_t* StringUtils::strConv_A2W(const char* szAnsi, char* pszErrMsg)
+{
+    int nLength = MultiByteToWideChar(CP_ACP, 0, szAnsi, -1, NULL, 0);
+    wchar_t* szWideStr = new wchar_t[nLength];
+    if (!szWideStr)
+    {
+        pszErrMsg = "Allocate buffer failed";
+        return NULL;
+    }
+    memset(szWideStr, 0x00, nLength * sizeof(wchar_t));
+
+    if (!MultiByteToWideChar(CP_ACP, 0, szAnsi, -1, szWideStr, nLength))
+    {
+        pszErrMsg = GetStrConvErrMsg();
+        delete[] szWideStr;
+        return NULL;
+    }
+    return szWideStr;
+}
+
+char* StringUtils::StrConv_W2Utf8(const wchar_t* wszUnicode, char* pszErrMsg)
+{
+    int nBufLen = WideCharToMultiByte(CP_UTF8, 0, wszUnicode, -1, NULL, 0, NULL, NULL);
+    char* pBuffUtf8 = new char[nBufLen];
+    if (!pBuffUtf8)
+    {
+        pszErrMsg = "Allocate buffer failed";
+        return NULL;
+    }
+    ::memset(pBuffUtf8, 0, nBufLen);
+
+    if (!WideCharToMultiByte(CP_UTF8, 0, wszUnicode, -1, pBuffUtf8, nBufLen, NULL, NULL))
+    {
+        pszErrMsg = GetStrConvErrMsg();
+        delete[] pBuffUtf8;
+        return NULL;
+    }
+    return pBuffUtf8;
+}
+
+char* StringUtils::StrConv_A2Utf8(const char* szAnsi, char* pszErrMsg)
+{
+    wchar_t* wszUnicode = strConv_A2W(szAnsi, pszErrMsg);
+    if (!wszUnicode) 
+        return NULL;
+
+    char* pszUtf8 = StrConv_W2Utf8(wszUnicode, pszErrMsg);
+    delete[] wszUnicode;
+    if (!pszUtf8) 
+        return NULL;
+
+    return pszUtf8;
+}
+
+wchar_t* StringUtils::StrConv_Utf82W(const char* szUtf8, char* pszErrMsg)
+{
+    int nLength = MultiByteToWideChar(CP_UTF8, 0, szUtf8, -1, NULL, 0);
+    wchar_t* szWideStr = new wchar_t[nLength];
+    if (!szWideStr)
+    {
+        pszErrMsg = "Allocate buffer failed";
+        return NULL;
+    }
+    memset(szWideStr, 0x00, nLength * sizeof(wchar_t));
+
+    if (!MultiByteToWideChar(CP_UTF8, 0, szUtf8, -1, szWideStr, nLength))
+    {
+        pszErrMsg = GetStrConvErrMsg();
+        delete[] szWideStr;
+        return NULL;
+    }
+    return szWideStr;
+}
+
+char* StringUtils::StrConv_Utf82A(const char* szUtf8, char* pszErrMsg)
+{
+    wchar_t* wszUnicode = StrConv_Utf82W(szUtf8, pszErrMsg);
+    if (!wszUnicode) 
+        return NULL;
+
+    char* szAnsi = StrConv_W2A(wszUnicode, pszErrMsg);
+    delete[] wszUnicode;
+    if (!szAnsi) 
+        return NULL;
+
+    return szAnsi;
+}
+

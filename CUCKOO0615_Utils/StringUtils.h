@@ -83,7 +83,7 @@ namespace StringUtils
     ** @param strErrMsg: 错误信息
     */
     bool StrConv_W2A(const wchar_t* szWidestr, string& szMultibyteStr, string& strErrMsg);
-}
+ }
 #endif
 //////////////////////////////////////////////////////////////////////////
 
@@ -145,6 +145,60 @@ namespace StringUtils
     ** - 故nOutBuffSize不得小于nInBuffSize*2, 否则函数返回false
     */
     bool Hex2Text(const char* inBuff, size_t nInBuffSize, char* outBuff, size_t nOutBuffSize);
+    
+
+    //////////////////////////////////////////////////////////////////////////
+    // 字符串编码转换系列
+
+    /*
+    ** 宽字符串(Unicode)转多字节字符串(ANSI)
+    ** @Param wszUnicode: 宽字符串
+    ** @Param pszErrMsg: 指向包含错误信息的缓冲区的指针,不需要用户delete
+    ** @Ret : 转换成功返回指向包含结果字符串的缓冲区的指针, 需要用户自行delete[], 失败返回NULL
+    */
+    char* StrConv_W2A(const wchar_t* wszUnicode, char* pszErrMsg);
+    
+    /*
+    ** 多字节字符串(ANSI)转宽字符串(Unicode)
+    ** @Param szAnsi: 多字节字符串
+    ** @Param pszErrMsg: 指向包含错误信息的缓冲区的指针,不需要用户delete
+    ** @Ret : 转换成功返回指向包含结果字符串的缓冲区的指针, 需要用户自行delete[], 失败返回NULL
+    */
+    wchar_t* strConv_A2W(const char* szAnsi, char* pszErrMsg);
+
+    /*
+    ** 宽字符串(Unicode)转UTF8字符串
+    ** @Param wszUnicode: 宽字符串
+    ** @Param pszErrMsg: 指向包含错误信息的缓冲区的指针,不需要用户delete
+    ** @Ret : 转换成功返回指向包含结果字符串的缓冲区的指针, 需要用户自行delete[], 失败返回NULL
+    */
+    char* StrConv_W2Utf8(const wchar_t* wszUnicode, char* pszErrMsg);
+
+    /*
+    ** 多字节字符串(ANSI)转UTF8字符串
+    ** @Param szAnsi: 多字节字符串
+    ** @Param pszErrMsg: 指向包含错误信息的缓冲区的指针,不需要用户delete
+    ** @Ret : 转换成功返回指向包含结果字符串的缓冲区的指针, 需要用户自行delete[], 失败返回NULL
+    */
+    char* StrConv_A2Utf8(const char* szAnsi, char* pszErrMsg);
+
+    /*
+    ** UTF8字符串转宽字符串(Unicode)
+    ** @Param szUtf8: UTF8字符串
+    ** @Param pszErrMsg: 指向包含错误信息的缓冲区的指针,不需要用户delete
+    ** @Ret : 转换成功返回指向包含结果字符串的缓冲区的指针, 需要用户自行delete[], 失败返回NULL
+    */
+    wchar_t* StrConv_Utf82W(const char* szUtf8, char* pszErrMsg);
+
+    /*
+    ** UTF8字符串转多字节字符串(ANSI)
+    ** @Param szUtf8: UTF8字符串
+    ** @Param pszErrMsg: 指向包含错误信息的缓冲区的指针,不需要用户delete
+    ** @Ret : 转换成功返回指向包含结果字符串的缓冲区的指针, 需要用户自行delete[], 失败返回NULL
+    */
+    char* StrConv_Utf82A(const char* szUtf8, char* pszErrMsg);
+
+    //////////////////////////////////////////////////////////////////////////
 };
 
 //////////////////////////////////////////////////////////////////////////
