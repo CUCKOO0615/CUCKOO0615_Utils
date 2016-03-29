@@ -57,6 +57,7 @@ void SetConsoleUtf8()
 
 int main()
 {
+	
 	char sz[] = "CUCKOO0615 TEST";
 	int nLen = strlen(sz) + 1;
 
