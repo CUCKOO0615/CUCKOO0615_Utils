@@ -149,38 +149,57 @@ namespace StringUtils
 
     //////////////////////////////////////////////////////////////////////////
     // 字符串编码转换系列
+	//////////////////////////////////////////////////////////////////////////
 
+	/*
+	** 宽字符串(Unicode)转多字节字符串
+	** @Param wszUnicode: 宽字符串
+	** @Param uCodePage: 指定转换使用的代码页
+	** @Param pszErrMsg: 指向包含错误信息的缓冲区的指针,不需要用户delete
+	** @Ret : 转换成功返回指向包含结果字符串的缓冲区的指针, 需要用户自行delete[], 失败返回NULL
+	*/
+	char* StrConv_W2M(const wchar_t* wszUnicode, UINT uCodePage, char*& pszErrMsg);
+	
     /*
     ** 宽字符串(Unicode)转多字节字符串(ANSI)
     ** @Param wszUnicode: 宽字符串
     ** @Param pszErrMsg: 指向包含错误信息的缓冲区的指针,不需要用户delete
     ** @Ret : 转换成功返回指向包含结果字符串的缓冲区的指针, 需要用户自行delete[], 失败返回NULL
     */
-    char* StrConv_W2A(const wchar_t* wszUnicode, char* pszErrMsg);
+    char* StrConv_W2A(const wchar_t* wszUnicode, char*& pszErrMsg);
     
+    /*
+    ** 宽字符串(Unicode)转转多字节字符串(UTF8)
+    ** @Param wszUnicode: 宽字符串
+    ** @Param pszErrMsg: 指向包含错误信息的缓冲区的指针,不需要用户delete
+    ** @Ret : 转换成功返回指向包含结果字符串的缓冲区的指针, 需要用户自行delete[], 失败返回NULL
+    */
+    char* StrConv_W2Utf8(const wchar_t* wszUnicode, char*& pszErrMsg);
+
+	/*
+	** 多字节字符串转宽字符串(Unicode)
+	** @Param szAnsi: 多字节字符串
+	** @Param uCodePage: 指定转换使用的代码页
+	** @Param pszErrMsg: 指向包含错误信息的缓冲区的指针,不需要用户delete
+	** @Ret : 转换成功返回指向包含结果字符串的缓冲区的指针, 需要用户自行delete[], 失败返回NULL
+	*/
+	wchar_t* StrConv_M2W(const char* szMultiBytes, UINT uCodePage, char*& pszErrMsg);
+
     /*
     ** 多字节字符串(ANSI)转宽字符串(Unicode)
     ** @Param szAnsi: 多字节字符串
     ** @Param pszErrMsg: 指向包含错误信息的缓冲区的指针,不需要用户delete
     ** @Ret : 转换成功返回指向包含结果字符串的缓冲区的指针, 需要用户自行delete[], 失败返回NULL
     */
-    wchar_t* strConv_A2W(const char* szAnsi, char* pszErrMsg);
-
-    /*
-    ** 宽字符串(Unicode)转UTF8字符串
-    ** @Param wszUnicode: 宽字符串
-    ** @Param pszErrMsg: 指向包含错误信息的缓冲区的指针,不需要用户delete
-    ** @Ret : 转换成功返回指向包含结果字符串的缓冲区的指针, 需要用户自行delete[], 失败返回NULL
-    */
-    char* StrConv_W2Utf8(const wchar_t* wszUnicode, char* pszErrMsg);
-
+    wchar_t* StrConv_A2W(const char* szAnsi, char*& pszErrMsg);
+	
     /*
     ** 多字节字符串(ANSI)转UTF8字符串
     ** @Param szAnsi: 多字节字符串
     ** @Param pszErrMsg: 指向包含错误信息的缓冲区的指针,不需要用户delete
     ** @Ret : 转换成功返回指向包含结果字符串的缓冲区的指针, 需要用户自行delete[], 失败返回NULL
     */
-    char* StrConv_A2Utf8(const char* szAnsi, char* pszErrMsg);
+    char* StrConv_A2Utf8(const char* szAnsi, char*& pszErrMsg);
 
     /*
     ** UTF8字符串转宽字符串(Unicode)
@@ -188,7 +207,7 @@ namespace StringUtils
     ** @Param pszErrMsg: 指向包含错误信息的缓冲区的指针,不需要用户delete
     ** @Ret : 转换成功返回指向包含结果字符串的缓冲区的指针, 需要用户自行delete[], 失败返回NULL
     */
-    wchar_t* StrConv_Utf82W(const char* szUtf8, char* pszErrMsg);
+    wchar_t* StrConv_Utf82W(const char* szUtf8, char*& pszErrMsg);
 
     /*
     ** UTF8字符串转多字节字符串(ANSI)
@@ -196,7 +215,7 @@ namespace StringUtils
     ** @Param pszErrMsg: 指向包含错误信息的缓冲区的指针,不需要用户delete
     ** @Ret : 转换成功返回指向包含结果字符串的缓冲区的指针, 需要用户自行delete[], 失败返回NULL
     */
-    char* StrConv_Utf82A(const char* szUtf8, char* pszErrMsg);
+    char* StrConv_Utf82A(const char* szUtf8, char*& pszErrMsg);
 
     //////////////////////////////////////////////////////////////////////////
 };

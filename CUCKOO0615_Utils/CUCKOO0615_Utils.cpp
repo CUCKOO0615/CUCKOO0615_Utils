@@ -55,9 +55,16 @@ void SetConsoleUtf8()
 #include ".\\zlib128-dll\\include\\zlib.h"
 #pragma comment(lib, ".\\zlib128-dll\\lib\\zdll.lib")
 
+#include "StringUtils.h"
+
 int main()
 {
+	const char* szStr = "123";
+	char* pszErrMsg = NULL;
+	StringUtils::StrConv_A2W(szStr, pszErrMsg);
+
 	
+/*
 	char sz[] = "CUCKOO0615 TEST";
 	int nLen = strlen(sz) + 1;
 
@@ -70,7 +77,7 @@ int main()
 	fstream fs;
 	fs.open("D:/123.txt", ios::out|ios::binary);
 	fs.write(pBuff, nBuffLen);
-	fs.close();
+	fs.close();*/
 // 
 // 	char tmpBuff[30] = { 0 };
 // 	int n = 30;
