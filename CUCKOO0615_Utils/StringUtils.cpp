@@ -319,7 +319,7 @@ char* GetStrConvErrMsg()
     case ERROR_INVALID_FLAGS:
         return "Invalid flags";
     case ERROR_INVALID_PARAMETER:
-        return "Parameters is incorrect";
+        return "Parameters is invalid";
     case ERROR_NO_UNICODE_TRANSLATION:
         return "No mapping for the Unicode character exists in the target multi-byte code page";
     default:
