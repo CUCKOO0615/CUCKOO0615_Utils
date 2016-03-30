@@ -352,7 +352,6 @@ char* StringUtils::StrConv_W2A(const wchar_t* wszUnicode, char*& pszErrMsg)
 	return StrConv_W2M(wszUnicode, CP_ACP, pszErrMsg);
 }
 
-
 char* StringUtils::StrConv_W2Utf8(const wchar_t* wszUnicode, char*& pszErrMsg)
 {
 	return StrConv_W2M(wszUnicode, CP_UTF8, pszErrMsg);
@@ -382,7 +381,6 @@ wchar_t* StringUtils::StrConv_A2W(const char* szAnsi, char*& pszErrMsg)
 {
 	return StrConv_M2W(szAnsi, CP_ACP, pszErrMsg);
 }
-
 
 wchar_t* StringUtils::StrConv_Utf82W(const char* szUtf8, char*& pszErrMsg)
 {

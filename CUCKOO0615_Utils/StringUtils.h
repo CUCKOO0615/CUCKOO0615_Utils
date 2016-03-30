@@ -7,15 +7,6 @@
 
 #ifndef CUCKOO0615_UTILS_MACRO
 #define CUCKOO0615_UTILS_MACRO
-
-#ifndef MAX_PATH
-#define MAX_PATH 260
-#endif
-
-#ifndef ERRMSG_LENGTH
-#define ERRMSG_LENGTH 256
-#endif
-
 #endif
 
 #define CUCKOO0615_USE_STL
@@ -216,6 +207,14 @@ namespace StringUtils
     ** @Ret : 转换成功返回指向包含结果字符串的缓冲区的指针, 需要用户自行delete[], 失败返回NULL
     */
     char* StrConv_Utf82A(const char* szUtf8, char*& pszErrMsg);
+    
+#ifdef UNICODE
+#define StrConv_Utf82T  StrConv_Utf82W
+#define StrConv_T2UTF8  StrConv_W2Utf8
+#else
+#define StrConv_Utf82T  StrConv_Utf82A
+#define StrConv_T2UTF8  StrConv_A2Utf8
+#endif
 
     //////////////////////////////////////////////////////////////////////////
 };
