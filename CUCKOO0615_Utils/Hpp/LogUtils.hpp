@@ -204,6 +204,35 @@ public:
 
     /*
     ** 将指定的字符串写入日志
+    ** @param wszRec: 输出的日志,支持格式化输出
+    */
+    void Recording(LOG_LEVEL emLL, const wchar_t* wszRec, ...)
+    {
+        va_list argsList;
+        va_start(argsList, wszRec);
+        wchar_t pBuff[512] = { 0 };
+        ::vswprintf(pBuff, wszRec, argsList);
+        va_end(argsList);
+
+        char* pBuffMultiBytes = NULL;
+        do 
+        {
+            int nBufLen = ::WideCharToMultiByte(CP_ACP, 0, pBuff, -1, NULL, 0, NULL, NULL);
+            pBuffMultiBytes = new char[nBufLen];
+            if (!pBuffMultiBytes)
+                break;
+            ::memset(pBuffMultiBytes, 0, nBufLen);
+            if (!::WideCharToMultiByte(CP_ACP, 0, pBuff, -1, pBuffMultiBytes, nBufLen, NULL, NULL))
+                break;
+            Recording(emLL, pBuffMultiBytes);
+        } while (0);
+        if(pBuffMultiBytes) 
+            delete[] pBuffMultiBytes;
+        return;
+    }
+
+    /*
+    ** 将指定的字符串写入日志
     ** @param szRec: 输出的日志,支持格式化输出
     */
     void Recording(LOG_LEVEL emLL, const char* szRec, ...)
