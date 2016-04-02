@@ -30,6 +30,7 @@ public:
     ~SyncLock()                     { ::DeleteCriticalSection(&m_cs); }
 private:
     CRITICAL_SECTION m_cs;
+	SyncLock(SyncLock&){};
 };
 
 /*
