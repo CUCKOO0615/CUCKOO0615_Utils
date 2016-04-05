@@ -30,38 +30,10 @@ using namespace std;
 
 class PathUtils
 {
-private:
-    char m_szErrMsg[ERRMSG_LENGTH];
-    void SetErrMsg(const char* szErrMsg) { strcpy(m_szErrMsg, szErrMsg); }
-
-#ifdef CUCKOO0615_USE_STL
-    bool GetFullPathsInDir(
-        vector<string>& vecFullPaths,
-        string strDir,
-        const string& strWildcard,
-        bool bEnterSubDir,
-        bool bEnterHiddenSubDir,
-        int nExceptFileTypes,
-        bool bGetFiles,
-        bool bGetDirs);
-#endif
-
-    //检查字符串是否为空
-    //返回值:空字符串或空指针返回0,否则返回字符串长度
-    size_t CheckStringIsNullOrEmpty(const char* szString)
-    {
-        return ((NULL == szString) || 0 == strlen(szString)) ? 0 : strlen(szString);
-    }
-
-public:
-    PathUtils() { memset(m_szErrMsg, 0x00, ERRMSG_LENGTH); }
-    ~PathUtils() { }
-
 public:
     //////////////////////////////////////////////////////////////////////////
     //基于 STL 的函数
 #ifdef CUCKOO0615_USE_STL
-
     /*
     ** 获取指定文件夹下的所有子文件夹全路径
     ** @param vecSubDirFullPaths: 子文件夹路径集合
@@ -162,5 +134,32 @@ public:
 
     // 获取错误信息
     const char* GetErrMsg() { return m_szErrMsg; }
+
+
+private:
+    char m_szErrMsg[ERRMSG_LENGTH];
+
+#ifdef CUCKOO0615_USE_STL
+    bool GetFullPathsInDir(
+        vector<string>& vecFullPaths,
+        string strDir,
+        const string& strWildcard,
+        bool bEnterSubDir,
+        bool bEnterHiddenSubDir,
+        int nExceptFileTypes,
+        bool bGetFiles,
+        bool bGetDirs);
+#endif
+
+    //检查字符串是否为空
+    //返回值:空字符串或空指针返回0,否则返回字符串长度
+    size_t CheckStringIsNullOrEmpty(const char* szString)
+    {
+        return ((NULL == szString) || 0 == strlen(szString)) ? 0 : strlen(szString);
+    }
+
+public:
+    PathUtils() { memset(m_szErrMsg, 0x00, ERRMSG_LENGTH); }
+    ~PathUtils() { }
 };
 

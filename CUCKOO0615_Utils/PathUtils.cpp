@@ -9,6 +9,8 @@
 #include <direct.h>
 #include <assert.h>
 
+#define SET_ERROR_MSG(szErrMsg)  strcpy(m_szErrMsg, szErrMsg)
+
 #ifdef CUCKOO0615_USE_STL
 bool PathUtils::GetFilesInDir(vector<string>& vecFileFullPaths, string strDir, string strWildcard, bool bEnterSubDir, bool bEnterHiddenSubDir, int nExceptFileTypes)
 {
@@ -33,7 +35,7 @@ bool PathUtils::GetFullPathsInDir(vector<string>& vecFullPaths, string strDir, c
     handle = _findfirst(strSearchPath.c_str(), &fileinfo);
     if (-1 == handle)
     {
-        SetErrMsg("Search files failed");
+        SET_ERROR_MSG("Search files failed");
         _findclose(handle);
         return false;
     }
@@ -63,7 +65,7 @@ bool PathUtils::GetFullPathsInDir(vector<string>& vecFullPaths, string strDir, c
             string strSubPath = strDir + fileinfo.name;
             if (!GetFullPathsInDir(vecFullPaths, strSubPath, strWildcard, true, bEnterHiddenSubDir, nExceptFileTypes, bGetFiles, bGetDirs))
             {
-                SetErrMsg("Search files failed when recursing");
+                SET_ERROR_MSG("Search files failed when recursing");
                 _findclose(handle);
                 return false;
             }
@@ -94,13 +96,13 @@ bool PathUtils::GetFileName(const char* szFullPath, char* szName, size_t nNameBu
 
     if (MAX_PATH <= strlen(szFullPath))
     {
-        SetErrMsg("Input path length is too long");
+        SET_ERROR_MSG("Input path length is too long");
         return false;
     }
 
     if (nNameBufSize <= strlen(szFullPath))
     {
-        SetErrMsg("Name buffer size is too small");
+        SET_ERROR_MSG("Name buffer size is too small");
         return false;
     }
 
@@ -122,7 +124,7 @@ bool PathUtils::GetFileName(const char* szFullPath, char* szName, size_t nNameBu
     }
     if (-1 == i)
     {
-        SetErrMsg("Get name failed");
+        SET_ERROR_MSG("Get name failed");
         return false;
     }
     return true;
@@ -136,7 +138,7 @@ int PathUtils::GetDriveNames(char arrLogicalDriveNames[26])
 
     if ((0 == dwLength) || (nBufSize <= dwLength))
     {
-        SetErrMsg("Get logical drive names failed");
+        SET_ERROR_MSG("Get logical drive names failed");
         return -1;
     }
 
@@ -181,13 +183,13 @@ bool PathUtils::PathIsExist(const char* szPath)
     size_t nStrLength = CheckStringIsNullOrEmpty(szPath);
     if (0 == nStrLength)
     {
-        SetErrMsg("Input path can't be NULL or empty");
+        SET_ERROR_MSG("Input path can't be NULL or empty");
         return false;
     }
 
     if (MAX_PATH <= nStrLength)
     {
-        SetErrMsg("Input path length is too long");
+        SET_ERROR_MSG("Input path length is too long");
         return false;
     }
 
@@ -199,13 +201,13 @@ bool PathUtils::FileIsExist(const char* szFilePath)
     size_t nStrLength = CheckStringIsNullOrEmpty(szFilePath);
     if (0 == nStrLength)
     {
-        SetErrMsg("Input path can't be NULL or empty");
+        SET_ERROR_MSG("Input path can't be NULL or empty");
         return false;
     }
 
     if (MAX_PATH <= nStrLength)
     {
-        SetErrMsg("Input path length is too long");
+        SET_ERROR_MSG("Input path length is too long");
         return false;
     }
 
@@ -231,13 +233,13 @@ bool PathUtils::DirIsExist(const char* szDirPath)
     size_t nStrLength = CheckStringIsNullOrEmpty(szDirPath);
     if (0 == nStrLength)
     {
-        SetErrMsg("Input path can't be NULL or empty");
+        SET_ERROR_MSG("Input path can't be NULL or empty");
         return false;
     }
 
     if (MAX_PATH <= nStrLength)
     {
-        SetErrMsg("Input path length is too long");
+        SET_ERROR_MSG("Input path length is too long");
         return false;
     }
 
@@ -263,19 +265,19 @@ bool PathUtils::GetParentPath(const char* szPath, char* szParentPath, size_t nPa
     size_t nStrLength = CheckStringIsNullOrEmpty(szPath);
     if (0 == nStrLength)
     {
-        SetErrMsg("Input path can't be NULL or empty");
+        SET_ERROR_MSG("Input path can't be NULL or empty");
         return false;
     }
 
     if (MAX_PATH <= nStrLength)
     {
-        SetErrMsg("Input path length is too long");
+        SET_ERROR_MSG("Input path length is too long");
         return false;
     }
 
     if (nParentPathBufSize <= nStrLength)
     {
-        SetErrMsg("Parent path buffer size is too small");
+        SET_ERROR_MSG("Parent path buffer size is too small");
         return false;
     }
 
@@ -296,7 +298,7 @@ bool PathUtils::GetParentPath(const char* szPath, char* szParentPath, size_t nPa
     }
     if (-1 == i)
     {
-        SetErrMsg("Can't find parent path");
+        SET_ERROR_MSG("Can't find parent path");
         return false;
     }
     return true;
@@ -307,13 +309,13 @@ bool PathUtils::CreateMultiDirectory(const char* szPath)
     size_t nStrLength = CheckStringIsNullOrEmpty(szPath);
     if (0 == nStrLength)
     {
-        SetErrMsg("Input path can't be NULL or empty");
+        SET_ERROR_MSG("Input path can't be NULL or empty");
         return false;
     }
 
     if (MAX_PATH <= nStrLength)
     {
-        SetErrMsg("Input path length is too long");
+        SET_ERROR_MSG("Input path length is too long");
         return false;
     }
 
@@ -328,7 +330,7 @@ bool PathUtils::CreateMultiDirectory(const char* szPath)
 
             if (0 != _mkdir(szTmp))
             {
-                SetErrMsg("Create directory failed");
+                SET_ERROR_MSG("Create directory failed");
                 return false;
             }
         }
