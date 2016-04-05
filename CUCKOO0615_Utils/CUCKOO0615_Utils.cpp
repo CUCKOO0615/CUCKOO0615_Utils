@@ -57,13 +57,33 @@ void SetConsoleUtf8()
 
 #include "StringUtils.h"
 
-int main()
-{
-	const char* szStr = "123";
-	char* pszErrMsg = NULL;
-	StringUtils::StrConv_A2W(szStr, pszErrMsg);
 
-	
+
+class CLS
+{
+
+};
+void memset(CLS*, int, size_t)
+{
+	assert(0);
+}
+
+int main()
+{	
+	CLS cls;
+	memset(&cls, 0, sizeof(CLS));
+
+
+
+	const char* szTime = "2014/20/43 11:00:00";
+	time_t t = TimeUtils::Str2Time_t(szTime);
+	t -= (90 * 24 * 3600);
+
+	char buff[TIME_STR_LENGTH] = { 0 };
+	TimeUtils::Time_t2Str(t, buff);
+	cout << buff << endl;
+
+	system("pause");
 /*
 	char sz[] = "CUCKOO0615 TEST";
 	int nLen = strlen(sz) + 1;
