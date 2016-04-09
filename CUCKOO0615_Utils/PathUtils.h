@@ -25,7 +25,8 @@
 #ifdef CUCKOO0615_USE_STL
 #include <vector>
 #include <string>
-using namespace std;
+using std::vector;
+using std::string;
 #endif
 
 class PathUtils
