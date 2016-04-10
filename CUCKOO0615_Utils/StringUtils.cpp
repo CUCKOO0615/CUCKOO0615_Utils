@@ -414,4 +414,3 @@ char* StringUtils::StrConv_Utf82A(const char* szUtf8, char*& pszErrMsg)
 
     return szAnsi;
 }
-

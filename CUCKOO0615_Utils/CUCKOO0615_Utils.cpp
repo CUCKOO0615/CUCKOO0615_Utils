@@ -59,20 +59,14 @@ void SetConsoleUtf8()
 
 
 
-class CLS
-{
-
-};
-void memset(CLS*, int, size_t)
-{
-	assert(0);
-}
 
 int main()
 {	
-	CLS cls;
-	memset(&cls, 0, sizeof(CLS));
+	const char* sz = "/C:/FTP/CUCKOO0615_MUSIC_FTP/梁中原/123.txt";
+	char* pErr = NULL;
+	char* szUtf8 = StringUtils::StrConv_A2Utf8(sz, pErr);
 
+	char* szAnsi = StringUtils::StrConv_Utf82A(szUtf8, pErr);
 
 
 	const char* szTime = "2014/20/43 11:00:00";
