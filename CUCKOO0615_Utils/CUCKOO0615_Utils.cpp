@@ -11,7 +11,7 @@
 #include "Hpp/DigitUtils.hpp"
 #include "MultiIncludeTest.h"
 #include "TimeUtils.h"
-
+#include <thread>
 #include <iostream>
 using namespace std;
 
@@ -57,27 +57,43 @@ void SetConsoleUtf8()
 
 #include "StringUtils.h"
 
+class TestClass
+{
+public:
+	TestClass(){ a = 0; };
+	~TestClass(){};
+	TestClass(const TestClass& ref)
+	{
+		std::cout << " copy construction excute，threadID：" << std::this_thread::get_id() << std::endl;
+		*this = ref;
+	}
+private:
+	int a;
+};
+
+
+void test(TestClass &a)
+{
+	return;
+}
+
+int main(int argc, char* argv[])
+{
+	{
+		TestClass b;
+		std::thread t(test, b);
+		t.detach();
+	}
+	getchar();
+	return 0;
+}
 
 
 
-int main()
-{	
-	const char* sz = "/C:/FTP/CUCKOO0615_MUSIC_FTP/梁中原/123.txt";
-	char* pErr = NULL;
-	char* szUtf8 = StringUtils::StrConv_A2Utf8(sz, pErr);
-
-	char* szAnsi = StringUtils::StrConv_Utf82A(szUtf8, pErr);
-
-
-	const char* szTime = "2014/20/43 11:00:00";
-	time_t t = TimeUtils::Str2Time_t(szTime);
-	t -= (90 * 24 * 3600);
-
-	char buff[TIME_STR_LENGTH] = { 0 };
-	TimeUtils::Time_t2Str(t, buff);
-	cout << buff << endl;
-
-	system("pause");
+// int main()
+// {	
+// 
+// 	system("pause");
 /*
 	char sz[] = "CUCKOO0615 TEST";
 	int nLen = strlen(sz) + 1;
@@ -98,22 +114,22 @@ int main()
 // 	uncompress((Bytef*)tmpBuff, (uLongf*)&n, (Bytef*)pBuff, nBuffLen);
 
 	//////////////////////////////////////////////////////////////////////////
-	std::wcout.imbue(std::locale("chs"));
-	std::cout << "最大值: " << std::endl;
-
-	unsigned __int64 llNum = ULLONG_MAX;
-	std::wstring wstr;
-	while (true)
-	{
-		DigitUtils::Num2Chinese(llNum, wstr);
-		std::wcout << wstr.c_str() << std::endl;
-		std::cout << "输入: ";
-		std::cin >> llNum;
-		std::cout << ">>> ";
-	}
-
-
-	system("pause");
+// 	std::wcout.imbue(std::locale("chs"));
+// 	std::cout << "最大值: " << std::endl;
+// 
+// 	unsigned __int64 llNum = ULLONG_MAX;
+// 	std::wstring wstr;
+// 	while (true)
+// 	{
+// 		DigitUtils::Num2Chinese(llNum, wstr);
+// 		std::wcout << wstr.c_str() << std::endl;
+// 		std::cout << "输入: ";
+// 		std::cin >> llNum;
+// 		std::cout << ">>> ";
+// 	}
+// 
+// 
+// 	system("pause");
 
     /*
     lua_State * L = luaL_newstate();
@@ -173,6 +189,6 @@ int main()
     sqlite3Ex.CreateTable("TestTable2", 2, ta1, ta2, ta3);
     */
 
-    return 0;
-}
-
+//     return 0;
+// }
+// 
