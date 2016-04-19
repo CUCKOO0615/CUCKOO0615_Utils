@@ -131,9 +131,6 @@
     <ClInclude Include="Hpp\DigitUtils.hpp">
       <Filter>&lt;HppUtils&gt;</Filter>
     </ClInclude>
-    <ClInclude Include="Hpp\LogUtils.hpp">
-      <Filter>&lt;HppUtils&gt;</Filter>
-    </ClInclude>
     <ClInclude Include="Hpp\SyncLock.hpp">
       <Filter>&lt;HppUtils&gt;</Filter>
     </ClInclude>

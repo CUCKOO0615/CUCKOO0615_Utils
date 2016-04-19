@@ -7,15 +7,6 @@
 
 #ifndef CUCKOO0615_UTILS_MACRO
 #define CUCKOO0615_UTILS_MACRO
-
-#ifndef MAX_PATH
-#define MAX_PATH 260
-#endif
-
-#ifndef ERRMSG_LENGTH
-#define ERRMSG_LENGTH 256
-#endif
-
 #endif
 
 #include <time.h>

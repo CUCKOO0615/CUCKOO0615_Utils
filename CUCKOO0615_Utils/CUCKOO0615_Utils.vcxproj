@@ -90,7 +90,6 @@
     <ClInclude Include="Hpp\CkRingBuffer.hpp" />
     <ClInclude Include="Hpp\CkRunnable.hpp" />
     <ClInclude Include="Hpp\DigitUtils.hpp" />
-    <ClInclude Include="Hpp\LogUtils.hpp" />
     <ClInclude Include="Hpp\PtrUtils.hpp" />
     <ClInclude Include="Hpp\SyncLock.hpp" />
     <ClInclude Include="Hpp\ThreadUtils.hpp" />

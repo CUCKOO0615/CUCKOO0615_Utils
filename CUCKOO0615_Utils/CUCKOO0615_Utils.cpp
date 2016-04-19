@@ -5,7 +5,7 @@
 //#include "ThreadUtils.hpp"
 #include "WinAPI_Utils.h"
 //#include "CkRingBuffer.hpp"
-#include "Hpp/LogUtils.hpp"
+//#include "Hpp/LogUtils.hpp"
 #include "Hpp/PtrUtils.hpp"
 #include "Hpp/CkRunnable.hpp"
 #include "Hpp/DigitUtils.hpp"
@@ -13,6 +13,7 @@
 #include "TimeUtils.h"
 #include <thread>
 #include <iostream>
+#include "MacroUtils.h"
 using namespace std;
 
 
@@ -57,43 +58,13 @@ void SetConsoleUtf8()
 
 #include "StringUtils.h"
 
-class TestClass
+
+int main()
 {
-public:
-	TestClass(){ a = 0; };
-	~TestClass(){};
-	TestClass(const TestClass& ref)
-	{
-		std::cout << " copy construction excute，threadID：" << std::this_thread::get_id() << std::endl;
-		*this = ref;
-	}
-private:
-	int a;
-};
 
 
-void test(TestClass &a)
-{
-	return;
+    system("pause");
 }
-
-int main(int argc, char* argv[])
-{
-	{
-		TestClass b;
-		std::thread t(test, b);
-		t.detach();
-	}
-	getchar();
-	return 0;
-}
-
-
-
-// int main()
-// {	
-// 
-// 	system("pause");
 /*
 	char sz[] = "CUCKOO0615 TEST";
 	int nLen = strlen(sz) + 1;
@@ -189,6 +160,3 @@ int main(int argc, char* argv[])
     sqlite3Ex.CreateTable("TestTable2", 2, ta1, ta2, ta3);
     */
 
-//     return 0;
-// }
-// 
