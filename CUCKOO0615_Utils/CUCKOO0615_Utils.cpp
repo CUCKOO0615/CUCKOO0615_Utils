@@ -6,9 +6,9 @@
 #include "WinAPI_Utils.h"
 //#include "CkRingBuffer.hpp"
 //#include "Hpp/LogUtils.hpp"
-#include "Hpp/PtrUtils.hpp"
-#include "Hpp/CkRunnable.hpp"
-#include "Hpp/DigitUtils.hpp"
+// #include "Hpp/PtrUtils.hpp"
+// #include "Hpp/CkRunnable.hpp"
+// #include "Hpp/DigitUtils.hpp"
 #include "MultiIncludeTest.h"
 #include "TimeUtils.h"
 #include <thread>
@@ -29,6 +29,7 @@ extern "C"
 
 //////////////////////////////////////////////////////////////////////////
 #include "CUCKOO0615_Utils.h"
+/*
 
 void SetConsoleUtf8()
 {
@@ -50,7 +51,7 @@ void SetConsoleUtf8()
 	
 	HWND hwnd = GetConsoleWindow();
 	SetWindowPos(hwnd, HWND_TOP, 100, 80, 1000, 700, 0);
-}
+}*/
 
 #include ".\\zlib128-dll\\include\\zconf.h"
 #include ".\\zlib128-dll\\include\\zlib.h"
@@ -59,9 +60,12 @@ void SetConsoleUtf8()
 #include "StringUtils.h"
 
 
+
+
 int main()
 {
-
+    GUID guid;
+    ::CoCreateGuid(&guid);
 
     system("pause");
 }
