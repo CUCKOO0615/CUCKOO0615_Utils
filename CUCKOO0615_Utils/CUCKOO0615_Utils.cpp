@@ -58,13 +58,18 @@ void SetConsoleUtf8()
 #include ".\\zlib128-dll\\include\\zlib.h"
 #pragma comment(lib, ".\\zlib128-dll\\lib\\zdll.lib")
 
+typedef struct _Test {
+    char name[5];
+    int age;
+    char* p1;
+}TEST;
+
 int main()
 {
-    std::string str = CkCreateGUID();
-    std::string str1 = CkCreateGUID(GUID_FORMAT_02);
-    std::cout << str.c_str() << std::endl;
-    std::cout << str1.c_str() << std::endl;
-    system("pause");
+    TEST* p = NULL;
+    int i = (int)&(p->age);
+    printf("i:%d", i);
+
 
     return 0;
 }
