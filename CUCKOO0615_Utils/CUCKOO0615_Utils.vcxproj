@@ -87,6 +87,7 @@
     <ClInclude Include="FileUtils.h" />
     <ClInclude Include="GifStructs.h" />
     <ClInclude Include="GifUtils.h" />
+    <ClInclude Include="GuidUtils.hpp" />
     <ClInclude Include="Hpp\CkRingBuffer.hpp" />
     <ClInclude Include="Hpp\CkRunnable.hpp" />
     <ClInclude Include="Hpp\DigitUtils.hpp" />

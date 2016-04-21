@@ -14,6 +14,7 @@
 #include <thread>
 #include <iostream>
 #include "MacroUtils.h"
+#include "GuidUtils.hpp"
 using namespace std;
 
 
@@ -57,22 +58,13 @@ void SetConsoleUtf8()
 #include ".\\zlib128-dll\\include\\zlib.h"
 #pragma comment(lib, ".\\zlib128-dll\\lib\\zdll.lib")
 
-#include "StringUtils.h"
-
-
-#define CONVERT_STR_2_GUID(cstr, stGuid) do\
-{\
-    swscanf_s((const wchar_t*)cstr, L"{%8x-%4x-%4x-%2x%2x-%2x%2x%2x%2x%2x%2x}", \
-    &(stGuid.Data1), &(stGuid.Data2), &(stGuid.Data3), \
-    &(stGuid.Data4[0]), &(stGuid.Data4[1]), &(stGuid.Data4[2]), &(stGuid.Data4[3]), \
-    &(stGuid.Data4[4]), &(stGuid.Data4[5]), &(stGuid.Data4[6]), &(stGuid.Data4[7])); \
-}while (0);
-
-#pragma pack(1)
-
 int main()
 {
-
+    std::string str = CkCreateGUID();
+    std::string str1 = CkCreateGUID(GUID_FORMAT_02);
+    std::cout << str.c_str() << std::endl;
+    std::cout << str1.c_str() << std::endl;
+    system("pause");
 
     return 0;
 }

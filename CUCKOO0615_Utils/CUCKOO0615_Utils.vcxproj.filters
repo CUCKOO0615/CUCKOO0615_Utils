@@ -149,6 +149,9 @@
     <ClInclude Include="zlib128-dll\include\zconf.h">
       <Filter>zlib</Filter>
     </ClInclude>
+    <ClInclude Include="GuidUtils.hpp">
+      <Filter>&lt;HppUtils&gt;</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TinyXmlEx">
