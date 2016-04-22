@@ -15,6 +15,7 @@
 #include <iostream>
 #include "MacroUtils.h"
 #include "GuidUtils.hpp"
+#include <windows.h>
 using namespace std;
 
 
@@ -66,9 +67,6 @@ typedef struct _Test {
 
 int main()
 {
-    TEST* p = NULL;
-    int i = (int)&(p->age);
-    printf("i:%d", i);
 
 
     return 0;
