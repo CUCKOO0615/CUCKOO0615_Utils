@@ -65,9 +65,15 @@ typedef struct _Test {
     char* p1;
 }TEST;
 
+#include "zip.h"
+
 int main()
 {
-
+//     HZIP hz = CreateZip(L"x:\\simple1.zip", 0);
+//     ZipAdd(hz, L"doc\\1.docx", L"x:\\1.docx");
+//     ZipAdd(hz, L"pdf\\2.pdf", L"x:\\2.pdf");
+//     ZipAdd(hz, L"doc\\3.doc", L"x:\\3.doc");
+//     CloseZip(hz);
 
     return 0;
 }

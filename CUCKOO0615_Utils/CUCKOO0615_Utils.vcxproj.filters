@@ -61,6 +61,7 @@
       <Filter>&lt;StdcTest&gt;</Filter>
     </ClCompile>
     <ClCompile Include="CkPipeMsgUtils.cpp" />
+    <ClCompile Include="zip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="GuidUtils.hpp">
       <Filter>&lt;HppUtils&gt;</Filter>
     </ClInclude>
+    <ClInclude Include="zip.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TinyXmlEx">
