@@ -3,6 +3,7 @@
 
 //test
 //#include "ThreadUtils.hpp"
+#include "PathUtils.h"
 #include "WinAPI_Utils.h"
 //#include "CkRingBuffer.hpp"
 //#include "Hpp/LogUtils.hpp"
@@ -16,6 +17,7 @@
 #include "MacroUtils.h"
 #include "GuidUtils.hpp"
 #include <windows.h>
+
 using namespace std;
 
 
@@ -69,6 +71,12 @@ typedef struct _Test {
 
 int main()
 {
+    PathUtils pu;
+
+    string a = "C:/1/2\\3\\\\4//\\5";
+    pu.FixBackSlashInDirPath(a);
+
+
 //     HZIP hz = CreateZip(L"x:\\simple1.zip", 0);
 //     ZipAdd(hz, L"doc\\1.docx", L"x:\\1.docx");
 //     ZipAdd(hz, L"pdf\\2.pdf", L"x:\\2.pdf");

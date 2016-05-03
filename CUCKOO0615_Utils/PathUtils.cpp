@@ -338,3 +338,29 @@ bool PathUtils::CreateMultiDirectory(const char* szPath)
     return true;
 }
 
+void PathUtils::FixBackSlashInDirPath(string& strDirPath)
+{
+    size_t nStrLength = strDirPath.length();
+    if (!nStrLength) 
+        return;
+    for (size_t i = 0; i != nStrLength; ++i)
+    {
+        if ('/' == strDirPath[i])
+            strDirPath[i] = '\\';
+    }
+    if ('\\' != strDirPath[nStrLength-1])
+        strDirPath += '\\';
+
+    std::string::iterator it = strDirPath.begin();
+    while (it != strDirPath.end())
+    {
+        std::string::iterator itNext = it + 1;
+        if (strDirPath.end() == itNext)
+            return;
+        if ('\\' == (*it) && '\\' == (*itNext))
+            it = strDirPath.erase(it);
+        else
+            ++it;
+    }
+}
+

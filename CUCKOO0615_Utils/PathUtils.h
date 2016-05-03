@@ -76,6 +76,13 @@ public:
     ** @param strFileFullPath: 文件或文件夹的全路径
     */
     string GetFileName(string strFileFullPath);
+    
+    /*
+    ** 将路径中的'/'全部替换为'\\'，并在末尾补齐一个'\\'
+    ** @Param strPath: 目录路径字符串    
+    */
+    void FixBackSlashInDirPath(string& strDirPath);
+
 #endif
 
     /*
@@ -125,7 +132,7 @@ public:
     ** @param nParentPathBufSize: 父目录缓冲区长度,大小至少要大于szPath的长度
     */
     bool GetParentPath(const char* szPath, char* szParentPath, size_t nParentPathBufSize);
-
+    
     /*
     ** 创建多级目录
     ** @param szPath: 指定的目录
