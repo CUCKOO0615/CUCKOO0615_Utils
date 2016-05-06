@@ -43,6 +43,9 @@ public:
 
     // 获取线程ID
     unsigned int GetThreadID() const;
+
+    // 清理资源并重新初始化
+    void Clean();
 	
 	//////////////////////////////////////////////////////////////////////////
 
@@ -87,4 +90,15 @@ inline HANDLE ThreadUtils::GetThreadHandle() const
 inline unsigned int ThreadUtils::GetThreadID() const
 {
     return m_uThreadID;
+}
+
+inline void ThreadUtils::Clean()
+{
+    ::WaitForSingleObject(m_hThreadHandle, INFINITE);
+    ::CloseHandle(m_hThreadHandle);
+    m_hThreadHandle = 0;
+
+    m_uThreadID = 0;
+
+    m_pArgList = NULL;
 }
