@@ -42,6 +42,9 @@ namespace TinyXmlEx
     */
     ErrEnums SetText(TiXmlNode* pTiXmlNode, const char* szText);
 
+
+    const char* GetText(TiXmlNode* pTiXmlNode, const char* szDefault = NULL);
+
     /* 
     ** 根据指定的搜索路径返回末端节点的句柄
     ** @param hRootHandle: 搜索起始节点的句柄

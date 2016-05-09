@@ -108,3 +108,16 @@ TinyXmlEx::ErrEnums TinyXmlEx::CreateNodes(TiXmlElement* pRootElem, const char* 
     }
     return TINYXMLEX_OK;
 }
+
+const char* TinyXmlEx::GetText(TiXmlNode* pTiXmlNode, const char* szDefault /*= NULL*/)
+{
+    if (!pTiXmlNode)
+        return szDefault;
+
+    TiXmlElement* pTiXmlElem = pTiXmlNode->ToElement();
+    if (!pTiXmlElem)
+        return szDefault;
+
+    const char* szTextValue = pTiXmlElem->GetText();
+    return szTextValue ? szTextValue : szDefault;
+}
