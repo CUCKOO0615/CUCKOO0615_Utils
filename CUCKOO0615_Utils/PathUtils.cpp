@@ -44,7 +44,7 @@ bool PathUtils::GetFullPathsInDir(vector<string>& vecFullPaths, string strDir, c
     {
         if ((0 == strcmp(fileinfo.name, ".")) || (0 == strcmp(fileinfo.name, "..")))
             continue;
-
+        
         bool bIsDir = !(0 == (fileinfo.attrib & _A_SUBDIR));
         bool bIsFile = !bIsDir;
         bool bAtrribIsQualified = true;
