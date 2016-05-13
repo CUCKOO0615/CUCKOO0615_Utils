@@ -44,7 +44,7 @@ bool PathUtils::GetFullPathsInDir(vector<string>& vecFullPaths, string strDir, c
     {
         if ((0 == strcmp(fileinfo.name, ".")) || (0 == strcmp(fileinfo.name, "..")))
             continue;
-        
+
         bool bIsDir = !(0 == (fileinfo.attrib & _A_SUBDIR));
         bool bIsFile = !bIsDir;
         bool bAtrribIsQualified = true;
@@ -180,37 +180,16 @@ const char* PathUtils::GetDriveType(char chDriveName)
 
 bool PathUtils::PathIsExist(const char* szPath)
 {
-    size_t nStrLength = CheckStringIsNullOrEmpty(szPath);
-    if (0 == nStrLength)
-    {
-        SET_ERROR_MSG("Input path can't be NULL or empty");
+    if (0 == CheckStringIsNullOrEmpty(szPath))
         return false;
-    }
-
-    if (MAX_PATH <= nStrLength)
-    {
-        SET_ERROR_MSG("Input path length is too long");
-        return false;
-    }
-
     return (0 == _access(szPath, 0));
 }
 
 bool PathUtils::FileIsExist(const char* szFilePath)
 {
-    size_t nStrLength = CheckStringIsNullOrEmpty(szFilePath);
-    if (0 == nStrLength)
-    {
-        SET_ERROR_MSG("Input path can't be NULL or empty");
+    if(0 == CheckStringIsNullOrEmpty(szFilePath))
         return false;
-    }
-
-    if (MAX_PATH <= nStrLength)
-    {
-        SET_ERROR_MSG("Input path length is too long");
-        return false;
-    }
-
+   
     _finddata_t fileinfo;
 
 #if _MSC_VER >= 1400	// intptr_t/long
@@ -230,18 +209,8 @@ bool PathUtils::FileIsExist(const char* szFilePath)
 
 bool PathUtils::DirIsExist(const char* szDirPath)
 {
-    size_t nStrLength = CheckStringIsNullOrEmpty(szDirPath);
-    if (0 == nStrLength)
-    {
-        SET_ERROR_MSG("Input path can't be NULL or empty");
+    if(0 == CheckStringIsNullOrEmpty(szFilePath))
         return false;
-    }
-
-    if (MAX_PATH <= nStrLength)
-    {
-        SET_ERROR_MSG("Input path length is too long");
-        return false;
-    }
 
     _finddata_t fileinfo;
 

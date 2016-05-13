@@ -111,19 +111,19 @@ public:
     ** 检查指定的路径是否存在(不区分文件和文件夹,较快)
     ** @param szPath: 要检查的路径
     */
-    bool PathIsExist(const char* szPath);
+    static bool PathIsExist(const char* szPath);
 
     /*
     ** 检查指定文件是否存在
     ** @param szFilePath: 要检查的路径
     */
-    bool FileIsExist(const char* szFilePath);
+    static bool FileIsExist(const char* szFilePath);
 
     /*
     ** 检查指定文件夹是否存在
     ** @param szDirPath: 要检查的路径
     */
-    bool DirIsExist(const char* szDirPath);
+    static bool DirIsExist(const char* szDirPath);
 
     /*
     ** 获取父目录
