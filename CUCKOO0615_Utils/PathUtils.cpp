@@ -209,7 +209,7 @@ bool PathUtils::FileIsExist(const char* szFilePath)
 
 bool PathUtils::DirIsExist(const char* szDirPath)
 {
-    if(0 == CheckStringIsNullOrEmpty(szFilePath))
+    if (0 == CheckStringIsNullOrEmpty(szDirPath))
         return false;
 
     _finddata_t fileinfo;

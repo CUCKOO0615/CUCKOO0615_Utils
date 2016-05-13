@@ -161,7 +161,7 @@ private:
 
     //检查字符串是否为空
     //返回值:空字符串或空指针返回0,否则返回字符串长度
-    size_t CheckStringIsNullOrEmpty(const char* szString)
+    static size_t CheckStringIsNullOrEmpty(const char* szString)
     {
         return ((NULL == szString) || 0 == strlen(szString)) ? 0 : strlen(szString);
     }
