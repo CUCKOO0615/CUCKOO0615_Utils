@@ -15,6 +15,7 @@ bool SocketUtils::InitSocketUtils(int& nErrCode)
     if (m_bIsInited)
         return true;
 
+	nErrCode = 0;
     WORD wVersionRequested = MAKEWORD(1, 1);
     WSADATA wsaData;
 
@@ -31,6 +32,7 @@ bool SocketUtils::ReleaseSocketUtils()
 
 SOCKET SocketUtils::CreateClientSocket_TCP(int& nErrCode, const char* szServerAddr, u_short usPort)
 {
+	nErrCode = 0;
     SOCKET socketRet = ::socket(AF_INET, SOCK_STREAM, 0);
     if (INVALID_SOCKET == socketRet)
     {
@@ -55,6 +57,7 @@ SOCKET SocketUtils::CreateClientSocket_TCP(int& nErrCode, const char* szServerAd
 
 SOCKET SocketUtils::CreateServerSocket_TCP(int& nErrCode, u_short usPort /*= 10086 */)
 {
+	nErrCode = 0;
 	SOCKET socketRet = ::socket(AF_INET, SOCK_STREAM, 0);
 	if (INVALID_SOCKET == socketRet)
     {
@@ -80,6 +83,7 @@ SOCKET SocketUtils::CreateServerSocket_TCP(int& nErrCode, u_short usPort /*= 100
 SOCKET SocketUtils::CreateServerSocket_TCP_Ex
 (int& nErrCode, u_short usPortMin, u_short usPortMax, u_short & usPort)
 {
+	nErrCode = 0;
 	SOCKET socketRet = ::socket(AF_INET, SOCK_STREAM, 0);
 	if (INVALID_SOCKET == socketRet)
 	{
@@ -111,6 +115,7 @@ SOCKET SocketUtils::CreateServerSocket_TCP_Ex
 
 bool SocketUtils::ListenAt(int& nErrCode, SOCKET skSrvSock, int nBackLog)
 {
+	nErrCode = 0;
 	int nRet = ::listen(skSrvSock, nBackLog);
 	if (0 != nRet)
 	{
@@ -132,6 +137,7 @@ const char* SocketUtils::QueryErrMsg(size_t nErrCode)
 
 bool SocketUtils::SendToSocket(SOCKET s, char* pBuffer, int nSpecLength, int& nErrCode)
 {
+	nErrCode = 0;
 	int nRemainingChars = nSpecLength;
 	while (0 < nRemainingChars)
 	{
@@ -148,6 +154,7 @@ bool SocketUtils::SendToSocket(SOCKET s, char* pBuffer, int nSpecLength, int& nE
 
 bool SocketUtils::RecvFromSocket(SOCKET s, char* pBuffer, int nSpecLength, int& nErrCode)
 {
+	nErrCode = 0;
 	int nRecvedLen = 0;
 	while (nRecvedLen < nSpecLength)
 	{
@@ -166,6 +173,7 @@ bool SocketUtils::RecvFromSocket(SOCKET s, char* pBuffer, int nSpecLength, int& 
 
 bool SocketUtils::GetAddressBySocket(SOCKET s, SOCKADDR_IN & addr, int& nErrCode)
 {
+	nErrCode = 0;
 	::memset(&addr, 0, sizeof(SOCKADDR_IN));
 	int nAddrLen = sizeof(SOCKADDR_IN);
 
