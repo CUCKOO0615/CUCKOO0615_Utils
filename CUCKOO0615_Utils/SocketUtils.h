@@ -22,7 +22,7 @@
 #pragma comment(lib,"ws2_32.lib")
 
 #ifndef ERRMSGTABLE_LENGTH
-#define ERRMSGTABLE_LENGTH 41
+#define ERRMSGTABLE_LENGTH 36
 #endif
 
 typedef struct
@@ -30,7 +30,7 @@ typedef struct
 	long lRetVal;
 	const char* szErrMsg;
 }ERRMSG_TABLE;
-static const ERRMSG_TABLE ErrMsgTable[] =
+static const ERRMSG_TABLE ErrMsgTable[ERRMSGTABLE_LENGTH] =
 {
 	//socket
 	{ WSANOTINITIALISED, "WSANOTINITIALISED" },
