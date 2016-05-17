@@ -11,7 +11,10 @@
 
 #define CUCKOO0615_USE_STL
 
+#ifndef __AFXWIN_H__
 #include <windows.h>
+#endif
+
 #include <stdio.h>
 //////////////////////////////////////////////////////////////////////////
 // 基于 STL 实现的函数

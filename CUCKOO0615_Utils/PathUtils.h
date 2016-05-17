@@ -86,6 +86,54 @@ public:
 #endif
 
     /*
+    ** 检查指定的路径是否存在(不区分文件和文件夹,较快)
+    ** @param szPath: 要检查的路径
+    */
+    static bool PathIsExist(const char* szPath);
+
+    /*
+    ** 检查指定文件是否存在
+    ** @param szFilePath: 要检查的路径
+    */
+    static bool FileIsExist(const char* szFilePath);
+
+    /*
+    ** 检查指定文件夹是否存在
+    ** @param szDirPath: 要检查的路径
+    */
+    static bool DirIsExist(const char* szDirPath);
+
+#ifdef __AFXWIN_H__
+    /*
+    ** 将路径中的'/'全部替换为'\'，并且合并连续的‘\’只留一个
+    ** 如果不是一‘\’结尾，则在末尾补齐一个'\'
+    ** @Param strDirPath: 目录路径字符串
+    */
+    static void FixBackSlash_DirPath(CString& strDirPath);
+
+    /*
+    ** 将路径中的'/'全部替换为'\'，并且合并连续的‘\’只留一个
+    ** @Param strFilePath: 文件路径字符串
+    */
+    static void FixBackSlash_FilePath(CString& strFilePath);
+
+    /*
+    ** 将路径中的'\'全部替换为'/'，并且合并连续的‘/’只留一个
+    ** 如果不是一‘/’结尾，则在末尾补齐一个'/'
+    ** @Param strFtpRemotePath: 路径字符串
+    */
+    static void FixSlash_FtpRemoteDirPath(CString& strFtpRemotePath);
+
+    /*
+    ** 将路径中的'\'全部替换为'/'，并且合并连续的‘/’只留一个
+    ** @Param strFtpRemotePath: 路径字符串
+    */
+    static void FixSlash_FtpRemoteFilePath(CString& strFtpRemotePath);
+
+#endif // __AFXWIN_H__
+
+    
+    /*
     ** 从全路径截取文件名或文件夹名
     ** @param szFullPath: 文件或文件夹的全路径,最大MAX_PATH
     ** @param szName: 文件或文件夹名缓冲区指针
@@ -106,25 +154,7 @@ public:
     ** @return: 未知驱动器/无效根目录/可移动设备/固定驱动器/网络驱动器/CD-ROM/RAM驱动器/未知设备
     */
     const char* GetDriveType(char chDriveName);
-
-    /*
-    ** 检查指定的路径是否存在(不区分文件和文件夹,较快)
-    ** @param szPath: 要检查的路径
-    */
-    static bool PathIsExist(const char* szPath);
-
-    /*
-    ** 检查指定文件是否存在
-    ** @param szFilePath: 要检查的路径
-    */
-    static bool FileIsExist(const char* szFilePath);
-
-    /*
-    ** 检查指定文件夹是否存在
-    ** @param szDirPath: 要检查的路径
-    */
-    static bool DirIsExist(const char* szDirPath);
-
+    
     /*
     ** 获取父目录
     ** @param szPath: 输入的路径,最长MAX_PATH-1

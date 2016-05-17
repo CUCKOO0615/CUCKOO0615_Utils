@@ -310,26 +310,56 @@ bool PathUtils::CreateMultiDirectory(const char* szPath)
 void PathUtils::FixBackSlashInDirPath(string& strDirPath)
 {
     size_t nStrLength = strDirPath.length();
-    if (!nStrLength) 
+    if (!nStrLength)
         return;
     for (size_t i = 0; i != nStrLength; ++i)
     {
         if ('/' == strDirPath[i])
             strDirPath[i] = '\\';
     }
-    if ('\\' != strDirPath[nStrLength-1])
-        strDirPath += '\\';
 
-    std::string::iterator it = strDirPath.begin();
-    while (it != strDirPath.end())
-    {
-        std::string::iterator itNext = it + 1;
-        if (strDirPath.end() == itNext)
-            return;
-        if ('\\' == (*it) && '\\' == (*itNext))
-            it = strDirPath.erase(it);
-        else
-            ++it;
-    }
+    strDirPath += '\\';
+    for (std::string::size_type nPos = strDirPath.find("\\\\"); 
+        std::string::npos != nPos; 
+        nPos = strDirPath.find("\\\\"))
+        strDirPath.replace(nPos, 2, "\\");
 }
+
+
+#ifdef __AFXWIN_H__
+
+void PathUtils::FixBackSlash_DirPath(CString& strDirPath)
+{
+    int nLength = strDirPath.GetLength();
+    if (0 == nLength)
+        return;
+    strDirPath.Replace(_T('/'), _T('\\'));
+    strDirPath += _T('\\');
+    while (0 != strDirPath.Replace(_T("\\\\"), _T("\\")));
+}
+
+void PathUtils::FixBackSlash_FilePath(CString& strFilePath)
+{
+    FixBackSlash_DirPath(strFilePath);
+    if (0 != strFilePath.GetLength())
+        strFilePath.TrimRight(_T('\\'));
+}
+
+void PathUtils::FixSlash_FtpRemoteDirPath(CString& strFtpRemotePath)
+{
+    int nLength = strFtpRemotePath.GetLength();
+    if (0 == nLength)
+        return;
+    strFtpRemotePath.Replace(_T('\\'), _T('/'));
+    strFtpRemotePath += _T('/');
+    while (0 != strFtpRemotePath.Replace(_T("//"), _T("/")));
+}
+
+void PathUtils::FixSlash_FtpRemoteFilePath(CString& strFtpRemotePath)
+{
+    FixSlash_FtpRemoteDirPath(strFtpRemotePath);
+    if (0 != strFtpRemotePath.GetLength())
+        strFtpRemotePath.TrimRight(_T('/'));
+}
+#endif
 
