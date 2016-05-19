@@ -71,14 +71,17 @@ typedef struct _Test {
 
 int main()
 {
-    PathUtils pu;
 
-    string a = "C:/1/2\\3\\\\4//\\5";
-
-    const char* d = "";
-
-    char* b = (char*)d;
-    pu.FixBackSlashInDirPath(a);
+   
+// 
+//     PathUtils pu;
+// 
+//     string a = "C:/1/2\\3\\\\4//\\5";
+// 
+//     const char* d = "";
+// 
+//     char* b = (char*)d;
+//     pu.FixBackSlashInDirPath(a);
 
 
 //     HZIP hz = CreateZip(L"x:\\simple1.zip", 0);
