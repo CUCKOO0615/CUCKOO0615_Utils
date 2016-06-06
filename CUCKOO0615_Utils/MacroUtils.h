@@ -10,10 +10,10 @@
 #endif
 
 //释放对象指针p, 并赋值为NULL
-#define CUSAFE_RELEASE_OBJ(pObj) ( if(pObj) { delete pObj; pObj = NULL; } )
+#define CUSAFE_RELEASE_OBJ(pObj) if(pObj){ delete pObj; pObj = NULL; }
 
 //释放数组指针p, 并赋值为NULL
-#define CUSAFE_RELEASE_ARR(pArr) ( if(pArr) { delete [] pArr; pArr = NULL;} )
+#define CUSAFE_RELEASE_ARR(pArr) if(pArr){ delete [] pArr; pArr = NULL;}
 
 //BOOL 转 bool
 #define BOOL_2_bool(B)  (0!=B)
