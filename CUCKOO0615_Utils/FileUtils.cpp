@@ -7,39 +7,90 @@
 
 #include "FileUtils.h"
 #include <string>
-#include <windows.h>
+#include <assert.h>
 
-FileUtils::FileUtils(void)
+DWORD FileUtils::GetFileSize(const char* szFilePath, __int64 & nFileSize)
 {
-    memset(m_szErrMsg, 0x00, ERRMSG_LENGTH);
-}
+    assert(szFilePath);
 
-FileUtils::~FileUtils(void)
-{
-}
+    HANDLE hFileHandle = CreateFileA(szFilePath,
+        GENERIC_READ,
+        FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE,
+        NULL, 
+        OPEN_EXISTING,
+        FILE_ATTRIBUTE_ARCHIVE, 
+        NULL);
 
-__int64 FileUtils::GetFileSize(const char* szFilePath)
-{
-    if (0 == strlen(szFilePath))
-    {
-        SetErrMsg("Invalid file path");
-        return 0;
-    }
-
-    HANDLE hFileHandle = CreateFileA(szFilePath, GENERIC_READ, FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
-
-    if (INVALID_HANDLE_VALUE == hFileHandle)
-    {
-        SetErrMsg("Open file failed");
-        if (0 == ::CloseHandle(hFileHandle))
-            SetErrMsgEx(", and close hFileHandle failed, either");
-        return 0;
-    }
+    if (INVALID_HANDLE_VALUE == hFileHandle) 
+        return ::GetLastError();
 
     LARGE_INTEGER largeInt;
-    BOOL bRet = GetFileSizeEx(hFileHandle, &largeInt);
-    if (0 == ::CloseHandle(hFileHandle))
-        SetErrMsg("Close hFileHandle failed in GetFileSize");
+    ::GetFileSizeEx(hFileHandle, &largeInt);
 
-    return largeInt.QuadPart;
+    DWORD dwRet = ::GetLastError();
+    ::CloseHandle(hFileHandle);
+    return dwRet;
 }
+
+bool FileUtils::DelFile(const char* szFile, bool bRecycle)
+{
+    SHFILEOPSTRUCTA tagFO;
+    ::memset(&tagFO, 0x00, sizeof(SHFILEOPSTRUCTA));
+
+    tagFO.pFrom = szFile;
+    tagFO.pTo = NULL;
+    tagFO.wFunc = FO_DELETE;
+    tagFO.hwnd = HWND_DESKTOP;
+    tagFO.fFlags = FOF_NOERRORUI | FOF_SILENT | FOF_NOCONFIRMATION;
+    if (bRecycle)
+        tagFO.fFlags |= FOF_ALLOWUNDO;
+
+    return (0 == ::SHFileOperationA(&tagFO));
+}
+
+DWORD FileUtils::SetLastWriteTime(const char* szFilePath, const FILETIME& stuFileTime)
+{
+    HANDLE handle = ::CreateFileA(szFilePath,
+        FILE_WRITE_ATTRIBUTES,
+        FILE_SHARE_READ,
+        NULL,
+        OPEN_EXISTING,
+        FILE_ATTRIBUTE_ARCHIVE,
+        NULL);
+    if (INVALID_HANDLE_VALUE == handle)
+        return ::GetLastError();
+
+    FILETIME ft1, ft2, ft3;
+    do
+    {
+        if (0 == ::GetFileTime(handle, &ft1, &ft2, &ft3))
+            break;
+        if (0 == ::LocalFileTimeToFileTime(&stuFileTime, &ft3))
+            break;
+        if (0 == ::SetFileTime(handle, &ft1, &ft2, &ft3))
+            break;
+    } while (0);
+
+    DWORD dwRet = ::GetLastError();
+    ::CloseHandle(handle);
+    return dwRet;
+}
+
+DWORD FileUtils::SetLastWriteTime(const char* szFilePath, const SYSTEMTIME& stuSysTime)
+{
+    FILETIME ft;
+    ::SystemTimeToFileTime(&stuSysTime, &ft);
+    return SetLastWriteTime(szFilePath, ft);
+}
+
+#ifdef __AFXWIN_H__
+DWORD FileUtils::SetLastWriteTime(const char* szFilePath, const CTime& clsTime)
+{
+    SYSTEMTIME st;
+    clsTime.GetAsSystemTime(st);
+    return SetLastWriteTime(szFilePath, st);
+}
+#endif
+
+
+

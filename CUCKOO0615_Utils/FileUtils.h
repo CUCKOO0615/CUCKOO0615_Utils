@@ -6,41 +6,44 @@
 //*************************************************
 #pragma once
 
-#ifndef CUCKOO0615_UTILS_MACRO
-#define CUCKOO0615_UTILS_MACRO
-
-#ifndef MAX_PATH
-#define MAX_PATH 260
+#ifndef OUT
+#define OUT
 #endif
 
-#ifndef ERRMSG_LENGTH
-#define ERRMSG_LENGTH 256
+#ifndef __AFXWIN_H__
+#include <windows.h>
 #endif
 
-#endif
-
-#include <string.h>
-
-class FileUtils
+namespace FileUtils
 {
-
-private:
-    char m_szErrMsg[ERRMSG_LENGTH];
-    void SetErrMsg(const char* szErrMsg)   { strcpy(m_szErrMsg, szErrMsg); }
-    void SetErrMsgEx(const char* szErrMsg) { strcat(m_szErrMsg, szErrMsg); }
-
-public:
-    FileUtils(void);
-    ~FileUtils(void);
-
     /*
     ** 获取文件字节大小
-    ** @param szFilePath: 文件路径
-    ** @return: 0表示失败或错误或文件大小就是0
+    ** @Param szFilePath: 文件路径
+    ** @Param nFileSize: 文件字节大小
+    ** @Ret : 操作成功返回0，操作失败返回由GetLastError()获取的错误码
     */
-    __int64 GetFileSize(const char* szFilePath);
+    DWORD GetFileSize(const char* szFilePath, OUT __int64 & nFileSize);
 
-    //获取错误信息
-    const char* GetErrMsg() { return m_szErrMsg; }
+    /*
+    ** 删除文件
+    ** @Param szFile: 文件路径
+    ** @Param bRecycle: true-删除到回收站，false-永久删除
+    ** @Ret : 操作成功返回true，失败返回false，由GetLastError()获取错误码
+    */
+    bool DelFile(const char* szFile, bool bRecycle);
+
+    /*
+    ** 设置文件最后修改时间
+    ** @Param szFilePath: 文件路径
+    ** @Param stuFileTime: 时间
+    ** @Ret : 操作成功返回0，操作失败返回由GetLastError()获取的错误码
+    */
+    DWORD SetLastWriteTime(const char* szFilePath, const FILETIME& stuFileTime);
+    DWORD SetLastWriteTime(const char* szFilePath, const SYSTEMTIME& stuSysTime);
+#ifdef __AFXWIN_H__
+    DWORD SetLastWriteTime(const char* szFilePath, const CTime& clsTime);
+#endif
+
 };
+
 

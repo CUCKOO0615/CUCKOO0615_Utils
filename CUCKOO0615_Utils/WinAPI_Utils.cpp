@@ -13,8 +13,6 @@ bool WinAPI_Utils::MutexIsExist(LPCTSTR szName)
 	HANDLE hlTmp = ::CreateMutex(NULL, FALSE, szName);
 	if (ERROR_ALREADY_EXISTS == ::GetLastError())
 		return true;
-	if (FALSE == ::ReleaseMutex(hlTmp))
-		return true;
 	::CloseHandle(hlTmp);
 	return false;
 }
