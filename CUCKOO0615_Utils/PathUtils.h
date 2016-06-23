@@ -26,8 +26,6 @@
 #ifdef CUCKOO0615_USE_STL
 #include <vector>
 #include <string>
-using std::vector;
-using std::string;
 #endif
 
 class PathUtils
@@ -47,9 +45,9 @@ public:
     ** - 可以是 _A_NORMAL|_A_RDONLY|_A_HIDDEN|_A_SYSTEM|_A_ARCH 中的一个或多个,用"|"连接
     */
     bool GetSubDirsInDir(
-        vector<string>& vecSubDirFullPaths,
-        string strDir,
-        string strWildcard = "*",
+        std::vector<std::string>& vecSubDirFullPaths,
+        std::string strDir,
+        std::string strWildcard = "*",
         bool bEnterSubDir = false,
         bool bEnterHiddenSubDir = false,
         int nExceptFileTypes = -1);
@@ -65,9 +63,9 @@ public:
     ** - 可以是 _A_NORMAL|_A_RDONLY|_A_HIDDEN|_A_SYSTEM|_A_ARCH 中的一个或多个,用"|"连接
     */
     bool GetFilesInDir(
-        vector<string>& vecFileFullPaths,
-        string strDir,
-        string strWildcard = "*.*",
+        std::vector<std::string>& vecFileFullPaths,
+        std::string strDir,
+        std::string strWildcard = "*.*",
         bool bEnterSubDir = false,
         bool bEnterHiddenSubDir = false,
         int nExceptFileTypes = -1);
@@ -76,13 +74,25 @@ public:
     ** 从全路径截取文件名或文件夹名
     ** @param strFileFullPath: 文件或文件夹的全路径
     */
-    string GetFileName(string strFileFullPath);
+    static std::string GetFileName(const std::string& strFileFullPath);
     
     /*
-    ** 将路径中的'/'全部替换为'\\'，并在末尾补齐一个'\\'
-    ** @Param strPath: 目录路径字符串    
+    ** 将路径中的'/'全部替换为'\\'，并移除末尾的'\\'
+    ** @Param strFilePath: 文件路径字符串
     */
-    void FixBackSlashInDirPath(string& strDirPath);
+    static void FixBackSlashInFilePath(std::string& strFilePath);
+
+    /*
+    ** 将路径中的'/'全部替换为'\\'，并在末尾补齐一个'\\'
+    ** @Param strDirPath: 目录路径字符串    
+    */
+    static void FixBackSlashInDirPath(std::string& strDirPath);
+
+    /*
+    ** 将路径中的'/'全部替换为'\\'
+    ** @Param strPath: 目录路径字符串
+    */
+    static void FixBackSlashInPath(std::string& strPath);
 
 #endif
 
@@ -133,15 +143,6 @@ public:
 
 #endif // __AFXWIN_H__
 
-    
-    /*
-    ** 从全路径截取文件名或文件夹名
-    ** @param szFullPath: 文件或文件夹的全路径,最大MAX_PATH
-    ** @param szName: 文件或文件夹名缓冲区指针
-    ** @param nNameBufSize: 文件或文件夹名缓冲区大小
-    */
-    bool GetFileName(const char* szFullPath, char* szName, size_t nNameBufSize);
-
     /*
     ** 获取磁盘盘符列表
     ** @param arrLogicalDriveNames[26]: 磁盘盘符集合
@@ -156,6 +157,14 @@ public:
     */
     static const char* GetDriveType(char chDriveName);
     
+    /*
+    ** 从全路径截取文件名或文件夹名
+    ** @param szFullPath: 文件或文件夹的全路径,最大MAX_PATH
+    ** @param szName: 文件或文件夹名缓冲区指针
+    ** @param nNameBufSize: 文件或文件夹名缓冲区大小
+    */
+    bool GetFileName(const char* szFullPath, char* szName, size_t nNameBufSize);
+        
     /*
     ** 获取父目录
     ** @param szPath: 输入的路径,最长MAX_PATH-1
@@ -173,16 +182,15 @@ public:
 
     // 获取错误信息
     const char* GetErrMsg() { return m_szErrMsg; }
-
-
+    
 private:
     char m_szErrMsg[ERRMSG_LENGTH];
 
 #ifdef CUCKOO0615_USE_STL
     bool GetFullPathsInDir(
-        vector<string>& vecFullPaths,
-        string strDir,
-        const string& strWildcard,
+        std::vector<std::string>& vecFullPaths,
+        std::string strDir,
+        const std::string& strWildcard,
         bool bEnterSubDir,
         bool bEnterHiddenSubDir,
         int nExceptFileTypes,

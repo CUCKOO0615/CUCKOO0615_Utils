@@ -12,23 +12,29 @@
 #define SET_ERROR_MSG(szErrMsg)  strcpy(m_szErrMsg, szErrMsg)
 
 #ifdef CUCKOO0615_USE_STL
-bool PathUtils::GetFilesInDir(vector<string>& vecFileFullPaths, string strDir, string strWildcard, bool bEnterSubDir, bool bEnterHiddenSubDir, int nExceptFileTypes)
+bool PathUtils::GetFilesInDir(std::vector<std::string>& vecFileFullPaths, 
+    std::string strDir, std::string strWildcard, 
+    bool bEnterSubDir, bool bEnterHiddenSubDir, int nExceptFileTypes)
 {
     return GetFullPathsInDir(vecFileFullPaths, strDir, strWildcard, bEnterSubDir, bEnterHiddenSubDir, nExceptFileTypes, true, false);
 }
 
-bool PathUtils::GetSubDirsInDir(vector<string>& vecSubDirFullPaths, string strDir, string strWildcard, bool bEnterSubDir, bool bEnterHiddenSubDir, int nExceptFileTypes)
+bool PathUtils::GetSubDirsInDir(std::vector<std::string>& vecSubDirFullPaths, 
+    std::string strDir, std::string strWildcard, 
+    bool bEnterSubDir, bool bEnterHiddenSubDir, int nExceptFileTypes)
 {
     return GetFullPathsInDir(vecSubDirFullPaths, strDir, strWildcard, bEnterSubDir, bEnterHiddenSubDir, nExceptFileTypes, false, true);
 }
 
-bool PathUtils::GetFullPathsInDir(vector<string>& vecFullPaths, string strDir, const string& strWildcard, bool bEnterSubDir, bool bEnterHiddenSubDir, int nExceptFileTypes, bool bGetFiles, bool bGetDirs)
+bool PathUtils::GetFullPathsInDir(std::vector<std::string>& vecFullPaths, 
+    std::string strDir, const std::string& strWildcard, 
+    bool bEnterSubDir, bool bEnterHiddenSubDir, int nExceptFileTypes, bool bGetFiles, bool bGetDirs)
 {
     char chLastChar = strDir[strDir.length() - 1];
     if ('\\' != chLastChar && '/' != chLastChar)
         strDir += "\\";
 
-    string strSearchPath = strDir + strWildcard;
+    std::string strSearchPath = strDir + strWildcard;
 
     intptr_t handle = NULL;
     _finddata_t fileinfo;
@@ -52,17 +58,17 @@ bool PathUtils::GetFullPathsInDir(vector<string>& vecFullPaths, string strDir, c
             bAtrribIsQualified = !(fileinfo.attrib & nExceptFileTypes);
 
         if (bGetFiles && bIsFile && bAtrribIsQualified)
-            vecFullPaths.push_back(strDir + string(fileinfo.name));
+            vecFullPaths.push_back(strDir + std::string(fileinfo.name));
 
         if (bGetDirs && bIsDir && bAtrribIsQualified)
-            vecFullPaths.push_back(strDir + string(fileinfo.name));
+            vecFullPaths.push_back(strDir + std::string(fileinfo.name));
 
         if (bEnterSubDir && bIsDir)
         {
             if ((fileinfo.attrib & _A_HIDDEN) && !bEnterHiddenSubDir)
                 continue;
 
-            string strSubPath = strDir + fileinfo.name;
+            std::string strSubPath = strDir + fileinfo.name;
             if (!GetFullPathsInDir(vecFullPaths, strSubPath, strWildcard, true, bEnterHiddenSubDir, nExceptFileTypes, bGetFiles, bGetDirs))
             {
                 SET_ERROR_MSG("Search files failed when recursing");
@@ -77,13 +83,24 @@ bool PathUtils::GetFullPathsInDir(vector<string>& vecFullPaths, string strDir, c
 }
 
 
-std::string PathUtils::GetFileName(string strFileFullPath)
-{
-    char szFileName[MAX_PATH] = { 0 };
-    if (GetFileName(strFileFullPath.c_str(), szFileName, MAX_PATH))
-        return string(szFileName);
-    else
+std::string PathUtils::GetFileName(const std::string& strFileFullPath)
+{    
+    std::string::const_iterator itBeg = strFileFullPath.begin();
+    std::string::const_iterator itEnd = strFileFullPath.end();
+    if (itBeg == itEnd)
         return "";
+
+    for (std::string::const_iterator itSearch = itEnd - 1; 
+        itSearch != itBeg; 
+        --itSearch)
+    {
+        if ('\\' == *itSearch || '/' == *itSearch)
+        {
+            std::string strRet(itSearch + 1, itEnd);
+            return strRet;
+        }
+    }
+    return "";
 }
 
 #endif
@@ -304,24 +321,41 @@ bool PathUtils::CreateMultiDirectory(const char* szPath)
     return true;
 }
 
-void PathUtils::FixBackSlashInDirPath(string& strDirPath)
+void PathUtils::FixBackSlashInPath(std::string& strPath)
 {
-    size_t nStrLength = strDirPath.length();
+    std::string::size_type nStrLength = strPath.length();
     if (!nStrLength)
         return;
-    for (size_t i = 0; i != nStrLength; ++i)
+    for (std::string::size_type i = 0; i != nStrLength; ++i)
     {
-        if ('/' == strDirPath[i])
-            strDirPath[i] = '\\';
+        if ('/' == strPath[i])
+            strPath[i] = '\\';
     }
-
-    strDirPath += '\\';
-    for (std::string::size_type nPos = strDirPath.find("\\\\"); 
-        std::string::npos != nPos; 
-        nPos = strDirPath.find("\\\\"))
-        strDirPath.replace(nPos, 2, "\\");
+    for (std::string::size_type nPos = strPath.find("\\\\");
+        std::string::npos != nPos;
+        nPos = strPath.find("\\\\"))
+    {
+        strPath.replace(nPos, 2, "\\");
+    }
 }
 
+void PathUtils::FixBackSlashInFilePath(std::string& strFilePath)
+{
+    if (!strFilePath.length())
+        return;
+    FixBackSlashInPath(strFilePath);
+    if ('\\' == *(strFilePath.end() - 1))
+        strFilePath.erase(strFilePath.end() - 1);
+}
+
+void PathUtils::FixBackSlashInDirPath(std::string& strDirPath)
+{
+    if (!strDirPath.length())
+        return;
+    FixBackSlashInPath(strDirPath);
+    if ('\\' != *(strDirPath.end() - 1))
+        strDirPath += "\\";
+}
 
 #ifdef __AFXWIN_H__
 
