@@ -4,6 +4,7 @@
 //◇说明：文件路径处理
 //*************************************************
 #pragma once
+#include "stdafx.h"
 
 #ifndef CUCKOO0615_UTILS_MACRO
 #define CUCKOO0615_UTILS_MACRO
@@ -146,14 +147,14 @@ public:
     ** @param arrLogicalDriveNames[26]: 磁盘盘符集合
     ** @return: 操作成功返回盘符数量(0 - 26), 操作失败返回 -1
     */
-    int GetDriveNames(char arrLogicalDriveNames[26]);
+    static int GetDriveNames(char arrLogicalDriveNames[26]);
 
     /*
     ** 根据盘符获取磁盘类型
     ** @param chDriveName: 磁盘盘符
     ** @return: 未知驱动器/无效根目录/可移动设备/固定驱动器/网络驱动器/CD-ROM/RAM驱动器/未知设备
     */
-    const char* GetDriveType(char chDriveName);
+    static const char* GetDriveType(char chDriveName);
     
     /*
     ** 获取父目录
@@ -189,15 +190,15 @@ private:
         bool bGetDirs);
 #endif
 
-    //检查字符串是否为空
+    //获取C风格字符串长度
     //返回值:空字符串或空指针返回0,否则返回字符串长度
-    static size_t CheckStringIsNullOrEmpty(const char* szString)
+    static size_t GetStringLength(const char* szString)
     {
         return ((NULL == szString) || 0 == strlen(szString)) ? 0 : strlen(szString);
     }
 
 public:
-    PathUtils() { memset(m_szErrMsg, 0x00, ERRMSG_LENGTH); }
+    PathUtils() { ::memset(m_szErrMsg, 0x00, ERRMSG_LENGTH); }
     ~PathUtils() { }
 };
 

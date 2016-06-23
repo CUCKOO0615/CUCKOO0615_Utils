@@ -134,13 +134,10 @@ int PathUtils::GetDriveNames(char arrLogicalDriveNames[26])
 {
     const int nBufSize = 26 * 4;
     char szBuf[nBufSize] = { 0 };
-    DWORD dwLength = GetLogicalDriveStringsA(nBufSize, szBuf);
+    DWORD dwLength = ::GetLogicalDriveStringsA(nBufSize, szBuf);
 
     if ((0 == dwLength) || (nBufSize <= dwLength))
-    {
-        SET_ERROR_MSG("Get logical drive names failed");
         return -1;
-    }
 
     int i = 0;
     for (char * s = szBuf; *s; s += (strlen(s) + 1))
@@ -180,14 +177,14 @@ const char* PathUtils::GetDriveType(char chDriveName)
 
 bool PathUtils::PathIsExist(const char* szPath)
 {
-    if (0 == CheckStringIsNullOrEmpty(szPath))
+    if (0 == GetStringLength(szPath))
         return false;
     return (0 == _access(szPath, 0));
 }
 
 bool PathUtils::FileIsExist(const char* szFilePath)
 {
-    if(0 == CheckStringIsNullOrEmpty(szFilePath))
+    if(0 == GetStringLength(szFilePath))
         return false;
    
     _finddata_t fileinfo;
@@ -209,7 +206,7 @@ bool PathUtils::FileIsExist(const char* szFilePath)
 
 bool PathUtils::DirIsExist(const char* szDirPath)
 {
-    if (0 == CheckStringIsNullOrEmpty(szDirPath))
+    if (0 == GetStringLength(szDirPath))
         return false;
 
     _finddata_t fileinfo;
@@ -231,7 +228,7 @@ bool PathUtils::DirIsExist(const char* szDirPath)
 
 bool PathUtils::GetParentPath(const char* szPath, char* szParentPath, size_t nParentPathBufSize)
 {
-    size_t nStrLength = CheckStringIsNullOrEmpty(szPath);
+    size_t nStrLength = GetStringLength(szPath);
     if (0 == nStrLength)
     {
         SET_ERROR_MSG("Input path can't be NULL or empty");
@@ -275,7 +272,7 @@ bool PathUtils::GetParentPath(const char* szPath, char* szParentPath, size_t nPa
 
 bool PathUtils::CreateMultiDirectory(const char* szPath)
 {
-    size_t nStrLength = CheckStringIsNullOrEmpty(szPath);
+    size_t nStrLength = GetStringLength(szPath);
     if (0 == nStrLength)
     {
         SET_ERROR_MSG("Input path can't be NULL or empty");
