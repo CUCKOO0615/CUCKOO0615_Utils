@@ -69,28 +69,42 @@ typedef struct _Test {
 
 #include "zip.h"
 
+
+void A()
+{
+    static int a = 3;
+    a += 4;
+    cout << a << endl;
+}
+void B()
+{
+    static int a;
+    cout << a << endl;
+}
 int main()
 {
+    MEMORYSTATUS memstatus;
+    memset(&memstatus, 0, sizeof(MEMORYSTATUS));
+    memstatus.dwLength = sizeof(MEMORYSTATUS);
+    GlobalMemoryStatus(&memstatus);
+    DWORD mem = memstatus.dwAvailPhys;
+    //cout << "Free Memory is:" << mem << " Bytes!" << endl;
 
 
-   
-     string a = "C:\\1\\2\\//3\\4\\//\\5/";
-     PathUtils::FixBackSlashInPath(a);
-
-
-//     const char* d = "";
-// 
-//     char* b = (char*)d;
-//     pu.FixBackSlashInDirPath(a);
-
-
-//     HZIP hz = CreateZip(L"x:\\simple1.zip", 0);
-//     ZipAdd(hz, L"doc\\1.docx", L"x:\\1.docx");
-//     ZipAdd(hz, L"pdf\\2.pdf", L"x:\\2.pdf");
-//     ZipAdd(hz, L"doc\\3.doc", L"x:\\3.doc");
-//     CloseZip(hz);
-
+    const char* szPath = PathUtils::GetAppDirectory();
     return 0;
+
+    //     const char* d = "";
+    // 
+    //     char* b = (char*)d;
+    //     pu.FixBackSlashInDirPath(a);
+
+
+    //     HZIP hz = CreateZip(L"x:\\simple1.zip", 0);
+    //     ZipAdd(hz, L"doc\\1.docx", L"x:\\1.docx");
+    //     ZipAdd(hz, L"pdf\\2.pdf", L"x:\\2.pdf");
+    //     ZipAdd(hz, L"doc\\3.doc", L"x:\\3.doc");
+    //     CloseZip(hz);
 }
 
 /*

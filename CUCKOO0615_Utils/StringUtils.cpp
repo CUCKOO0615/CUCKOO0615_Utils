@@ -3,6 +3,8 @@
 
 #ifdef CUCKOO0615_USE_STL
 
+using namespace std;
+
 void StringUtils::ReplaceSpecifiedString(string& str, string oldStr, string newStr)
 {
     size_t nOldStrLength = oldStr.length();
@@ -16,33 +18,40 @@ void StringUtils::ReplaceSpecifiedString(string& str, string oldStr, string newS
 
 void StringUtils::SplitStr2Array(vector<string>& vecOut, const string& str, char chSpliter, bool bSkipContinuous)
 {	
-	const char* pB = str.c_str();
-	if (!*pB) return;
+    const char* szStr = str.c_str();
+    SplitStr2Array(vecOut, szStr, chSpliter, bSkipContinuous);
+}
 
-	if (bSkipContinuous)
-	{
-		while ((*pB) == chSpliter) ++pB;
-		if (!*pB) return;
-	}
-	const char* pF = pB;
+void StringUtils::SplitStr2Array(vector<string>& vecOut, const char* szStr, char chSpliter, bool bSkipContinuous /*= true*/)
+{
+    const char* pB = szStr;
+    if (!*pB) return;
 
-	do
-	{
-		if ((*pB) != chSpliter)
-			++pB;
-		else
-		{
-			vecOut.push_back(string(pF, pB));
-			if (bSkipContinuous)
-			{
-				while ((*pB) == chSpliter) ++pB;
-				if (!*pB) return;
-			}
-			else
-				++pB;
-			pF = pB;
-		}
-	} while (*pB);
+    if (bSkipContinuous)
+    {
+        while ((*pB) == chSpliter) ++pB;
+        if (!*pB) return;
+    }
+    const char* pF = pB;
+
+    vecOut.clear();
+    do
+    {
+        if ((*pB) != chSpliter)
+            ++pB;
+        else
+        {
+            vecOut.push_back(string(pF, pB));
+            if (bSkipContinuous)
+            {
+                while ((*pB) == chSpliter) ++pB;
+                if (!*pB) return;
+            }
+            else
+                ++pB;
+            pF = pB;
+        }
+    } while (*pB);
     vecOut.push_back(string(pF, pB));
 }
 

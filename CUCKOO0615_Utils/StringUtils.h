@@ -21,7 +21,6 @@
 #ifdef CUCKOO0615_USE_STL
 #include <string>
 #include <vector>
-using namespace std;
 
 namespace StringUtils
 {
@@ -30,29 +29,37 @@ namespace StringUtils
     ** @param str: 源字符串
     ** @param chSpilter: 目标字符
     */
-    void TrimLeft(string& str, char chSpilter = ' ');
+    void TrimLeft(std::string& str, char chSpilter = ' ');
 
     /*
     ** 移除右侧连续字符
     ** @param str: 源字符串
     ** @param chSpilter: 目标字符
     */
-    void TrimRight(string& str, char chSpilter = ' ');
+    void TrimRight(std::string& str, char chSpilter = ' ');
 
     /*
     ** 移除首尾连续字符
     ** @param str: 源字符串
     ** @param chSpilter: 目标字符
     */
-    void Trim(string& str, char chSpilter = ' ');
+    void Trim(std::string& str, char chSpilter = ' ');
 
     /*
     ** 替换字符串中指定的子串为另一个子串
     ** @param str: 源字符串
-    ** @param oldStr: 要被替换的旧子串
-    ** @param newStr: 用于替换的新子串
+    ** @param strOld: 要被替换的旧子串
+    ** @param strNew: 用于替换的新子串
     */
-    void ReplaceSpecifiedString(string& str, string oldStr, string newStr);
+    void ReplaceSpecifiedString(std::string& str, std::string strOld, std::string strNew);
+    
+    /*
+    ** 切分字符串到数组
+    ** @param vecOut: 输出的字符串数组
+    ** @param szStr: 输入的字符串
+    ** @param chSpliter: 字符串切分符
+    */
+    void SplitStr2Array(std::vector<std::string>& vecOut, const char* szStr, char chSpliter, bool bSkipContinuous = true);
 
     /*
     ** 切分字符串到数组
@@ -60,7 +67,7 @@ namespace StringUtils
     ** @param str: 输入的字符串
     ** @param chSpliter: 字符串切分符
     */
-	void SplitStr2Array(vector<string>& vecOut, const string& str, char chSpliter, bool bSkipContinuous = true);
+    void SplitStr2Array(std::vector<std::string>& vecOut, const std::string& str, char chSpliter, bool bSkipContinuous = true);
 
     /*
     ** 多字节字符转宽字节字符
@@ -68,7 +75,7 @@ namespace StringUtils
     ** @param strWide: 输出的宽字节字符串
     ** @param strErrMsg: 错误信息
     */
-    bool StrConv_A2W(const char* szMultibyteStr, wstring& strWide, string& strErrMsg);
+    bool StrConv_A2W(const char* szMultibyteStr, std::wstring& strWide, std::string& strErrMsg);
 
     /*
     ** 宽字节字符转多字节字符
@@ -76,7 +83,7 @@ namespace StringUtils
     ** @param szMultibyteStr: 输出的多字节字符串
     ** @param strErrMsg: 错误信息
     */
-    bool StrConv_W2A(const wchar_t* szWidestr, string& szMultibyteStr, string& strErrMsg);
+    bool StrConv_W2A(const wchar_t* szWidestr, std::string& szMultibyteStr, std::string& strErrMsg);
  }
 #endif
 //////////////////////////////////////////////////////////////////////////
@@ -226,10 +233,10 @@ namespace StringUtils
 // 部分inline实现
 #ifdef CUCKOO0615_USE_STL
 
-inline void StringUtils::TrimLeft(string& str, char chSpilter /*= ' ' */)
+inline void StringUtils::TrimLeft(std::string& str, char chSpilter /*= ' ' */)
 {
     size_t nPos = str.find_first_not_of(chSpilter);
-    if (string::npos == nPos)
+    if (std::string::npos == nPos)
     {
         str = "";
         return;
@@ -237,10 +244,10 @@ inline void StringUtils::TrimLeft(string& str, char chSpilter /*= ' ' */)
     str.erase(0, nPos);
 }
 
-inline void StringUtils::TrimRight(string& str, char chSpilter /*= ' ' */)
+inline void StringUtils::TrimRight(std::string& str, char chSpilter /*= ' ' */)
 {
     size_t nPos = str.find_last_not_of(chSpilter);
-    if (string::npos == nPos)
+    if (std::string::npos == nPos)
     {
         str = "";
         return;
@@ -248,10 +255,10 @@ inline void StringUtils::TrimRight(string& str, char chSpilter /*= ' ' */)
     str.erase(nPos + 1);
 }
 
-inline void StringUtils::Trim(string& str, char chSpilter /*= ' ' */)
+inline void StringUtils::Trim(std::string& str, char chSpilter /*= ' ' */)
 {
     size_t nPosFirst = str.find_first_not_of(chSpilter);
-    if (string::npos != nPosFirst)
+    if (std::string::npos != nPosFirst)
         str.erase(0, nPosFirst);
     else
     {
@@ -259,7 +266,7 @@ inline void StringUtils::Trim(string& str, char chSpilter /*= ' ' */)
         return;
     }
     size_t nPosLast = str.find_last_not_of(chSpilter);
-    if (string::npos != nPosLast)
+    if (std::string::npos != nPosLast)
         str.erase(nPosLast + 1);
 }
 #endif

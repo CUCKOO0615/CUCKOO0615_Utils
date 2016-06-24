@@ -84,7 +84,7 @@ bool PathUtils::GetFullPathsInDir(std::vector<std::string>& vecFullPaths,
 
 
 std::string PathUtils::GetFileName(const std::string& strFileFullPath)
-{    
+{        
     std::string::const_iterator itBeg = strFileFullPath.begin();
     std::string::const_iterator itEnd = strFileFullPath.end();
     if (itBeg == itEnd)
@@ -97,6 +97,28 @@ std::string PathUtils::GetFileName(const std::string& strFileFullPath)
         if ('\\' == *itSearch || '/' == *itSearch)
         {
             std::string strRet(itSearch + 1, itEnd);
+            return strRet;
+        }
+    }
+    return "";
+}
+
+std::string PathUtils::GetParentPath(const std::string& strPath)
+{
+    std::string::const_iterator itBeg = strPath.begin();
+    std::string::const_iterator itEnd = strPath.end();
+    if (itBeg == itEnd || itBeg == (itEnd - 1))
+        return "";
+
+    std::string::const_iterator itSearch = itEnd - 1;
+    if ('\\' == *itSearch || '/' == *itSearch)
+        --itSearch;
+
+    for (; itSearch != itBeg; --itSearch)
+    {
+        if ('\\' == *itSearch || '/' == *itSearch)
+        {
+            std::string strRet(itBeg, itSearch);
             return strRet;
         }
     }
@@ -135,7 +157,7 @@ bool PathUtils::GetFileName(const char* szFullPath, char* szName, size_t nNameBu
         if ('/' == szBuf[i] || '\\' == szBuf[i])
         {
             size_t nOffset = i + 1;
-            memcpy(szName, szBuf + nOffset, nLength - nOffset);
+            ::memcpy(szName, szBuf + nOffset, nLength - nOffset);
             break;
         }
     }
@@ -190,6 +212,42 @@ const char* PathUtils::GetDriveType(char chDriveName)
     default:
         return "δ֪�豸";
     }
+}
+
+const char* PathUtils::GetAppFullPath()
+{
+    static char buffRet[MAX_PATH] = { 0 };
+    DWORD dwRet = ::GetModuleFileNameA(NULL, buffRet, MAX_PATH);
+
+    if (0 == dwRet)
+        return "";
+    if (MAX_PATH == dwRet)
+    {
+        static char buffBackup[4096] = { 0 };
+        ::GetModuleFileNameA(NULL, buffBackup, 4096);
+        return buffBackup;
+    }
+    return buffRet;
+}
+
+const char* PathUtils::GetAppDirectory()
+{
+    static char buffRet[MAX_PATH] = { 0 };
+    char* pBuff = buffRet;
+    DWORD dwRet = ::GetModuleFileNameA(NULL, pBuff, MAX_PATH);
+
+    if (0 == dwRet)
+        return "";
+    if (MAX_PATH == dwRet)
+    {
+        static char buffBackup[4096] = { 0 };
+        pBuff = buffBackup;
+        dwRet = ::GetModuleFileNameA(NULL, pBuff, 4096);
+    }
+    while ('\\' != pBuff[dwRet] && dwRet)
+        --dwRet;
+    pBuff[dwRet] = '\0';
+    return pBuff;
 }
 
 bool PathUtils::PathIsExist(const char* szPath)

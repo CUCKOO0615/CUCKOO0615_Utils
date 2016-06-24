@@ -19,13 +19,7 @@ bool ProfileUtils::Write2Profile( const char* szSectionName, const char* szKey, 
 {
     if(!m_bInited)
         return false;
-
-#ifdef _UNICODE
-    return WritePrivateProfileStringA(szSectionName, szKey, szValue, m_szFilePath);
-#else
-    return WritePrivateProfileString(szSectionName, szKey, szValue, m_szFilePath);
-#endif
-
+    return (FALSE != WritePrivateProfileStringA(szSectionName, szKey, szValue, m_szFilePath));
 }
 
 bool ProfileUtils::GetProfile( 

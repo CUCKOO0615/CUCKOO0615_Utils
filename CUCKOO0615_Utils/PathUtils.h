@@ -77,6 +77,13 @@ public:
     static std::string GetFileName(const std::string& strFileFullPath);
     
     /*
+    ** 获取父目录路径
+    ** @Param strPath: 指定的目录路径
+    ** @Ret : 父目录路径
+    */
+    static std::string GetParentPath(const std::string& strPath);
+    
+    /*
     ** 将路径中的'/'全部替换为'\\'，并移除末尾的'\\'
     ** @Param strFilePath: 文件路径字符串
     */
@@ -157,6 +164,18 @@ public:
     */
     static const char* GetDriveType(char chDriveName);
     
+    /*
+    ** 获取当前进程的应用程序文件路径
+    ** @Ret : 文件路径
+    */
+    static const char* GetAppFullPath();
+
+    /*
+    ** 获取当前进程的应用程序文件所在目录
+    ** @Ret : 应用程序文件所在目录
+    */
+    static const char* GetAppDirectory();
+
     /*
     ** 从全路径截取文件名或文件夹名
     ** @param szFullPath: 文件或文件夹的全路径,最大MAX_PATH

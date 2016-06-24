@@ -4,24 +4,12 @@
 
 namespace WinAPI_Utils
 {
-	enum MappingType{ MT_ReadOnly, MT_ReadWrite };
-	struct MappingFileInfo
-	{
-		HANDLE hFileHandle;
-		HANDLE hFileMappingHandle;
-		LPBYTE pbFile;
-
-		MappingFileInfo() : hFileHandle(NULL), hFileMappingHandle(NULL), pbFile(NULL){}
-		void Release()
-		{
-			if (hFileHandle) ::CloseHandle(hFileHandle);
-			if (hFileMappingHandle) ::CloseHandle(hFileMappingHandle);
-			if (pbFile)::UnmapViewOfFile(pbFile);
-			hFileHandle = NULL;
-			hFileMappingHandle = NULL;
-			pbFile = NULL;
-		}
-	};
+	enum MappingType
+    {
+        MT_ReadOnly, 
+        MT_ReadWrite 
+    };
+    struct MappingFileInfo;
 
 	/*
 	** 创建内存映射文件
@@ -73,5 +61,27 @@ namespace WinAPI_Utils
     */
     void FreeLastErrMsgBuffer(HLOCAL& hLocal);
 
+
+    //////////////////////////////////////////////////////////////////////////
+    struct MappingFileInfo
+    {
+        HANDLE hFileHandle;
+        HANDLE hFileMappingHandle;
+        LPBYTE pbFile;
+
+        MappingFileInfo() : hFileHandle(NULL), hFileMappingHandle(NULL), pbFile(NULL){}
+        void Release()
+        {
+            if (hFileHandle)
+                ::CloseHandle(hFileHandle);
+            if (hFileMappingHandle)
+                ::CloseHandle(hFileMappingHandle);
+            if (pbFile)
+                ::UnmapViewOfFile(pbFile);
+            hFileHandle = NULL;
+            hFileMappingHandle = NULL;
+            pbFile = NULL;
+        }
+    };
 };
 
