@@ -7,10 +7,14 @@
 #include <windows.h>
 #include <process.h>
 
-//线程入口函数声明工具
+//线程入口
 #define TU_DECLEAR_THREADENTRY(func_name) \
 	unsigned int __stdcall func_name(void* pParam)
 
+#define TU_IMPLEMENT_THREADENTRY(func_name) \
+    unsigned int __stdcall func_name(void* pParam)
+
+//
 typedef unsigned int(_stdcall *TU_LPTHREADENTRY)(void*);
 
 class ThreadUtils
@@ -44,8 +48,8 @@ public:
     // 获取线程ID
     unsigned int GetThreadID() const;
 
-    // 清理资源并重新初始化
-    void Clean();
+    // 等待线程退出，清理资源并重新初始化
+    void WaitForCleaning();
 	
 	//////////////////////////////////////////////////////////////////////////
 
@@ -92,7 +96,7 @@ inline unsigned int ThreadUtils::GetThreadID() const
     return m_uThreadID;
 }
 
-inline void ThreadUtils::Clean()
+inline void ThreadUtils::WaitForCleaning()
 {
     ::WaitForSingleObject(m_hThreadHandle, INFINITE);
     ::CloseHandle(m_hThreadHandle);

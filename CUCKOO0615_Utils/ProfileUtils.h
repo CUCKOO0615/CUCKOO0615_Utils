@@ -5,17 +5,8 @@
 //************************************************
 #pragma once
 
-#ifndef CUCKOO0615_UTILS_MACRO
-#define CUCKOO0615_UTILS_MACRO
-
 #ifndef MAX_PATH
 #define MAX_PATH 260
-#endif
-
-#ifndef ERRMSG_LENGTH
-#define ERRMSG_LENGTH 256
-#endif
-
 #endif
 
 class ProfileUtils
@@ -42,11 +33,14 @@ public:
     ** @param nBufSize: 缓冲区大小
     ** @return 操作成功返回true, 失败返回false
     */
-    bool GetProfile(const char* szSectionName, const char* szKey, const char* szDefault, char* pValueBuff, size_t nBufSize); 
+    bool GetProfile(
+        const char* szSectionName, 
+        const char* szKey, 
+        const char* szDefault, 
+        char* pValueBuff, 
+        size_t nBufSize); 
 
 private:
-    char m_szFilePath[MAX_PATH];
-    bool m_bInited;
-    
+    char m_szFilePath[MAX_PATH];    
 };
 
