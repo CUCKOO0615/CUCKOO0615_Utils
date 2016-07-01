@@ -12,7 +12,7 @@
 // #include "Hpp/DigitUtils.hpp"
 #include "MultiIncludeTest.h"
 #include "TimeUtils.h"
-#include <thread>
+//#include <thread>
 #include <iostream>
 #include "MacroUtils.h"
 #include "GuidUtils.hpp"
@@ -61,38 +61,45 @@ void SetConsoleUtf8()
 #include ".\\zlib128-dll\\include\\zlib.h"
 #pragma comment(lib, ".\\zlib128-dll\\lib\\zdll.lib")
 
-typedef struct _Test {
-    char name[5];
-    int age;
-    char* p1;
-}TEST;
 
-#include "zip.h"
+#include<iostream>
+#include<cmath>
+#include<iomanip>
+using namespace std;
 
-
-void A()
+#include "iostream"
+using namespace std;
+int fact(int n)//求阶乘
 {
-    static int a = 3;
-    a += 4;
-    cout << a << endl;
+	int sum = 1;
+	int i;
+	if (n == 0)
+		return 1;
+	else
+	{
+		for (i = 1; i <= n; i++)
+			sum *= i;
+		return sum;
+	}
 }
-void B()
-{
-    static int a;
-    cout << a << endl;
-}
+
 int main()
 {
-    MEMORYSTATUS memstatus;
-    memset(&memstatus, 0, sizeof(MEMORYSTATUS));
-    memstatus.dwLength = sizeof(MEMORYSTATUS);
-    GlobalMemoryStatus(&memstatus);
-    DWORD mem = memstatus.dwAvailPhys;
-    //cout << "Free Memory is:" << mem << " Bytes!" << endl;
+	int i = 1, j = 1, n;
+	double e, t = 0;
 
 
-    const char* szPath = PathUtils::GetAppDirectory();
-    return 0;
+	cin >> n;
+	e = 0;
+	for (i = 0; i <= n; i++)
+		t += 1.0 / fact(i);
+
+	e = e + t;
+
+
+
+	cout << "e约等于" <<fixed<< setprecision(1000) << e << '\n';
+	return 0;
 
     //     const char* d = "";
     // 
