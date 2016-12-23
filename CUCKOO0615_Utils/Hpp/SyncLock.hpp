@@ -72,6 +72,16 @@ private:
 };
 
 /*
+** SyncLock sl;
+** AUTO_LOCK_BEG(sl);
+** ..do sth
+** AUTO_LOCK_END;
+*/
+#define AUTO_LOCK_BEG(sl) {  \
+    SyncLockGuard slg_##sl(&sl); 
+#define AUTO_LOCK_END     }
+
+/*
 ** ×Ô¶¯Ëø
 ** Àý:
 ** SyncMutex sm;
