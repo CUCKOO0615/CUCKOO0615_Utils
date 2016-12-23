@@ -72,14 +72,23 @@ private:
 };
 
 /*
-** SyncLock sl;
-** AUTO_LOCK_BEG(sl);
-** ..do sth
-** AUTO_LOCK_END;
+**  SyncLock sl;
+**  AUTO_LOCK_BEG(sl);
+**  ..do sth..
+**  AUTO_LOCK_END;
 */
 #define AUTO_LOCK_BEG(sl) {  \
-    SyncLockGuard slg_##sl(&sl); 
+    SyncLockGuard slg_##sl(&sl)
 #define AUTO_LOCK_END     }
+
+/*
+**  SyncLock sl;
+**  {
+**      AUTO_LOCK(sl);
+**      ..do sth..
+**  }
+*/
+#define AUTO_LOCK(sl) SyncLockGuard slg_##sl(&sl)
 
 /*
 ** ×Ô¶¯Ëø
