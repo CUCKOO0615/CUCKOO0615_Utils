@@ -11,12 +11,11 @@ ProfileUtils::ProfileUtils(const char* szFilePath)
 
 ProfileUtils::~ProfileUtils(void)
 {
-    ::memset(m_szFilePath, 0x00, MAX_PATH);
 }
 
 bool ProfileUtils::Write2Profile( const char* szSectionName, const char* szKey, const char* szValue )
 {
-    return (FALSE != WritePrivateProfileStringA(szSectionName, szKey, szValue, m_szFilePath));
+    return (FALSE != ::WritePrivateProfileStringA(szSectionName, szKey, szValue, m_szFilePath));
 }
 
 bool ProfileUtils::GetProfile( 
@@ -26,5 +25,5 @@ bool ProfileUtils::GetProfile(
     char* pValueBuff, 
     size_t nBufSize )
 {
-    return (nBufSize >= GetPrivateProfileStringA(szSectionName, szKey, szDefault, pValueBuff, nBufSize, m_szFilePath));
+    return (nBufSize >= ::GetPrivateProfileStringA(szSectionName, szKey, szDefault, pValueBuff, nBufSize, m_szFilePath));
 }

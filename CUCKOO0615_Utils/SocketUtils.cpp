@@ -35,22 +35,21 @@ SOCKET SocketUtils::CreateClientSocket_TCP(int& nErrCode, const char* szServerAd
 	nErrCode = 0;
     SOCKET socketRet = ::socket(AF_INET, SOCK_STREAM, 0);
     if (INVALID_SOCKET == socketRet)
+        nErrCode = ::WSAGetLastError();
+    else
     {
-		nErrCode = ::WSAGetLastError();
-        return INVALID_SOCKET;
-    }
+        SOCKADDR_IN addrClient;
+        addrClient.sin_family = AF_INET;
+        addrClient.sin_addr.S_un.S_addr = inet_addr(szServerAddr);
+        addrClient.sin_port = ::htons(usPort);
 
-    SOCKADDR_IN addrClient;
-    addrClient.sin_family = AF_INET;
-    addrClient.sin_addr.S_un.S_addr = inet_addr(szServerAddr);
-    addrClient.sin_port = ::htons(usPort);
-
-    int nRet = ::connect(socketRet, (SOCKADDR*)&addrClient, sizeof(addrClient));
-    if (SOCKET_ERROR == nRet)
-    {
-		nErrCode = WSAGetLastError();
-		closesocket(socketRet);
-        return INVALID_SOCKET;
+        int nRet = ::connect(socketRet, (SOCKADDR*)&addrClient, sizeof(addrClient));
+        if (SOCKET_ERROR == nRet)
+        {
+            nErrCode = ::WSAGetLastError();
+            ::closesocket(socketRet);
+            return INVALID_SOCKET;
+        }
     }
     return socketRet;
 }
@@ -60,22 +59,21 @@ SOCKET SocketUtils::CreateServerSocket_TCP(int& nErrCode, u_short usPort /*= 100
 	nErrCode = 0;
 	SOCKET socketRet = ::socket(AF_INET, SOCK_STREAM, 0);
 	if (INVALID_SOCKET == socketRet)
-    {
 		nErrCode = ::WSAGetLastError();
-        return INVALID_SOCKET;
-    }
-
-    SOCKADDR_IN addrServer;
-    addrServer.sin_addr.S_un.S_addr = htonl(INADDR_ANY);
-    addrServer.sin_family = AF_INET;
-    addrServer.sin_port = ::htons(usPort);
-
-	int nRet = ::bind(socketRet, (SOCKADDR*)&addrServer, sizeof(SOCKADDR));
-    if (SOCKET_ERROR == nRet)
+    else
     {
-		nErrCode = ::WSAGetLastError();
-		closesocket(socketRet);
-        return INVALID_SOCKET;
+        SOCKADDR_IN addrServer;
+        addrServer.sin_addr.S_un.S_addr = htonl(INADDR_ANY);
+        addrServer.sin_family = AF_INET;
+        addrServer.sin_port = ::htons(usPort);
+
+        int nRet = ::bind(socketRet, (SOCKADDR*)&addrServer, sizeof(SOCKADDR));
+        if (SOCKET_ERROR == nRet)
+        {
+            nErrCode = ::WSAGetLastError();
+            closesocket(socketRet);
+            return INVALID_SOCKET;
+        }
     }
 	return socketRet;
 }
@@ -127,16 +125,17 @@ bool SocketUtils::ListenAt(int& nErrCode, SOCKET skSrvSock, int nBackLog)
 
 const char* SocketUtils::QueryErrMsg(size_t nErrCode)
 {
-	for (int i = 0; i != ERRMSGTABLE_LENGTH; ++i)
-	{
-		if (ErrMsgTable[i].lRetVal == nErrCode)
-			return ErrMsgTable[i].szErrMsg;
-	}
-	return "UNKNOWERROR";
+    for (int i = 0; i != ERRMSGTABLE_LENGTH; ++i)
+        if (ErrMsgTable[i].lRetVal == nErrCode)
+            return ErrMsgTable[i].szErrMsg;
+    return "UNKNOWERROR";
 }
 
-bool SocketUtils::SendToSocket(SOCKET s, char* pBuffer, int nSpecLength, int& nErrCode)
+bool SocketUtils::SendToSocket(SOCKET s, char* pBuffer, int nSpecLength, int nTimeOut, int& nErrCode)
 {
+    if (nTimeOut > 0)
+        ::setsockopt(s, SOL_SOCKET, SO_SNDTIMEO, (char*)&nTimeOut, sizeof(int));
+
 	nErrCode = 0;
 	int nRemainingChars = nSpecLength;
 	while (0 < nRemainingChars)
@@ -152,8 +151,11 @@ bool SocketUtils::SendToSocket(SOCKET s, char* pBuffer, int nSpecLength, int& nE
 	return true;
 }
 
-bool SocketUtils::RecvFromSocket(SOCKET s, char* pBuffer, int nSpecLength, int& nErrCode)
+bool SocketUtils::RecvFromSocket(SOCKET s, char* pBuffer, int nSpecLength, int nTimeOut, int& nErrCode)
 {
+    if (nTimeOut > 0)
+        ::setsockopt(s, SOL_SOCKET, SO_RCVTIMEO, (char*)&nTimeOut, sizeof(int));
+
 	nErrCode = 0;
 	int nRecvedLen = 0;
 	while (nRecvedLen < nSpecLength)

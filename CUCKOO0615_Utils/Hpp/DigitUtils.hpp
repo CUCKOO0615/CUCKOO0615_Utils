@@ -10,12 +10,25 @@
 
 namespace DigitUtils
 {
+    static int Factorial(int n)//«ÛΩ◊≥À
+    {
+        int sum = 1;
+        while (n != 0)
+            sum *= n--;
+        return sum;
+    }
+
 	/*
 	** º∆À„Œﬁ∑˚∫≈intµƒ ˝◊÷≥§∂»
 	** @Ret: ≥§∂»∑∂Œß 1-9
 	*/
-	unsigned int CountDecimalDigit32(unsigned int n)
-	{
+    static unsigned int CountDecimalDigit32(unsigned int n)
+    {
+/*
+        int nCounter = 1;
+        for (int j = 10; n >= j; j *= 10, ++nCounter);
+        return nCounter;*/
+
 		if (n < 100000)
 		{
 			if (n < 10)return 1;
@@ -39,18 +52,19 @@ namespace DigitUtils
 	** @Param llNum: “™◊™ªªµƒ’˚ ˝, ◊Ó¥Û÷µ ULLONG_MAX:9223372036854775807*2+1
 	** @Param wstrChinese: ◊™ªª∫Ûµƒ∫∫◊÷¥Û–¥
 	*/
-	static wchar_t arrChineseNums[] = 
-	{ L'¡„', L'“º', L'∑°', L'»˛', L'À¡', L'ŒÈ', L'¬Ω', L'∆‚', L'∞∆', L'æ¡' };
-	static wchar_t wszNumTemplete[] = 
-	{ 0x00, L'«™', 0x00, L'∞€', 0x00, L' ∞', 0x00, 0x00 };
-	static wchar_t wszChineseUnit[] = 	{ L'“⁄', L'ÕÚ' };
-	void Num2Chinese(unsigned __int64 llNum, std::wstring& wstrChinese)
-	{
+    static const wchar_t arrChineseNums[] =
+    { L'¡„', L'“º', L'∑°', L'»˛', L'À¡', L'ŒÈ', L'¬Ω', L'∆‚', L'∞∆', L'æ¡' };
+    static wchar_t wszNumTemplete[] =
+    { 0x00, L'«™', 0x00, L'∞€', 0x00, L' ∞', 0x00, 0x00 };
+    static wchar_t wszChineseUnit[] = { L'“⁄', L'ÕÚ' };
+    static void Num2Chinese(unsigned __int64 llNum, std::wstring& wstrChinese)
+    {
 		std::vector<std::wstring> vecTmp;
 		while (true)
 		{
 			int n = llNum % 10000;
-			if (!n && llNum < 10000) break;
+			if (!n && llNum < 10000) 
+                break;
 
 			for (int i = 6; i > -1; i -= 2, n /= 10)
 				wszNumTemplete[i] = arrChineseNums[n % 10];
@@ -63,7 +77,8 @@ namespace DigitUtils
 			}
 
 			wstr.erase(std::unique(wstr.begin(), wstr.end()), wstr.end());
-			if (L'¡„' == *(wstr.end() - 1))	wstr.erase(wstr.end() - 1);
+			if (L'¡„' == *(wstr.end() - 1))	
+                wstr.erase(wstr.end() - 1);
 
 			vecTmp.push_back(wstr);
 			llNum = llNum / 10000;
@@ -81,8 +96,10 @@ namespace DigitUtils
 		}
 
 		wstrChinese.erase(std::unique(wstrChinese.begin(), wstrChinese.end()), wstrChinese.end());
-		if (L'¡„' == *(wstrChinese.end() - 1)) wstrChinese.erase(wstrChinese.end() - 1);
-		if (L'¡„' == *(wstrChinese.begin())) wstrChinese.erase(wstrChinese.begin());
+		if (L'¡„' == *(wstrChinese.end() - 1)) 
+            wstrChinese.erase(wstrChinese.end() - 1);
+		if (L'¡„' == *(wstrChinese.begin())) 
+            wstrChinese.erase(wstrChinese.begin());
 
 		return;
 	}

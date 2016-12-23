@@ -87,19 +87,19 @@
     <ClInclude Include="FileUtils.h" />
     <ClInclude Include="GifStructs.h" />
     <ClInclude Include="GifUtils.h" />
-    <ClInclude Include="GuidUtils.hpp" />
     <ClInclude Include="Hpp\CkRingBuffer.hpp" />
     <ClInclude Include="Hpp\CkRunnable.hpp" />
     <ClInclude Include="Hpp\DigitUtils.hpp" />
+    <ClInclude Include="Hpp\GuidUtils.hpp" />
     <ClInclude Include="Hpp\PtrUtils.hpp" />
     <ClInclude Include="Hpp\SyncLock.hpp" />
     <ClInclude Include="Hpp\ThreadUtils.hpp" />
     <ClInclude Include="MacroUtils.h" />
     <ClInclude Include="md5.h" />
-    <ClInclude Include="MultiIncludeTest.h" />
     <ClInclude Include="PathUtils.h" />
     <ClInclude Include="ProcessUtils.h" />
     <ClInclude Include="ProfileUtils.h" />
+    <ClInclude Include="SingleSocket.h" />
     <ClInclude Include="SocketUtils.h" />
     <ClInclude Include="Sqlite3Ex.h" />
     <ClInclude Include="Sqlite3\sqlite3.h" />
@@ -142,6 +142,7 @@
     <ClCompile Include="CkPipeMsgUtils.cpp" />
     <ClCompile Include="ProcessUtils.cpp" />
     <ClCompile Include="ProfileUtils.cpp" />
+    <ClCompile Include="SingleSocket.cpp" />
     <ClCompile Include="SocketUtils.cpp" />
     <ClCompile Include="Sqlite3Ex.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>

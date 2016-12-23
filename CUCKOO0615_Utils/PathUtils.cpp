@@ -9,26 +9,23 @@
 #include <direct.h>
 #include <assert.h>
 
-#define SET_ERROR_MSG(szErrMsg)  strcpy(m_szErrMsg, szErrMsg)
+#define GetStringLength(szString)     (szString ? 0 : ::strlen(szString))
 
 #ifdef CUCKOO0615_USE_STL
 bool PathUtils::GetFilesInDir(std::vector<std::string>& vecFileFullPaths, 
-    std::string strDir, std::string strWildcard, 
-    bool bEnterSubDir, bool bEnterHiddenSubDir, int nExceptFileTypes)
+    std::string strDir, std::string strWildcard, bool bEnterSubDir, bool bEnterHiddenSubDir, int nExceptFileTypes)
 {
     return GetFullPathsInDir(vecFileFullPaths, strDir, strWildcard, bEnterSubDir, bEnterHiddenSubDir, nExceptFileTypes, true, false);
 }
 
 bool PathUtils::GetSubDirsInDir(std::vector<std::string>& vecSubDirFullPaths, 
-    std::string strDir, std::string strWildcard, 
-    bool bEnterSubDir, bool bEnterHiddenSubDir, int nExceptFileTypes)
+    std::string strDir, std::string strWildcard, bool bEnterSubDir, bool bEnterHiddenSubDir, int nExceptFileTypes)
 {
     return GetFullPathsInDir(vecSubDirFullPaths, strDir, strWildcard, bEnterSubDir, bEnterHiddenSubDir, nExceptFileTypes, false, true);
 }
 
 bool PathUtils::GetFullPathsInDir(std::vector<std::string>& vecFullPaths, 
-    std::string strDir, const std::string& strWildcard, 
-    bool bEnterSubDir, bool bEnterHiddenSubDir, int nExceptFileTypes, bool bGetFiles, bool bGetDirs)
+    std::string strDir, const std::string& strWildcard, bool bEnterSubDir, bool bEnterHiddenSubDir, int nExceptFileTypes, bool bGetFiles, bool bGetDirs)
 {
     char chLastChar = strDir[strDir.length() - 1];
     if ('\\' != chLastChar && '/' != chLastChar)
@@ -41,14 +38,13 @@ bool PathUtils::GetFullPathsInDir(std::vector<std::string>& vecFullPaths,
     handle = _findfirst(strSearchPath.c_str(), &fileinfo);
     if (-1 == handle)
     {
-        SET_ERROR_MSG("Search files failed");
         _findclose(handle);
         return false;
     }
 
     do
     {
-        if ((0 == strcmp(fileinfo.name, ".")) || (0 == strcmp(fileinfo.name, "..")))
+        if (!::strcmp(fileinfo.name, ".") || !::strcmp(fileinfo.name, ".."))
             continue;
 
         bool bIsDir = !(0 == (fileinfo.attrib & _A_SUBDIR));
@@ -71,7 +67,6 @@ bool PathUtils::GetFullPathsInDir(std::vector<std::string>& vecFullPaths,
             std::string strSubPath = strDir + fileinfo.name;
             if (!GetFullPathsInDir(vecFullPaths, strSubPath, strWildcard, true, bEnterHiddenSubDir, nExceptFileTypes, bGetFiles, bGetDirs))
             {
-                SET_ERROR_MSG("Search files failed when recursing");
                 _findclose(handle);
                 return false;
             }
@@ -82,46 +77,33 @@ bool PathUtils::GetFullPathsInDir(std::vector<std::string>& vecFullPaths,
     return true;
 }
 
-
 std::string PathUtils::GetFileName(const std::string& strFileFullPath)
 {        
-    std::string::const_iterator itBeg = strFileFullPath.begin();
-    std::string::const_iterator itEnd = strFileFullPath.end();
-    if (itBeg == itEnd)
+    if (!strFileFullPath.length())
         return "";
 
-    for (std::string::const_iterator itSearch = itEnd - 1; 
-        itSearch != itBeg; 
-        --itSearch)
-    {
+    using namespace std;
+    string::const_iterator itBeg = strFileFullPath.begin();
+    string::const_iterator itSearch = strFileFullPath.end() - 1;
+    for (; itSearch != itBeg; --itSearch)
         if ('\\' == *itSearch || '/' == *itSearch)
-        {
-            std::string strRet(itSearch + 1, itEnd);
-            return strRet;
-        }
-    }
+            return string(itSearch + 1, strFileFullPath.end());
     return "";
 }
 
 std::string PathUtils::GetParentPath(const std::string& strPath)
 {
-    std::string::const_iterator itBeg = strPath.begin();
-    std::string::const_iterator itEnd = strPath.end();
-    if (itBeg == itEnd || itBeg == (itEnd - 1))
+    if (strPath.length() <= 1)
         return "";
 
-    std::string::const_iterator itSearch = itEnd - 1;
+    using namespace std;
+    string::const_iterator itBeg = strPath.begin();
+    string::const_iterator itSearch = strPath.end() - 1;
     if ('\\' == *itSearch || '/' == *itSearch)
         --itSearch;
-
     for (; itSearch != itBeg; --itSearch)
-    {
         if ('\\' == *itSearch || '/' == *itSearch)
-        {
-            std::string strRet(itBeg, itSearch);
-            return strRet;
-        }
-    }
+            return string(itBeg, itSearch);
     return "";
 }
 
@@ -129,44 +111,31 @@ std::string PathUtils::GetParentPath(const std::string& strPath)
 
 bool PathUtils::GetFileName(const char* szFullPath, char* szName, size_t nNameBufSize)
 {
-	assert(szFullPath);
-	assert(szName);
-	assert(strlen(szFullPath) > 1);
-
-    if (MAX_PATH <= strlen(szFullPath))
+    size_t nFullPathLength = GetStringLength(szFullPath);
+    if (!nFullPathLength)
     {
-        SET_ERROR_MSG("Input path length is too long");
-        return false;
+        ::memset(szName, 0x00, nNameBufSize);
+        return true;
     }
-
-    if (nNameBufSize <= strlen(szFullPath))
-    {
-        SET_ERROR_MSG("Name buffer size is too small");
-        return false;
-    }
+    if (nFullPathLength > MAX_PATH) nFullPathLength = MAX_PATH;
 
     char szBuf[MAX_PATH] = { 0 };
-    strcpy(szBuf, szFullPath);
-    size_t nLength = strlen(szBuf);
+    ::memcpy(szBuf, szFullPath, nFullPathLength);
+    szBuf[MAX_PATH - 1] = 0x00;
 
-    size_t i = nLength - 1;
-    if ('/' == szBuf[i] || '\\' == szBuf[i])
-        szBuf[i] = 0x00;
-    for (; i != -1; --i)
+    size_t nPos = strlen(szBuf) - 1;
+    if ('/' == szBuf[nPos] || '\\' == szBuf[nPos])
+        szBuf[nPos] = 0x00;
+    for (; nPos != -1; --nPos)
     {
-        if ('/' == szBuf[i] || '\\' == szBuf[i])
+        if ('/' == szBuf[nPos] || '\\' == szBuf[nPos])
         {
-            size_t nOffset = i + 1;
-            ::memcpy(szName, szBuf + nOffset, nLength - nOffset);
+            size_t nOffset = nPos + 1;
+            ::memcpy(szName, szBuf + nOffset, strlen(szBuf) - nOffset);
             break;
         }
     }
-    if (-1 == i)
-    {
-        SET_ERROR_MSG("Get name failed");
-        return false;
-    }
-    return true;
+    return (-1 != nPos);
 }
 
 int PathUtils::GetDriveNames(char arrLogicalDriveNames[26])
@@ -304,76 +273,52 @@ bool PathUtils::DirIsExist(const char* szDirPath)
 bool PathUtils::GetParentPath(const char* szPath, char* szParentPath, size_t nParentPathBufSize)
 {
     size_t nStrLength = GetStringLength(szPath);
-    if (0 == nStrLength)
+    if (!nStrLength)
     {
-        SET_ERROR_MSG("Input path can't be NULL or empty");
-        return false;
+        ::memset(szParentPath, 0x00, nParentPathBufSize);
+        return true;
     }
-
-    if (MAX_PATH <= nStrLength)
-    {
-        SET_ERROR_MSG("Input path length is too long");
-        return false;
-    }
-
-    if (nParentPathBufSize <= nStrLength)
-    {
-        SET_ERROR_MSG("Parent path buffer size is too small");
-        return false;
-    }
+    if (nStrLength > MAX_PATH) nStrLength = MAX_PATH;
 
     char szBuf[MAX_PATH] = { 0 };
-    strcpy(szBuf, szPath);
-    size_t nLength = strlen(szBuf);
-    if ('\\' == szBuf[nLength - 1] || '/' == szBuf[nLength - 1])
-        szBuf[nLength - 1] = 0x00;
+    ::memcpy(szBuf, szPath, nStrLength);
+    szBuf[MAX_PATH - 1] = 0x00;
 
-    int i = nLength - 1;
-    for (; i != -1; --i)
+    size_t nPos = ::strlen(szBuf) - 1;
+    if ('\\' == szBuf[nPos] || '/' == szBuf[nPos])
+        szBuf[nPos] = 0x00;
+
+    for (; nPos != -1; --nPos)
     {
-        if ('\\' == szBuf[i] || '/' == szBuf[i])
+        if ('\\' == szBuf[nPos] || '/' == szBuf[nPos])
         {
-            memcpy(szParentPath, szBuf, i);
+            if (nPos >= nParentPathBufSize)
+                return false;
+            ::memcpy(szParentPath, szBuf, nPos);
             break;
         }
     }
-    if (-1 == i)
-    {
-        SET_ERROR_MSG("Can't find parent path");
-        return false;
-    }
-    return true;
+    return (-1 != nPos);
 }
 
 bool PathUtils::CreateMultiDirectory(const char* szPath)
 {
     size_t nStrLength = GetStringLength(szPath);
     if (0 == nStrLength)
-    {
-        SET_ERROR_MSG("Input path can't be NULL or empty");
-        return false;
-    }
-
-    if (MAX_PATH <= nStrLength)
-    {
-        SET_ERROR_MSG("Input path length is too long");
-        return false;
-    }
+        return true;
+    if (nStrLength > MAX_PATH) 
+        nStrLength = MAX_PATH;
 
     char szTmp[MAX_PATH] = { 0 };
     for (size_t i = 0; i != nStrLength + 1; ++i)
     {
         if ('/' == szPath[i] || '\\' == szPath[i] || 0x00 == szPath[i])
         {
-            memcpy(szTmp, szPath, i);
-            if (0 == _access(szTmp, 0))
+            ::memcpy(szTmp, szPath, i);
+            if (!::_access(szTmp, 0)) 
                 continue;
-
-            if (0 != _mkdir(szTmp))
-            {
-                SET_ERROR_MSG("Create directory failed");
+            if (::_mkdir(szTmp))       
                 return false;
-            }
         }
     }
     return true;

@@ -301,7 +301,7 @@ void StringUtils::ReplaceSpecifiedString(char* szStr, size_t nBufSize, const cha
     delete[] szTmp;
 }
 
-static const char map[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+static const char _hexCharMap[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 bool StringUtils::Hex2Text(const char* inBuff, size_t nInBuffSize, char* outBuff, size_t nOutBuffSize)
 {
     if (nOutBuffSize < nInBuffSize << 1)
@@ -312,14 +312,14 @@ bool StringUtils::Hex2Text(const char* inBuff, size_t nInBuffSize, char* outBuff
 
     for (size_t i = 0; i != nInBuffSize; ++i)
     {
-        *pWriter++ = map[(*pReader) >> 4];
-        *pWriter++ = map[(*pReader) & 0xF];
+        *pWriter++ = _hexCharMap[(*pReader) >> 4];
+        *pWriter++ = _hexCharMap[(*pReader) & 0xF];
         ++pReader;
     }
     return true;
 }
 
-char* GetStrConvErrMsg()
+static char* GetStrConvErrMsg()
 {
     switch (::GetLastError())
     {

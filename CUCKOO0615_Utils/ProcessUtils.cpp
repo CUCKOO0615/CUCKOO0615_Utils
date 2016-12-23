@@ -2,17 +2,12 @@
 #include "StdAfx.h"
 #include "ProcessUtils.h"
 
-ProcessUtils::ProcessUtils(void)
-{
-    SetErrMsg("OK");
-}
+#define SetErrMsg(szErrMsg)   ::strcpy(_szErrMsg, szErrMsg);
+#define SetErrMsgEx(szErrMsg) ::strcat(_szErrMsg, szErrMsg);
 
-ProcessUtils::~ProcessUtils(void)
-{
+char ProcessUtils::_szErrMsg[ERRMSG_LENGTH] = { 0 };
 
-}
-
-bool ProcessUtils::GetProcessEntryList(vector<PROCESSENTRY32>& vecPsEntry)
+bool ProcessUtils::GetProcessEntryList(std::vector<PROCESSENTRY32>& vecPsEntry)
 {
     HANDLE handle32Snapshot = ::CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
     if (INVALID_HANDLE_VALUE == handle32Snapshot)
@@ -147,7 +142,7 @@ bool ProcessUtils::DosPath2NtPath(const TCHAR* szDosPath, TCHAR* szNtPath)
 
 bool ProcessUtils::CheckProcessExist(const TCHAR* szPsImageName)
 {
-    vector< PROCESSENTRY32 > vecPsEntrys;
+    std::vector< PROCESSENTRY32 > vecPsEntrys;
     if (!GetProcessEntryList(vecPsEntrys))
         return false;
 

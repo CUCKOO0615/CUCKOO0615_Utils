@@ -40,6 +40,7 @@ namespace FileUtils
     */
     DWORD SetLastWriteTime(const char* szFilePath, const FILETIME& stuFileTime);
     DWORD SetLastWriteTime(const char* szFilePath, const SYSTEMTIME& stuSysTime);
+    //DWORD SetLastWriteTime(const char* szFilePath, const time_t t);
 #ifdef __AFXWIN_H__
     DWORD SetLastWriteTime(const char* szFilePath, const CTime& clsTime);
 #endif

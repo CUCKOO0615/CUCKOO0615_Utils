@@ -15,9 +15,9 @@ namespace WinAPI_Utils
 	** 创建内存映射文件
 	** @Param szFilePath: 文件路径 
 	** @Param emMT: 文件读写属性 MT_ReadOnly/MT_ReadWrite
-	** @Param mfi: 文件信息结构体, 成员pbFile即为读写指针, 文件操作结束,后需手动调用Release()释放相关资源
+	** @Param mfi: 文件信息结构体, 成员pbFile即为读写指针, mfi析构时会自动释放资源
 	** @Param dwFileSize: 创建新文件时,需指定一个非0的文件大小, 不创建新文件时该参数被忽略
-	** @Ret : 内部API调用失败后, DWORD GetLastError()的返回值
+	** @Ret : 操作成功返回0, 内部API调用失败后, DWORD GetLastError()的返回值
 	*/
 	DWORD CreateMappingFile(const TCHAR* szFilePath, MappingType emMT, MappingFileInfo& mfi, DWORD dwFileSize = 0);
 
@@ -60,8 +60,7 @@ namespace WinAPI_Utils
     ** @Param hLocal: 内存句柄
     */
     void FreeLastErrMsgBuffer(HLOCAL& hLocal);
-
-
+    
     //////////////////////////////////////////////////////////////////////////
     struct MappingFileInfo
     {
@@ -70,7 +69,7 @@ namespace WinAPI_Utils
         LPBYTE pbFile;
 
         MappingFileInfo() : hFileHandle(NULL), hFileMappingHandle(NULL), pbFile(NULL){}
-        void Release()
+        ~MappingFileInfo()
         {
             if (hFileHandle)
                 ::CloseHandle(hFileHandle);
@@ -78,9 +77,6 @@ namespace WinAPI_Utils
                 ::CloseHandle(hFileMappingHandle);
             if (pbFile)
                 ::UnmapViewOfFile(pbFile);
-            hFileHandle = NULL;
-            hFileMappingHandle = NULL;
-            pbFile = NULL;
         }
     };
 };

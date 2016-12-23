@@ -8,6 +8,7 @@
 #include "FileUtils.h"
 #include <string>
 #include <assert.h>
+#include <time.h>
 
 DWORD FileUtils::GetFileSize(const char* szFilePath, __int64 & nFileSize)
 {
@@ -79,9 +80,17 @@ DWORD FileUtils::SetLastWriteTime(const char* szFilePath, const FILETIME& stuFil
 DWORD FileUtils::SetLastWriteTime(const char* szFilePath, const SYSTEMTIME& stuSysTime)
 {
     FILETIME ft;
-    ::SystemTimeToFileTime(&stuSysTime, &ft);
+    if (!::SystemTimeToFileTime(&stuSysTime, &ft))
+        return ::GetLastError();
     return SetLastWriteTime(szFilePath, ft);
 }
+
+// DWORD FileUtils::SetLastWriteTime(const char* szFilePath, const time_t t)
+// {
+//     tm* p = ::localtime(&t);
+//     if (!p)
+//         return -1;
+// }
 
 #ifdef __AFXWIN_H__
 DWORD FileUtils::SetLastWriteTime(const char* szFilePath, const CTime& clsTime)

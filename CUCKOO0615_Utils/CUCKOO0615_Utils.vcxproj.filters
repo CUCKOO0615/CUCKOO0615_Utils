@@ -61,7 +61,12 @@
       <Filter>&lt;StdcTest&gt;</Filter>
     </ClCompile>
     <ClCompile Include="CkPipeMsgUtils.cpp" />
-    <ClCompile Include="zip.cpp" />
+    <ClCompile Include="SingleSocket.cpp">
+      <Filter>SocketUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="zip.cpp">
+      <Filter>Collections</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -143,17 +148,21 @@
     </ClInclude>
     <ClInclude Include="CUCKOO0615_Utils.h" />
     <ClInclude Include="MacroUtils.h" />
-    <ClInclude Include="MultiIncludeTest.h" />
     <ClInclude Include="zlib128-dll\include\zlib.h">
       <Filter>zlib</Filter>
     </ClInclude>
     <ClInclude Include="zlib128-dll\include\zconf.h">
       <Filter>zlib</Filter>
     </ClInclude>
-    <ClInclude Include="GuidUtils.hpp">
+    <ClInclude Include="SingleSocket.h">
+      <Filter>SocketUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="zip.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Hpp\GuidUtils.hpp">
       <Filter>&lt;HppUtils&gt;</Filter>
     </ClInclude>
-    <ClInclude Include="zip.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TinyXmlEx">

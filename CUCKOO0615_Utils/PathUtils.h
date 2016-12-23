@@ -6,17 +6,8 @@
 #pragma once
 #include "stdafx.h"
 
-#ifndef CUCKOO0615_UTILS_MACRO
-#define CUCKOO0615_UTILS_MACRO
-
 #ifndef MAX_PATH
 #define MAX_PATH 260
-#endif
-
-#ifndef ERRMSG_LENGTH
-#define ERRMSG_LENGTH 256
-#endif
-
 #endif
 
 #include <windows.h>
@@ -44,7 +35,7 @@ public:
     ** @param nExceptFileTypes: 搜索时要排除的文件夹类型,
     ** - 可以是 _A_NORMAL|_A_RDONLY|_A_HIDDEN|_A_SYSTEM|_A_ARCH 中的一个或多个,用"|"连接
     */
-    bool GetSubDirsInDir(
+    static bool GetSubDirsInDir(
         std::vector<std::string>& vecSubDirFullPaths,
         std::string strDir,
         std::string strWildcard = "*",
@@ -62,13 +53,35 @@ public:
     ** @param nExceptFileTypes: 搜索时要排除的文件类型,
     ** - 可以是 _A_NORMAL|_A_RDONLY|_A_HIDDEN|_A_SYSTEM|_A_ARCH 中的一个或多个,用"|"连接
     */
-    bool GetFilesInDir(
+    static bool GetFilesInDir(
         std::vector<std::string>& vecFileFullPaths,
         std::string strDir,
         std::string strWildcard = "*.*",
         bool bEnterSubDir = false,
         bool bEnterHiddenSubDir = false,
         int nExceptFileTypes = -1);
+
+    /*
+    ** 获取指定文件夹下的所有文件全路径
+    ** @param vecFileFullPaths: 文件路径集合
+    ** @param strDir: 根文件夹
+    ** @param strWildcard: 通配符
+    ** @param bEnterSubDir: 是否搜索子文件夹
+    ** @param bEnterHiddenSubDir: 是否搜索隐藏子文件夹, 参数bEnterSubDir为true时生效
+    ** @param nExceptFileTypes: 搜索时要排除的文件类型,
+    ** - 可以是 _A_NORMAL|_A_RDONLY|_A_HIDDEN|_A_SYSTEM|_A_ARCH 中的一个或多个,用"|"连接
+    ** @param bGetFiles: 结果中包含文件
+    ** @param bGetDirs: 结果中包含目录
+    */
+    static bool GetFullPathsInDir(
+        std::vector<std::string>& vecFullPaths,
+        std::string strDir,
+        const std::string& strWildcard,
+        bool bEnterSubDir,
+        bool bEnterHiddenSubDir,
+        int nExceptFileTypes,
+        bool bGetFiles,
+        bool bGetDirs);
 
     /*
     ** 从全路径截取文件名或文件夹名
@@ -102,25 +115,7 @@ public:
     static void FixBackSlashInPath(std::string& strPath);
 
 #endif
-
-    /*
-    ** 检查指定的路径是否存在(不区分文件和文件夹,较快)
-    ** @param szPath: 要检查的路径
-    */
-    static bool PathIsExist(const char* szPath);
-
-    /*
-    ** 检查指定文件是否存在
-    ** @param szFilePath: 要检查的路径
-    */
-    static bool FileIsExist(const char* szFilePath);
-
-    /*
-    ** 检查指定文件夹是否存在
-    ** @param szDirPath: 要检查的路径
-    */
-    static bool DirIsExist(const char* szDirPath);
-
+    
 #ifdef __AFXWIN_H__
     /*
     ** 将路径中的'/'全部替换为'\'，并且合并连续的‘\’只留一个
@@ -149,6 +144,24 @@ public:
     static void FixSlash_FtpRemoteFilePath(CString& strFtpRemotePath);
 
 #endif // __AFXWIN_H__
+
+    /*
+    ** 检查指定的路径是否存在(不区分文件和文件夹,较快)
+    ** @param szPath: 要检查的路径
+    */
+    static bool PathIsExist(const char* szPath);
+
+    /*
+    ** 检查指定文件是否存在
+    ** @param szFilePath: 要检查的路径
+    */
+    static bool FileIsExist(const char* szFilePath);
+
+    /*
+    ** 检查指定文件夹是否存在
+    ** @param szDirPath: 要检查的路径
+    */
+    static bool DirIsExist(const char* szDirPath);
 
     /*
     ** 获取磁盘盘符列表
@@ -182,7 +195,7 @@ public:
     ** @param szName: 文件或文件夹名缓冲区指针
     ** @param nNameBufSize: 文件或文件夹名缓冲区大小
     */
-    bool GetFileName(const char* szFullPath, char* szName, size_t nNameBufSize);
+    static bool GetFileName(const char* szFullPath, char* szName, size_t nNameBufSize);
         
     /*
     ** 获取父目录
@@ -190,42 +203,14 @@ public:
     ** @param szParentPath: 父目录缓冲区
     ** @param nParentPathBufSize: 父目录缓冲区长度,大小至少要大于szPath的长度
     */
-    bool GetParentPath(const char* szPath, char* szParentPath, size_t nParentPathBufSize);
+    static bool GetParentPath(const char* szPath, char* szParentPath, size_t nParentPathBufSize);
     
     /*
     ** 创建多级目录
     ** @param szPath: 指定的目录
     ** @return: 创建成功返回true
     */
-    bool CreateMultiDirectory(const char* szPath);
+    static bool CreateMultiDirectory(const char* szPath);
 
-    // 获取错误信息
-    const char* GetErrMsg() { return m_szErrMsg; }
-    
-private:
-    char m_szErrMsg[ERRMSG_LENGTH];
-
-#ifdef CUCKOO0615_USE_STL
-    bool GetFullPathsInDir(
-        std::vector<std::string>& vecFullPaths,
-        std::string strDir,
-        const std::string& strWildcard,
-        bool bEnterSubDir,
-        bool bEnterHiddenSubDir,
-        int nExceptFileTypes,
-        bool bGetFiles,
-        bool bGetDirs);
-#endif
-
-    //获取C风格字符串长度
-    //返回值:空字符串或空指针返回0,否则返回字符串长度
-    static size_t GetStringLength(const char* szString)
-    {
-        return ((NULL == szString) || 0 == strlen(szString)) ? 0 : strlen(szString);
-    }
-
-public:
-    PathUtils() { ::memset(m_szErrMsg, 0x00, ERRMSG_LENGTH); }
-    ~PathUtils() { }
 };
 

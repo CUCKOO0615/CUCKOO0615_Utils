@@ -12,13 +12,13 @@ bool SystemUtils::GetLocalIP(char szBuff[16])
 		return false;
 
 	char szHostName[MAX_PATH] = { 0 };
-	if (SOCKET_ERROR == gethostname(szHostName, MAX_PATH))
+	if (SOCKET_ERROR == ::gethostname(szHostName, MAX_PATH))
 	{
 		WSACleanup();
 		return false;
 	}
 
-	hostent* phe = gethostbyname(szHostName);
+	hostent* phe = ::gethostbyname(szHostName);
 	if (NULL == phe)
 	{
 		WSACleanup();

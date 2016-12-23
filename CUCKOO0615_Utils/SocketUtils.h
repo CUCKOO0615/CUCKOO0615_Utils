@@ -138,10 +138,11 @@ public:
 	** @Param s: 指定的Socket连接
 	** @Param pBuffer: 发送缓冲区,大小不小于nSpecLength
 	** @Param nSpecLength: 指定的字节数
+    ** @Param nTimeOut: 连接超时,单位: 毫秒
 	** @Param nErrCode: 由WSAGetLastError()返回的错误码
 	** @Ret : socket连接返回SOCKET_ERROR时返回false
 	*/
-	static bool SendToSocket(SOCKET s, char* pBuffer, int nSpecLength, int& nErrCode);
+	static bool SendToSocket(SOCKET s, char* pBuffer, int nSpecLength, int nTimeOut, int& nErrCode);
 
 	/*
 	** 从指定的Socket连接接收指定字节数,
@@ -150,10 +151,11 @@ public:
 	** @Param s: 指定的Socket连接
 	** @Param pBuffer: 接收缓冲区, 大小不小于nSpecLength
 	** @Param nSpecLength: 指定的字节数
+    ** @Param nTimeOut: 连接超时,单位: 毫秒
 	** @Param nErrCode: 由WSAGetLastError()返回的错误码
 	** @Ret : socket连接返回SOCKET_ERROR时返回false
 	*/
-	static bool RecvFromSocket(SOCKET s, char* pBuffer, int nSpecLength, int& nErrCode);
+    static bool RecvFromSocket(SOCKET s, char* pBuffer, int nSpecLength, int nTimeOut, int& nErrCode);
 
 	/*
 	** 获取指定socket的IP信息
