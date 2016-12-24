@@ -14,6 +14,7 @@
 #include "./Hpp/GuidUtils.hpp"
 #include "./Hpp/PtrUtils.hpp"
 #include "./Hpp/DigitUtils.hpp"
+#include "./Hpp/SyncLock.hpp"
 
 //#include <thread>
 #include <iostream>
@@ -41,7 +42,13 @@ extern "C"
 
 int main()
 {
-    
+    SyncLock test;
+    AUTO_LOCK_BEG(test);
+
+
+    slg_test.ManualUnlock();
+    AUTO_LOCK_END;
+
     //     HZIP hz = CreateZip(L"x:\\simple1.zip", 0);
     //     ZipAdd(hz, L"doc\\1.docx", L"x:\\1.docx");
     //     ZipAdd(hz, L"pdf\\2.pdf", L"x:\\2.pdf");
