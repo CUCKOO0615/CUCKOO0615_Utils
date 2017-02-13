@@ -423,3 +423,18 @@ char* StringUtils::StrConv_Utf82A(const char* szUtf8, char*& pszErrMsg)
 
     return szAnsi;
 }
+
+int StringUtils::CountSubStr(const std::string& strSrc, const std::string& strSub)
+{
+    int nRet = 0, 
+        nOffset = 0, 
+        nStep = strSub.length();
+    for (;; ++nRet)
+    {
+        nOffset = strSrc.find(strSub, nOffset);
+        if (std::string::npos == nOffset)
+            break;
+        nOffset += nStep;
+    }
+    return nRet;
+}

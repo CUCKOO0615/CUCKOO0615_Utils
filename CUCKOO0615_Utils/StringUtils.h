@@ -46,6 +46,14 @@ namespace StringUtils
     void Trim(std::string& str, char chSpilter = ' ');
 
     /*
+    ** 统计子串在源字符串中出现的次数
+    ** @Param strSrc: 源字符串
+    ** @Param strSub: 子字符串
+    ** @Ret: 次数
+    */
+    int CountSubStr(const std::string& strSrc, const std::string& strSub);
+    
+    /*
     ** 替换字符串中指定的子串为另一个子串
     ** @param str: 源字符串
     ** @param strOld: 要被替换的旧子串

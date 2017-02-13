@@ -7,6 +7,7 @@
 #include "WinAPI_Utils.h"
 #include "TimeUtils.h"
 #include "MacroUtils.h"
+#include "StringUtils.h"
 
 // Hpp
 //#include "Hpp/LogUtils.hpp"
@@ -40,14 +41,28 @@ extern "C"
 #include ".\\zlib128-dll\\include\\zlib.h"
 #pragma comment(lib, ".\\zlib128-dll\\lib\\zdll.lib")
 
+// #include <Python.h>
+// #pragma comment(lib, "python27.lib")
+
+
 int main()
 {
-    SyncLock test;
-    AUTO_LOCK_BEG(test);
+    string str = "0011112211";
+    int n = StringUtils::CountSubStr(str, "11");
 
-
-    slg_test.ManualUnlock();
-    AUTO_LOCK_END;
+//     Py_Initialize();
+// 
+//     PyObject* pModule = NULL, *pFunc1 = NULL, *pFunc2 = NULL;
+//     pModule = PyImport_Import(PyString_FromString("mail"));
+//     pFunc1 = PyObject_GetAttrString(pModule, "Login");
+//     pFunc1 = PyObject_GetAttrString(pModule, "GetMail");
+// 
+//     PyObject* pArgs = PyTuple_New(0);
+//     PyObject_CallObject(pFunc1, pArgs);
+//     PyObject_CallObject(pFunc2, pArgs);
+// 
+// 
+//     Py_Finalize();
 
     //     HZIP hz = CreateZip(L"x:\\simple1.zip", 0);
     //     ZipAdd(hz, L"doc\\1.docx", L"x:\\1.docx");
