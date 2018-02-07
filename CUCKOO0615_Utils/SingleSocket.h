@@ -76,6 +76,14 @@ public:
     */
     bool GetAddressBySocket(SOCKADDR_IN & addr);
 
+    /*
+    ** 客户端连接请求, SS_Server模式时可用 
+    ** @Param addr: 指向客户端地址信息的缓冲区
+    ** @Param addrLen: 缓冲区大小
+    ** @Ret: 发起连接请求的客户端SOCKET
+    */
+    SOCKET Accept(SOCKADDR* addr = NULL, int* addrLen = 0);
+
     //获取错误信息
     const char* GetErrMsg() { return m_szErrMsg; }
 
