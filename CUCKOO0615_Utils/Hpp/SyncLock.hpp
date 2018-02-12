@@ -40,7 +40,17 @@ private:
 class SyncMutex
 {
 public:
-    void Lock(DWORD dwTimeOut = INFINITE)    { if (MutexValid()) ::WaitForSingleObject(m_hlMutex, dwTimeOut); }
+    bool Lock(DWORD dwTimeOut = INFINITE)    
+    { 
+        if (MutexValid())
+        {
+            DWORD dwRet = ::WaitForSingleObject(m_hlMutex, dwTimeOut);
+            if (WAIT_TIMEOUT == dwRet ||
+                WAIT_FAILED == dwRet)
+                return false;
+            return true;
+        }
+    }
     void Unlock()                            { if (MutexValid()) ::ReleaseMutex(m_hlMutex); }
 public:
     SyncMutex(const char* szMutexName = NULL) :
