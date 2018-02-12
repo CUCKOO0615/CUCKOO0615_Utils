@@ -50,6 +50,7 @@ public:
                 return false;
             return true;
         }
+		return false;
     }
     void Unlock()                            { if (MutexValid()) ::ReleaseMutex(m_hlMutex); }
 public:
