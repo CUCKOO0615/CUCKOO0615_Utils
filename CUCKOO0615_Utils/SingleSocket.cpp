@@ -267,9 +267,12 @@ void SingleSocket::Reset()
     if (!m_bIsInited)
         return;
 
-    ::closesocket(m_sSingleSocket);
-    m_sSingleSocket = INVALID_SOCKET;
-    RESET_ERRMSG;
+    if(INVALID_SOCKET != m_sSingleSocket)
+    {
+        ::closesocket(m_sSingleSocket);
+        m_sSingleSocket = INVALID_SOCKET;
+        RESET_ERRMSG;
+    }
 }
 
 bool SingleSocket::SetSocketTimeOut(int nMilliseconds)
@@ -385,22 +388,5 @@ bool SingleSocket::GetAddressBySocket(SOCKET s, SOCKADDR_IN & addr, int& nErrCod
         return false;
     }
     return true;
-}
-
-SOCKET SingleSocket::Accept(SOCKADDR* addr /*= NULL*/, int* addrLen /*= NULL*/)
-{
-    RESET_ERRMSG;
-    if (!m_bIsInited)
-    {
-        SetErrMsg("Socket has not been initialized");
-        return INVALID_SOCKET;
-    }
-
-    if (SS_Server != m_emSocketType)
-    {
-        SetErrMsg("Socket type is not SS_Server");
-        return INVALID_SOCKET;
-    }
-    return ::accept(m_sSingleSocket, addr, addrLen);
 }
 

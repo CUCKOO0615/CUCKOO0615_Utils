@@ -18,9 +18,8 @@
 
 #endif
 
-// #include <windows.h>
- #include <winsock2.h>
-// #pragma comment(lib,"ws2_32.lib")
+#include <windows.h>
+#pragma comment(lib,"ws2_32.lib")
 
 #ifndef ERRMSGTABLE_LENGTH
 #define ERRMSGTABLE_LENGTH 36

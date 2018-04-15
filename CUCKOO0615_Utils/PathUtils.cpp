@@ -9,29 +9,32 @@
 #include <direct.h>
 #include <assert.h>
 
-#define GetStringLength(szString)     (szString ? 0 : ::strlen(szString))
+#define GetStringLength(szString)     (szString ? ::strlen(szString) : 0)
 
 #ifdef CUCKOO0615_USE_STL
 bool PathUtils::GetFilesInDir(std::vector<std::string>& vecFileFullPaths, 
-    std::string strDir, std::string strWildcard, bool bEnterSubDir, bool bEnterHiddenSubDir, int nExceptFileTypes)
+    std::string strRootDir, std::string strzWildcard, 
+    bool bEnterSubDir, bool bEnterHiddenSubDir, int nExceptFileTypes)
 {
-    return GetFullPathsInDir(vecFileFullPaths, strDir, strWildcard, bEnterSubDir, bEnterHiddenSubDir, nExceptFileTypes, true, false);
+    return GetFullPathsInDir(vecFileFullPaths, strRootDir, strzWildcard, bEnterSubDir, bEnterHiddenSubDir, nExceptFileTypes, true, false);
 }
 
 bool PathUtils::GetSubDirsInDir(std::vector<std::string>& vecSubDirFullPaths, 
-    std::string strDir, std::string strWildcard, bool bEnterSubDir, bool bEnterHiddenSubDir, int nExceptFileTypes)
+    std::string strRootDir, std::string strzWildcard, bool bEnterSubDir, bool bEnterHiddenSubDir, int nExceptFileTypes)
 {
-    return GetFullPathsInDir(vecSubDirFullPaths, strDir, strWildcard, bEnterSubDir, bEnterHiddenSubDir, nExceptFileTypes, false, true);
+    return GetFullPathsInDir(vecSubDirFullPaths, strRootDir, strzWildcard, bEnterSubDir, bEnterHiddenSubDir, nExceptFileTypes, false, true);
 }
 
 bool PathUtils::GetFullPathsInDir(std::vector<std::string>& vecFullPaths, 
-    std::string strDir, const std::string& strWildcard, bool bEnterSubDir, bool bEnterHiddenSubDir, int nExceptFileTypes, bool bGetFiles, bool bGetDirs)
+    std::string strRootDir, const std::string& strzWildcard, bool bEnterSubDir, bool bEnterHiddenSubDir, int nExceptFileTypes, bool bGetFiles, bool bGetDirs)
 {
-    char chLastChar = strDir[strDir.length() - 1];
-    if ('\\' != chLastChar && '/' != chLastChar)
-        strDir += "\\";
-
-    std::string strSearchPath = strDir + strWildcard;
+    if (strRootDir.length())
+    {
+        char chLastChar = *(strRootDir.end() - 1);
+        if ('\\' != chLastChar && '/' != chLastChar)
+            strRootDir += "\\";
+    }
+    std::string strSearchPath = strRootDir + strzWildcard;
 
     intptr_t handle = NULL;
     _finddata_t fileinfo;
@@ -54,18 +57,20 @@ bool PathUtils::GetFullPathsInDir(std::vector<std::string>& vecFullPaths,
             bAtrribIsQualified = !(fileinfo.attrib & nExceptFileTypes);
 
         if (bGetFiles && bIsFile && bAtrribIsQualified)
-            vecFullPaths.push_back(strDir + std::string(fileinfo.name));
+            vecFullPaths.push_back(strRootDir + std::string(fileinfo.name));
 
         if (bGetDirs && bIsDir && bAtrribIsQualified)
-            vecFullPaths.push_back(strDir + std::string(fileinfo.name));
+            vecFullPaths.push_back(strRootDir + std::string(fileinfo.name));
 
         if (bEnterSubDir && bIsDir)
         {
             if ((fileinfo.attrib & _A_HIDDEN) && !bEnterHiddenSubDir)
                 continue;
 
-            std::string strSubPath = strDir + fileinfo.name;
-            if (!GetFullPathsInDir(vecFullPaths, strSubPath, strWildcard, true, bEnterHiddenSubDir, nExceptFileTypes, bGetFiles, bGetDirs))
+            std::string strSubPath = strRootDir + fileinfo.name;
+            if (!GetFullPathsInDir(
+                vecFullPaths, strSubPath.c_str(), strzWildcard.c_str(), 
+                true, bEnterHiddenSubDir, nExceptFileTypes, bGetFiles, bGetDirs))
             {
                 _findclose(handle);
                 return false;

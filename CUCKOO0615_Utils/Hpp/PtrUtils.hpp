@@ -60,10 +60,10 @@ namespace CkPtrUtils
                     delete[] m_ptr;
         }
     };
-    
-	/*
-	** 离开作用域时,自动释放指针,并将指针赋值为NULL
-	** @Param bIsArr: 是否是指向数组的指针,是 true, 否 false
+
+    /*
+    ** 离开作用域时,自动释放指针,并将指针赋值为NULL
+    ** @Param bIsArr: 是否是指向数组的指针,是 true, 否 false
     ** --------------------------------------------------
     ** 例:
     **     Type* t = new Type;
@@ -71,10 +71,10 @@ namespace CkPtrUtils
     **     Type* t = new Type[N];
     **     CkPtrUtils::PtrScopeGuard<Type> pag(&t, true);
     ** --------------------------------------------------
-	*/
-	template<typename T>
-	class PtrScopeGuard
-	{
+    */
+    template<typename T>
+    class PtrScopeGuard
+    {
         T** m_ptr;
         bool m_bIsArr;
     public:
@@ -91,7 +91,7 @@ namespace CkPtrUtils
                 delete (*m_ptr);
             (*m_ptr) = NULL;
         };
-	};
+    };
 
 
 

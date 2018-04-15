@@ -19,25 +19,24 @@
 #include <string>
 #endif
 
-class PathUtils
+namespace PathUtils
 {
-public:
     //////////////////////////////////////////////////////////////////////////
     //基于 STL 的函数
 #ifdef CUCKOO0615_USE_STL
     /*
     ** 获取指定文件夹下的所有子文件夹全路径
     ** @param vecSubDirFullPaths: 子文件夹路径集合
-    ** @param strDir: 根文件夹
+    ** @param strRootDir: 根文件夹
     ** @param strWildcard: 通配符
     ** @param bEnterSubDir: 是否搜索子文件夹
     ** @param bEnterHiddenSubDir: 是否搜索隐藏子文件夹, 参数bEnterSubDir为true时生效
     ** @param nExceptFileTypes: 搜索时要排除的文件夹类型,
     ** - 可以是 _A_NORMAL|_A_RDONLY|_A_HIDDEN|_A_SYSTEM|_A_ARCH 中的一个或多个,用"|"连接
     */
-    static bool GetSubDirsInDir(
+    bool GetSubDirsInDir(
         std::vector<std::string>& vecSubDirFullPaths,
-        std::string strDir,
+        std::string strRootDir = "",
         std::string strWildcard = "*",
         bool bEnterSubDir = false,
         bool bEnterHiddenSubDir = false,
@@ -46,16 +45,16 @@ public:
     /*
     ** 获取指定文件夹下的所有文件全路径
     ** @param vecFileFullPaths: 文件路径集合
-    ** @param strDir: 根文件夹
+    ** @param strRootDir: 根文件夹
     ** @param strWildcard: 通配符
     ** @param bEnterSubDir: 是否搜索子文件夹
     ** @param bEnterHiddenSubDir: 是否搜索隐藏子文件夹, 参数bEnterSubDir为true时生效
     ** @param nExceptFileTypes: 搜索时要排除的文件类型,
     ** - 可以是 _A_NORMAL|_A_RDONLY|_A_HIDDEN|_A_SYSTEM|_A_ARCH 中的一个或多个,用"|"连接
     */
-    static bool GetFilesInDir(
+    bool GetFilesInDir(
         std::vector<std::string>& vecFileFullPaths,
-        std::string strDir,
+        std::string strRootDir = "",
         std::string strWildcard = "*.*",
         bool bEnterSubDir = false,
         bool bEnterHiddenSubDir = false,
@@ -64,7 +63,7 @@ public:
     /*
     ** 获取指定文件夹下的所有文件全路径
     ** @param vecFileFullPaths: 文件路径集合
-    ** @param strDir: 根文件夹
+    ** @param strRootDir: 根文件夹, 如果输入"", 则默认当前目录
     ** @param strWildcard: 通配符
     ** @param bEnterSubDir: 是否搜索子文件夹
     ** @param bEnterHiddenSubDir: 是否搜索隐藏子文件夹, 参数bEnterSubDir为true时生效
@@ -73,9 +72,9 @@ public:
     ** @param bGetFiles: 结果中包含文件
     ** @param bGetDirs: 结果中包含目录
     */
-    static bool GetFullPathsInDir(
+    bool GetFullPathsInDir(
         std::vector<std::string>& vecFullPaths,
-        std::string strDir,
+        std::string strRootDir,
         const std::string& strWildcard,
         bool bEnterSubDir,
         bool bEnterHiddenSubDir,
@@ -87,32 +86,32 @@ public:
     ** 从全路径截取文件名或文件夹名
     ** @param strFileFullPath: 文件或文件夹的全路径
     */
-    static std::string GetFileName(const std::string& strFileFullPath);
+    std::string GetFileName(const std::string& strFileFullPath);
     
     /*
     ** 获取父目录路径
     ** @Param strPath: 指定的目录路径
-    ** @Ret : 父目录路径
+    ** @Ret : 父目录路径字符串 (末尾不带斜线)
     */
-    static std::string GetParentPath(const std::string& strPath);
+    std::string GetParentPath(const std::string& strPath);
     
     /*
     ** 将路径中的'/'全部替换为'\\'，并移除末尾的'\\'
     ** @Param strFilePath: 文件路径字符串
     */
-    static void FixBackSlashInFilePath(std::string& strFilePath);
+    void FixBackSlashInFilePath(std::string& strFilePath);
 
     /*
     ** 将路径中的'/'全部替换为'\\'，并在末尾补齐一个'\\'
-    ** @Param strDirPath: 目录路径字符串    
+    ** @Param strDirPath: 目录路径字符串
     */
-    static void FixBackSlashInDirPath(std::string& strDirPath);
+    void FixBackSlashInDirPath(std::string& strDirPath);
 
     /*
     ** 将路径中的'/'全部替换为'\\'
     ** @Param strPath: 目录路径字符串
     */
-    static void FixBackSlashInPath(std::string& strPath);
+    void FixBackSlashInPath(std::string& strPath);
 
 #endif
     
@@ -122,26 +121,26 @@ public:
     ** 如果不是一‘\’结尾，则在末尾补齐一个'\'
     ** @Param strDirPath: 目录路径字符串
     */
-    static void FixBackSlash_DirPath(CString& strDirPath);
+    void FixBackSlash_DirPath(CString& strDirPath);
 
     /*
     ** 将路径中的'/'全部替换为'\'，并且合并连续的‘\’只留一个
     ** @Param strFilePath: 文件路径字符串
     */
-    static void FixBackSlash_FilePath(CString& strFilePath);
+    void FixBackSlash_FilePath(CString& strFilePath);
 
     /*
     ** 将路径中的'\'全部替换为'/'，并且合并连续的‘/’只留一个
     ** 如果不是一‘/’结尾，则在末尾补齐一个'/'
     ** @Param strFtpRemotePath: 路径字符串
     */
-    static void FixSlash_FtpRemoteDirPath(CString& strFtpRemotePath);
+    void FixSlash_FtpRemoteDirPath(CString& strFtpRemotePath);
 
     /*
     ** 将路径中的'\'全部替换为'/'，并且合并连续的‘/’只留一个
     ** @Param strFtpRemotePath: 路径字符串
     */
-    static void FixSlash_FtpRemoteFilePath(CString& strFtpRemotePath);
+    void FixSlash_FtpRemoteFilePath(CString& strFtpRemotePath);
 
 #endif // __AFXWIN_H__
 
@@ -149,45 +148,45 @@ public:
     ** 检查指定的路径是否存在(不区分文件和文件夹,较快)
     ** @param szPath: 要检查的路径
     */
-    static bool PathIsExist(const char* szPath);
+    bool PathIsExist(const char* szPath);
 
     /*
     ** 检查指定文件是否存在
     ** @param szFilePath: 要检查的路径
     */
-    static bool FileIsExist(const char* szFilePath);
+    bool FileIsExist(const char* szFilePath);
 
     /*
     ** 检查指定文件夹是否存在
     ** @param szDirPath: 要检查的路径
     */
-    static bool DirIsExist(const char* szDirPath);
+    bool DirIsExist(const char* szDirPath);
 
     /*
     ** 获取磁盘盘符列表
     ** @param arrLogicalDriveNames[26]: 磁盘盘符集合
     ** @return: 操作成功返回盘符数量(0 - 26), 操作失败返回 -1
     */
-    static int GetDriveNames(char arrLogicalDriveNames[26]);
+    int GetDriveNames(char arrLogicalDriveNames[26]);
 
     /*
     ** 根据盘符获取磁盘类型
     ** @param chDriveName: 磁盘盘符
     ** @return: 未知驱动器/无效根目录/可移动设备/固定驱动器/网络驱动器/CD-ROM/RAM驱动器/未知设备
     */
-    static const char* GetDriveType(char chDriveName);
+    const char* GetDriveType(char chDriveName);
     
     /*
     ** 获取当前进程的应用程序文件路径
     ** @Ret : 文件路径
     */
-    static const char* GetAppFullPath();
+    const char* GetAppFullPath();
 
     /*
     ** 获取当前进程的应用程序文件所在目录
     ** @Ret : 应用程序文件所在目录
     */
-    static const char* GetAppDirectory();
+    const char* GetAppDirectory();
 
     /*
     ** 从全路径截取文件名或文件夹名
@@ -195,7 +194,7 @@ public:
     ** @param szName: 文件或文件夹名缓冲区指针
     ** @param nNameBufSize: 文件或文件夹名缓冲区大小
     */
-    static bool GetFileName(const char* szFullPath, char* szName, size_t nNameBufSize);
+    bool GetFileName(const char* szFullPath, char* szName, size_t nNameBufSize);
         
     /*
     ** 获取父目录
@@ -203,14 +202,14 @@ public:
     ** @param szParentPath: 父目录缓冲区
     ** @param nParentPathBufSize: 父目录缓冲区长度,大小至少要大于szPath的长度
     */
-    static bool GetParentPath(const char* szPath, char* szParentPath, size_t nParentPathBufSize);
+    bool GetParentPath(const char* szPath, char* szParentPath, size_t nParentPathBufSize);
     
     /*
     ** 创建多级目录
     ** @param szPath: 指定的目录
     ** @return: 创建成功返回true
     */
-    static bool CreateMultiDirectory(const char* szPath);
+    bool CreateMultiDirectory(const char* szPath);
 
 };
 
